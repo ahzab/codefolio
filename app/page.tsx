@@ -90,8 +90,8 @@ export default function Page() {
       execute: () => (
         <div className="ml-4">
           <div className="mb-2">
-            <GradientText>Abdel Ahzab</GradientText>
-            <div className="text-gray-300">Full Stack Engineer & Blockchain Developer</div>
+            <GradientText className='block mb-4 text-2xl'>Abdel Ahzab</GradientText>
+            <div className="text-gray-300 font-semibold">Full Stack Engineer & Blockchain Developer</div>
           </div>
           <div className="text-gray-300 mt-4">
             Passionate Full Stack Engineer with 9+ years of experience building innovative
