@@ -1,13 +1,23 @@
 
 export default function Page() {
   return (
-    <section>
-      <h1 className="mb-8 text-2xl font-semibold tracking-tighter">
-        Abdel ahzab
-      </h1>
-      <p className="mb-4">
-        I am a dedicated full-stack engineer with a strong foundation in both e-commerce and blockchain technology. Over the years, I have developed dynamic applications using cutting-edge technologies like React, TypeScript, Node.js, and Rust. My recent work involves building dApps on Solana using Next.js and Rust, integrating blockchain technology with secure and user-friendly interfaces. I am constantly driven to improve my skills, explore new solutions, and deliver impactful projects.
-      </p>
+    <section className="flex items-center py-20">
+      <div className=" px-4 sm:px-6 lg:px-8">
+        <h1 className="text-5xl mb-12">Abdel ahzab</h1>
+        {/* Tagline */}
+        <div className="text-xl md:text-4xl  mb-8">
+          <p className="mb-2">Specialized in E-commerce Architecture</p>
+          <p >&amp; Blockchain Development</p>
+        </div>
+
+        {/* Description */}
+        <p className="text-lg max-w-3xl mb-10">
+          Full stack engineer with expertise in building secure,
+          scalable applications using React, TypeScript, Kotlin, Node.js,
+          and Rust. Passionate about bridging traditional e-commerce
+          with blockchain innovation.
+        </p>
+      </div>
     </section>
   )
 }
