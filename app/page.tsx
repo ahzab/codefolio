@@ -20,7 +20,7 @@ export default function Page() {
             text="abdou.ahzab@gmail.com"
           />
           <ContactLink
-            href="https://github.com/yourusername"
+            href="https://github.com/ahzab"
             icon={<GithubIcon />}
             text="GitHub"
             className="text-gray-700 hover:text-gray-900"
