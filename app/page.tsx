@@ -8,7 +8,6 @@ import { GithubIcon } from "./components/icons/GithubIcon"
 import { SkillsList } from "./components/SkillsList"
 import { technicalSkills, specializedSkills } from "./constants"
 
-// Internal Components
 const TerminalHeader = () => (
   <div className="bg-gray-700 px-4 py-2 flex items-center">
     <div className="flex space-x-2">
