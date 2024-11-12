@@ -1,6 +1,6 @@
 'use client'
 
-import { motion } from 'framer-motion'
+import { useState, useEffect, useRef } from 'react'
 import { ContactLink } from "./components/ContactLink"
 import { GradientText } from "./components/GradientText"
 import { EmailIcon } from "./components/icons/EmailIcon"
@@ -8,196 +8,252 @@ import { GithubIcon } from "./components/icons/GithubIcon"
 import { SkillsList } from "./components/SkillsList"
 import { technicalSkills, specializedSkills } from "./constants"
 
-// Animation variants
-const containerVariants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.2,
-      delayChildren: 0.3,
-    },
-  },
-}
+// Internal Components
+const TerminalHeader = () => (
+  <div className="bg-gray-700 px-4 py-2 flex items-center">
+    <div className="flex space-x-2">
+      <div className="w-3 h-3 bg-red-500 rounded-full"></div>
+      <div className="w-3 h-3 bg-yellow-500 rounded-full"></div>
+      <div className="w-3 h-3 bg-green-500 rounded-full"></div>
+    </div>
+    <div className="mx-auto text-gray-400 text-sm">terminal</div>
+  </div>
+)
 
-const itemVariants = {
-  hidden: { y: 20, opacity: 0 },
-  visible: {
-    y: 0,
-    opacity: 1,
-    transition: {
-      duration: 0.5,
-      ease: "easeOut",
-    },
-  },
-}
+const CommandInput = ({
+  currentCommand,
+  onCommandChange,
+  onSubmit
+}: {
+  currentCommand: string;
+  onCommandChange: (value: string) => void;
+  onSubmit: (e: React.FormEvent) => void;
+}) => (
+  <form onSubmit={onSubmit} className="flex">
+    <span className="text-gray-400">$ </span>
+    <input
+      type="text"
+      value={currentCommand}
+      onChange={(e) => onCommandChange(e.target.value)}
+      className="flex-1 ml-2 bg-transparent outline-none  border-none text-green-400 "
+      autoFocus
+    />
+  </form>
+)
 
-const slideVariants = {
-  hidden: { x: -50, opacity: 0 },
-  visible: {
-    x: 0,
-    opacity: 1,
-    transition: {
-      duration: 0.6,
-      ease: "easeOut",
-    },
-  },
-}
-
-const fadeInVariants = {
-  hidden: { opacity: 0, scale: 0.95 },
-  visible: {
-    opacity: 1,
-    scale: 1,
-    transition: {
-      duration: 0.5,
-      ease: "easeOut",
-    },
-  },
-}
+const CommandHistory = ({
+  history
+}: {
+  history: Array<{ command: string; response: React.ReactNode }>
+}) => (
+  <div className="space-y-4">
+    {history.map((item, index) => (
+      <div key={index} className="mb-4">
+        <div className="flex">
+          <span className="text-gray-400">$ </span>
+          <span className="ml-2">{item.command}</span>
+        </div>
+        {item.response && (
+          <div className="mt-2">{item.response}</div>
+        )}
+      </div>
+    ))}
+  </div>
+)
 
 export default function Page() {
-  return (
-    <motion.section
-      className="flex items-center py-20"
-      initial="hidden"
-      animate="visible"
-      variants={containerVariants}
-    >
-      <div className="px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto">
-        {/* Header */}
-        <motion.h1
-          className="text-4xl sm:text-5xl font-bold mb-4 tracking-tight"
-          variants={itemVariants}
-        >
-          <GradientText>Abdel Ahzab</GradientText>
-        </motion.h1>
+  const [commandHistory, setCommandHistory] = useState<Array<{ command: string; response: React.ReactNode }>>([])
+  const [currentCommand, setCurrentCommand] = useState('')
+  const [welcomeText, setWelcomeText] = useState('')
+  const [welcomeComplete, setWelcomeComplete] = useState(false)
+  const containerRef = useRef<HTMLDivElement>(null)
 
-        {/* Contact Links */}
-        <motion.div
-          className="flex flex-wrap items-center gap-4 mb-8"
-          variants={itemVariants}
-        >
-          <motion.div
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-          >
-            <ContactLink
-              href="mailto:abdou.ahzab@gmail.com"
-              icon={<EmailIcon />}
-              text="abdou.ahzab@gmail.com"
-              aria-label="Email Abdel Ahzab"
-            />
-          </motion.div>
-          <motion.div
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-          >
-            <ContactLink
-              href="https://github.com/ahzab"
-              icon={<GithubIcon />}
-              text="GitHub"
-              className="text-gray-700 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white transition-colors"
-              aria-label="Visit GitHub profile"
-            />
-          </motion.div>
-        </motion.div>
 
-        {/* Role */}
-        <motion.div
-          className="text-xl md:text-4xl font-semibold mb-8 tracking-tight"
-          variants={slideVariants}
-        >
-          <motion.p
-            className="mb-2 dark:text-gray-100"
-            variants={itemVariants}
-          >
-            Full Stack Engineer
-          </motion.p>
-          <motion.div variants={itemVariants}>
-            <GradientText>&amp; Blockchain Developer</GradientText>
-          </motion.div>
-        </motion.div>
-
-        {/* Content */}
-        <motion.div
-          className="space-y-8"
-          variants={containerVariants}
-        >
-          {/* Bio */}
-          <motion.p
-            className="text-lg max-w-3xl leading-relaxed text-gray-600 dark:text-gray-300"
-            variants={fadeInVariants}
-          >
+  const commands = {
+    help: {
+      description: 'Show available commands',
+      execute: () => (
+        <div className="text-gray-300">
+          Available commands:
+          <ul className="ml-4">
+            <li>help - Show available commands</li>
+            <li>whoami - Display profile information</li>
+            <li>contact - Show contact information</li>
+            <li>skills - List technical skills</li>
+            <li>focus - Show current focus</li>
+            <li>clear - Clear terminal</li>
+          </ul>
+        </div>
+      )
+    },
+    whoami: {
+      description: 'Display profile information',
+      execute: () => (
+        <div className="ml-4">
+          <div className="mb-2">
+            <GradientText>Abdel Ahzab</GradientText>
+            <div className="text-gray-300">Full Stack Engineer & Blockchain Developer</div>
+          </div>
+          <div className="text-gray-300 mt-4">
             Passionate Full Stack Engineer with 9+ years of experience building innovative
             digital solutions. Specializing in scalable web applications, distributed systems,
             and blockchain technology. I combine technical expertise with a strong product mindset
             to deliver impactful solutions that drive business value.
-          </motion.p>
+          </div>
+        </div>
+      )
+    },
+    contact: {
+      description: 'Show contact information',
+      execute: () => (
+        <div className="ml-4 flex space-x-4">
+          <ContactLink
+            href="mailto:abdou.ahzab@gmail.com"
+            icon={<EmailIcon />}
+            text="abdou.ahzab@gmail.com"
+            className="text-blue-400 hover:text-blue-300"
+          />
+          <ContactLink
+            href="https://github.com/ahzab"
+            icon={<GithubIcon />}
+            text="GitHub"
+            className="text-blue-400 hover:text-blue-300"
+          />
+        </div>
+      )
+    },
+    skills: {
+      description: 'List technical skills',
+      execute: () => (
+        <div className="ml-4 grid grid-cols-1 md:grid-cols-2 gap-6">
+          <SkillsList
+            title="Technical Skills"
+            skills={technicalSkills}
+            className="text-gray-300"
+          />
+          <SkillsList
+            title="Specialized Focus"
+            skills={specializedSkills}
+            className="text-gray-300"
+          />
+        </div>
+      )
+    },
+    focus: {
+      description: 'Show current focus',
+      execute: () => (
+        <div className="ml-4 text-gray-300">
+          Currently exploring cutting-edge blockchain protocols and developing
+          decentralized applications that bridge the gap between Web2 and Web3 technologies.
+          Passionate about building secure, scalable, and user-centric solutions.
+        </div>
+      )
+    },
+    clear: {
+      description: 'Clear terminal',
+      execute: () => {
+        setCommandHistory([])
+        return null
+      }
+    }
+  }
 
-          {/* Expertise */}
-          <motion.div
-            className="max-w-3xl"
-            variants={containerVariants}
-          >
-            <motion.h2
-              className="text-2xl font-semibold mb-6 tracking-tight dark:text-gray-100"
-              variants={itemVariants}
-            >
-              Core Expertise
-            </motion.h2>
-            <motion.div
-              className="grid grid-cols-1 md:grid-cols-2 gap-6"
-              variants={containerVariants}
-            >
-              <motion.div
-                variants={slideVariants}
-                whileHover={{ scale: 1.02 }}
-                transition={{ duration: 0.2 }}
-              >
-                <SkillsList
-                  title="Technical Skills"
-                  skills={technicalSkills}
-                  className="dark:text-gray-300"
-                />
-              </motion.div>
-              <motion.div
-                variants={slideVariants}
-                whileHover={{ scale: 1.02 }}
-                transition={{ duration: 0.2 }}
-              >
-                <SkillsList
-                  title="Specialized Focus"
-                  skills={specializedSkills}
-                  className="dark:text-gray-300"
-                />
-              </motion.div>
-            </motion.div>
-          </motion.div>
+  const executeCommandWithDelay = (command: string, delay: number) => {
+      return new Promise<void>((resolve) => {
+        setTimeout(() => {
+          setCommandHistory(prev => [...prev, {
+            command: command,
+            response: commands[command as keyof typeof commands].execute()
+          }])
+          resolve()
+        }, delay)
+      })
+    }
 
-          {/* Current Focus */}
-          <motion.div
-            className="space-y-4"
-            variants={containerVariants}
+    useEffect(() => {
+      const fullWelcomeText = "Welcome to Abdel Ahzab's Terminal\nType 'help' to see available commands."
+      let index = 0
+      const timer = setInterval(() => {
+        if (index < fullWelcomeText.length) {
+          setWelcomeText(prev => prev + fullWelcomeText.charAt(index))
+          index++
+        } else {
+          clearInterval(timer)
+          setWelcomeComplete(true)
+        }
+      }, 50)
+
+      return () => clearInterval(timer)
+    }, [])
+
+    useEffect(() => {
+      if (welcomeComplete) {
+        const runInitialCommands = async () => {
+          await executeCommandWithDelay('whoami', 500)
+          await executeCommandWithDelay('help', 1000)
+        }
+
+        runInitialCommands()
+      }
+    }, [welcomeComplete])
+
+  useEffect(() => {
+    if (containerRef.current) {
+      containerRef.current.scrollTop = containerRef.current.scrollHeight
+    }
+  }, [commandHistory])
+
+  const handleCommand = (e: React.FormEvent) => {
+    e.preventDefault()
+    const trimmedCommand = currentCommand.trim().toLowerCase()
+
+    const newHistoryItem = {
+      command: currentCommand,
+      response: null as React.ReactNode
+    }
+
+    if (trimmedCommand) {
+      if (trimmedCommand in commands) {
+        newHistoryItem.response = commands[trimmedCommand as keyof typeof commands].execute()
+      } else {
+        newHistoryItem.response = (
+          <div className="text-red-400">
+            Command not found. Type 'help' to see available commands.
+          </div>
+        )
+      }
+    }
+
+    setCommandHistory(prev => [...prev, newHistoryItem])
+    setCurrentCommand('')
+  }
+
+  return (
+    <div className="min-h-screen p-8 bg-gray-900">
+      <div className="max-w-4xl mx-auto">
+        <div className="bg-gray-800 rounded-lg overflow-hidden shadow-xl">
+          <TerminalHeader />
+
+          <div
+            ref={containerRef}
+            className="p-6 font-mono text-green-400 h-[600px] overflow-y-auto"
           >
-            <motion.h2
-              className="text-2xl font-semibold tracking-tight dark:text-gray-100"
-              variants={itemVariants}
-            >
-              Current Focus
-            </motion.h2>
-            <motion.p
-              className="text-lg max-w-3xl leading-relaxed text-gray-600 dark:text-gray-300"
-              variants={fadeInVariants}
-            >
-              Currently exploring cutting-edge blockchain protocols and developing
-              decentralized applications that bridge the gap between Web2 and Web3 technologies.
-              Passionate about building secure, scalable, and user-centric solutions that
-              push the boundaries of what's possible in software engineering.
-            </motion.p>
-          </motion.div>
-        </motion.div>
+            <div className="mb-4">
+              {welcomeText.split('\n').map((line, i) => (
+                <div key={i}>{line}</div>
+              ))}
+            </div>
+
+            <CommandHistory history={commandHistory} />
+
+            <CommandInput
+              currentCommand={currentCommand}
+              onCommandChange={setCurrentCommand}
+              onSubmit={handleCommand}
+            />
+          </div>
+        </div>
       </div>
-    </motion.section>
+    </div>
   )
 }

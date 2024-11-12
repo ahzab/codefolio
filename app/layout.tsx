@@ -64,13 +64,15 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${inter.variable} text-black bg-white dark:text-white dark:bg-black`}
+      className={`${inter.variable} text-black bg-gray-900 dark:text-white h-full`}
     >
-      <body className="font-sans antialiased max-w-2xl mx-4 mt-8 lg:mx-auto min-h-screen flex flex-col">
-        <main className="flex-1 flex flex-col px-2 md:px-0">
-          {children}
-        </main>
-        <Footer />
+      <body className="font-sans antialiased min-h-screen flex flex-col">
+        <div className="flex-1 flex flex-col">
+          <main className="flex-1 max-w-2xl w-full mx-auto px-4 mt-8">
+            {children}
+          </main>
+            <Footer />
+        </div>
         <Analytics />
         <SpeedInsights />
       </body>
