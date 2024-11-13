@@ -72,15 +72,15 @@ export default function Page() {
     help: {
       description: 'Show available commands',
       execute: () => (
-        <div className="text-gray-300">
-          Available commands:
+        <div className="text-gray-400 text-sm">
+          <p className="font-semibold mb-1">Available commands:</p>
           <ul className="ml-4">
-            <li>help - Show available commands</li>
-            <li>whoami - Display profile information</li>
-            <li>contact - Show contact information</li>
-            <li>skills - List technical skills</li>
-            <li>focus - Show current focus</li>
-            <li>clear - Clear terminal</li>
+            <li><span className="text-yellow-500">help</span> - Show available commands</li>
+            <li><span className="text-yellow-500">whoami</span> - Display profile information</li>
+            <li><span className="text-yellow-500">skills</span> - List technical skills</li>
+            <li><span className="text-yellow-500">focus</span> - Show current focus</li>
+            <li><span className="text-yellow-500">contact</span> - Show contact information</li>
+            <li><span className="text-yellow-500">clear</span> - Clear terminal</li>
           </ul>
         </div>
       )
@@ -238,7 +238,7 @@ export default function Page() {
 
           <div
             ref={containerRef}
-            className="p-6 font-mono text-green-400 h-[600px] overflow-y-auto"
+            className="p-6 font-mono text-green-400 h-[632px] overflow-y-auto"
           >
             <div className="mb-4">
               {welcomeText.split('\n').map((line, i) => (
