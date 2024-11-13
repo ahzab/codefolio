@@ -169,21 +169,24 @@ export default function Page() {
       })
     }
 
-    useEffect(() => {
-      const fullWelcomeText = "Welcome to Abdel Ahzab's Terminal\nType 'help' to see available commands."
-      let index = 0
-      const timer = setInterval(() => {
-        if (index < fullWelcomeText.length) {
-          setWelcomeText(prev => prev + fullWelcomeText.charAt(index))
-          index++
-        } else {
-          clearInterval(timer)
-          setWelcomeComplete(true)
-        }
-      }, 50)
+  useEffect(() => {
+    const fullWelcomeText = "Welcome to Abdel Ahzab's Terminal\nType 'help' to see available commands."
+    let currentText = '';
+    let currentIndex = 0;
 
-      return () => clearInterval(timer)
-    }, [])
+    const timer = setInterval(() => {
+      if (currentIndex < fullWelcomeText.length) {
+        currentText += fullWelcomeText[currentIndex];
+        setWelcomeText(currentText);
+        currentIndex++;
+      } else {
+        clearInterval(timer);
+        setWelcomeComplete(true);
+      }
+    }, 50);
+
+    return () => clearInterval(timer);
+  }, []);
 
     useEffect(() => {
       if (welcomeComplete) {
