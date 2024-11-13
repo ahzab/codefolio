@@ -154,7 +154,7 @@ export default function Page() {
         description: 'Show featured projects',
         execute: () => (
           <div className="ml-4">
-            <h2 className="text-xl text-blue-400 mb-4">Featured Projects</h2>
+            <h2 className="text-lg mb-4 text-white">Featured Projects:</h2>
             <div className="space-y-4">
               {projects.map((project, index) => (
                 <ProjectCard key={index} project={project} />

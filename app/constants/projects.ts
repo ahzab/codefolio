@@ -3,6 +3,7 @@ export interface Project {
   description: string;
   tech: string[];
   highlights: string[];
+  image: string;
 }
 
 export const projects: Project[] = [
@@ -10,18 +11,21 @@ export const projects: Project[] = [
     name: "Decentralized Exchange Platform",
     description: "A full-featured DEX built on Ethereum with AMM functionality",
     tech: ["Solidity", "React", "Web3.js", "TypeScript"],
-    highlights: ["Automated Market Maker", "Token Swaps", "Liquidity Pools"]
+    highlights: ["Automated Market Maker", "Token Swaps", "Liquidity Pools"],
+    image: "/images/placeholder-image.png"
   },
   {
     name: "NFT Marketplace",
     description: "A marketplace for creating, buying, and selling NFTs",
     tech: ["Next.js", "Solidity", "IPFS", "Hardhat"],
-    highlights: ["NFT Minting", "Auction System", "Metadata Management"]
+    highlights: ["NFT Minting", "Auction System", "Metadata Management"],
+    image: "/images/placeholder-image.png"
   },
   {
     name: "DeFi Lending Protocol",
     description: "Decentralized lending platform with yield optimization",
     tech: ["Solidity", "React", "Ethers.js", "Node.js"],
-    highlights: ["Lending/Borrowing", "Yield Farming", "Risk Management"]
+    highlights: ["Lending/Borrowing", "Yield Farming", "Risk Management"],
+    image: "/images/placeholder-image.png"
   }
 ];
