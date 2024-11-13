@@ -90,7 +90,7 @@ export default function Page() {
       execute: () => (
         <div className="ml-4">
           <div className="mb-2">
-            <GradientText className='block mb-4 text-2xl'>Abdel Ahzab</GradientText>
+            <GradientText className='block mb-4 text-2xl md:text-3x'>Abdel Ahzab</GradientText>
             <div className="text-gray-300 font-semibold">Full Stack Engineer & Blockchain Developer</div>
           </div>
           <div className="text-gray-300 mt-4">
@@ -231,11 +231,10 @@ export default function Page() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-900">
+    <div className="bg-gray-900">
       <div className="max-w-4xl mx-auto">
-        <div className="bg-gray-800 rounded-lg overflow-hidden shadow-xl">
+        <div className="bg-gray-800 rounded-lg overflow-hidden shadow-xl mt-0 md:mt-10">
           <TerminalHeader />
-
           <div
             ref={containerRef}
             className="p-6 font-mono text-green-400 h-[632px] overflow-y-auto"
@@ -245,9 +244,7 @@ export default function Page() {
                 <div key={i}>{line}</div>
               ))}
             </div>
-
             <CommandHistory history={commandHistory} />
-
             <CommandInput
               currentCommand={currentCommand}
               onCommandChange={setCurrentCommand}
