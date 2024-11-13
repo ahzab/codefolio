@@ -7,6 +7,8 @@ import { EmailIcon } from "./components/icons/EmailIcon"
 import { GithubIcon } from "./components/icons/GithubIcon"
 import { SkillsList } from "./components/SkillsList"
 import { technicalSkills, specializedSkills } from "./constants"
+import { projects } from './constants/projects'
+import ProjectCard from './components/ProjectCard'
 
 const TerminalHeader = () => (
   <div className="bg-gray-700 px-4 py-2 flex items-center">
@@ -148,6 +150,19 @@ export default function Page() {
         </div>
       )
     },
+    projects: {
+        description: 'Show featured projects',
+        execute: () => (
+          <div className="ml-4">
+            <h2 className="text-xl text-blue-400 mb-4">Featured Projects</h2>
+            <div className="space-y-4">
+              {projects.map((project, index) => (
+                <ProjectCard key={index} project={project} />
+              ))}
+            </div>
+          </div>
+        )
+      },
     clear: {
       description: 'Clear terminal',
       execute: () => {
