@@ -53,7 +53,6 @@ export default function Page() {
       if (welcomeComplete) {
         const runInitialCommands = async () => {
           await executeCommandWithDelay('whoami', 500)
-          await executeCommandWithDelay('help', 1000)
         }
 
         runInitialCommands()
@@ -98,7 +97,7 @@ export default function Page() {
           <TerminalHeader />
           <div
             ref={containerRef}
-            className="p-6 font-mono text-green-400 h-[632px] overflow-y-auto"
+            className="p-6 font-mono text-green-400 h-[500px] md:h-[632px] overflow-y-auto"
           >
             <div className="mb-4">
               {welcomeText.split('\n').map((line, i) => (
