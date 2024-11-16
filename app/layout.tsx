@@ -3,6 +3,8 @@ import { Analytics } from '@vercel/analytics/react'
 import { SpeedInsights } from '@vercel/speed-insights/next'
 import { BASE_URL } from './constants'
 import { Inter } from 'next/font/google'
+import { Navbar } from './components/nav'
+import Footer from './components/footer'
 import './global.css'
 
 const inter = Inter({
@@ -63,14 +65,32 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${inter.variable} text-black bg-gray-900 dark:text-white h-full`}
+      className={`${inter.variable} scroll-smooth`}
     >
-      <body className="font-sans antialiased min-h-screen flex flex-col">
-        <div className="flex-1 flex flex-col">
-          <main className="flex-1 max-w-2xl w-full mx-auto px-4 mt-8">
-            {children}
+      <body className="font-sans antialiased bg-gray-950 text-gray-100">
+        <div className="flex min-h-screen flex-col">
+          {/* Background gradient effects */}
+          <div className="fixed inset-0 -z-10 h-full w-full bg-gray-950 bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(120,119,198,0.3),rgba(255,255,255,0))]" />
+
+          {/* Header */}
+          <header className="sticky top-0 z-50 w-full border-b border-gray-800/80 bg-gray-950/75 backdrop-blur">
+            <nav className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
+              <Navbar />
+            </nav>
+          </header>
+
+          {/* Main content */}
+          <main className="flex-1 w-full">
+            <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 py-12">
+              {children}
+            </div>
           </main>
+
+          {/* Footer */}
+          <Footer />
         </div>
+
+        {/* Analytics */}
         <Analytics />
         <SpeedInsights />
       </body>
