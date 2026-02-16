@@ -17,12 +17,17 @@ html.dark {
 body {
   background-color: var(--bg-color);
   color: var(--text-main);
-  @apply transition-colors duration-500 font-sans antialiased overflow-x-hidden;
+  @apply transition-colors duration-500 font-sans antialiased;
 }
 
-.mono { font-family: 'JetBrains Mono', monospace; font-variant-ligatures: none; }
+.mono { font-family: 'JetBrains Mono', monospace; }
 
-// Canvas Backgrounds
+// Keyboard Keys Styling
+kbd {
+  @apply border-b-2 border-slate-400 dark:border-slate-500;
+}
+
+// Background Layers
 #matrix-canvas { @apply fixed inset-0 z-0 opacity-20 dark:opacity-15 pointer-events-none; }
 #glow-canvas { @apply fixed inset-0 z-[1] pointer-events-none; }
 .bg-grid {
@@ -31,44 +36,64 @@ body {
   background-size: 60px 60px;
   @apply fixed inset-0 z-[2] pointer-events-none;
 }
-
 .content-layer { @apply relative z-10; }
 
-// Toast Animation
-@keyframes toast-in {
-  0% { transform: translateY(100%); opacity: 0; }
-  20% { transform: translateY(0); opacity: 1; }
-  80% { transform: translateY(0); opacity: 1; }
-  100% { transform: translateY(100%); opacity: 0; }
-}
-
-.animate-toast {
-  animation: toast-in 2.5s ease-in-out forwards;
-}
-
-// UI Elements
+// Card 3D Logic
 .grid-card {
-  @apply p-8 transition-all duration-500 border-slate-200 dark:border-white/10;
-  &:hover { @apply bg-slate-100/50 dark:bg-white/[0.05] border-sky-500/20; }
-  .mono-label { @apply mono text-[10px] mb-8 block uppercase tracking-widest; }
-  h3 { @apply text-xl font-light mb-4 text-slate-900 dark:text-white; }
-  p { @apply text-sm text-slate-500 leading-relaxed; }
+  @apply h-[320px] cursor-pointer;
+  perspective: 1500px;
+
+  .card-inner {
+    @apply relative w-full h-full transition-transform duration-700 ease-in-out;
+    transform-style: preserve-3d;
+  }
+
+  &.is-flipped .card-inner {
+    transform: rotateY(180deg);
+  }
+
+  &:hover .card-front {
+    @apply bg-slate-100/50 dark:bg-white/[0.05];
+  }
+
+  .card-front, .card-back {
+    @apply absolute inset-0 w-full h-full;
+    backface-visibility: hidden;
+  }
+
+  .card-back {
+    transform: rotateY(180deg);
+    @apply border border-white/10 shadow-2xl;
+  }
 }
 
-.link-btn {
-  @apply mono text-[10px] uppercase tracking-widest border-b border-slate-300 dark:border-white/20 pb-1 hover:border-sky-500 dark:hover:border-white transition-colors;
+.mono-label { @apply mono text-[10px] mb-8 block uppercase tracking-widest; }
+
+// Toast Notify
+@keyframes toast-in {
+  0% { transform: translateY(100%) translateX(-50%); opacity: 0; }
+  20%, 80% { transform: translateY(0) translateX(-50%); opacity: 1; }
+  100% { transform: translateY(100%) translateX(-50%); opacity: 0; }
 }
+.animate-toast { animation: toast-in 2.5s ease-in-out forwards; }
 
 .status-bar { @apply h-[4px] w-12; }
 .shadow-sky { @apply bg-sky-500; box-shadow: 0 0 15px #38bdf8; }
 .shadow-indigo { @apply bg-indigo-500; box-shadow: 0 0 15px #6366f1; }
 .shadow-purple { @apply bg-purple-500; box-shadow: 0 0 15px #a855f7; }
 
+.link-btn { @apply mono text-[10px] uppercase tracking-widest border-b border-slate-300 dark:border-white/20 pb-1 hover:border-sky-500 transition-colors; }
 .lifecycle-text { @apply text-xs text-slate-500 uppercase tracking-widest font-semibold; }
 
 @keyframes reveal {
   0% { transform: translateY(20px); opacity: 0; filter: blur(5px); }
   100% { transform: translateY(0); opacity: 1; filter: blur(0); }
 }
-
 .reveal-text { animation: reveal 1.2s cubic-bezier(0.77, 0, 0.175, 1) forwards; }
+
+// Custom Scrollbar for Pre tags
+pre {
+  @apply overflow-x-auto;
+  &::-webkit-scrollbar { height: 4px; }
+  &::-webkit-scrollbar-thumb { @apply bg-white/10 rounded; }
+}
