@@ -138,7 +138,7 @@ window.addEventListener('resize', resize);
 resize();
 setInterval(drawMatrix, 33);
 setInterval(updateStats, 3000);
-startTerminal();
+//startTerminal();
 drawGlow();
 
 document.getElementById('palette-toggle')?.addEventListener('click', () => togglePalette(true));
