@@ -161,15 +161,16 @@
                         <span class="mono text-[9px] text-sky-400 uppercase">App.tsx</span>
                         <span class="mono text-[9px] text-slate-500">TypeScript</span>
                     </div>
-                    <pre class="mono text-[10px]"><span class="text-purple-400">const</span> <span
+                    <pre class="mono text-[10px] leading-normal"><span class="text-purple-400">const</span> <span
                             class="text-yellow-400">UI</span> = () => {
-                              <span class="text-purple-400">return</span> (
-                                &lt;<span class="text-blue-400">View</span>&gt;
-                                  &lt;<span class="text-blue-400">Text</span>&gt;Production&lt;/<span
-                                class="text-blue-400">Text</span>&gt;
-                                &lt;/<span class="text-blue-400">View</span>&gt;
-                              );
-                            };</pre>
+  <span class="text-purple-400">return</span> (
+    &lt;<span class="text-blue-400">View</span> style={styles.hero}&gt;
+      &lt;<span class="text-blue-400">Animated.Text</span>&gt;
+        Production Ready
+      &lt;/<span class="text-blue-400">Animated.Text</span>&gt;
+    &lt;/<span class="text-blue-400">View</span>&gt;
+  );
+};</pre>
                 </div>
             </div>
         </div>
@@ -197,10 +198,10 @@
                         <span class="mono text-[9px] text-indigo-400 uppercase">rag.py</span>
                         <span class="mono text-[9px] text-slate-500">Python</span>
                     </div>
-                    <pre class="mono text-[10px]"><span class="text-purple-400">def</span> <span
-                            class="text-yellow-400">query</span>(q):
-    ctx = <span class="text-blue-400">VectorDB</span>.get(q)
-    <span class="text-purple-400">return</span> <span class="text-blue-400">LLM</span>.chat(
+                    <pre class="mono text-[10px] leading-normal"><span class="text-purple-400">def</span> <span
+                            class="text-yellow-400">query_vector_db</span>(q):
+    ctx = <span class="text-blue-400">Pinecone</span>.fetch(q)
+    <span class="text-purple-400">return</span> <span class="text-blue-400">OpenAI</span>.Chat(
         model=<span class="text-emerald-400">"gpt-4o"</span>,
         context=ctx
     )</pre>
@@ -231,12 +232,12 @@
                         <span class="mono text-[9px] text-purple-400 uppercase">deploy.yml</span>
                         <span class="mono text-[9px] text-slate-500">YAML</span>
                     </div>
-                    <pre class="mono text-[10px]"><span class="text-purple-400">jobs:</span>
-                      <span class="text-purple-400">deploy:</span>
-                        <span class="text-purple-400">steps:</span>
-                          - <span class="text-purple-400">run:</span> docker build .
-                          - <span class="text-purple-400">run:</span> aws ecs update
-                    </pre>
+                    <pre class="mono text-[10px] leading-normal"><span class="text-purple-400">on:</span> push
+<span class="text-purple-400">jobs:</span>
+  <span class="text-purple-400">deploy:</span>
+    <span class="text-purple-400">steps:</span>
+      - <span class="text-purple-400">run:</span> docker build .
+      - <span class="text-purple-400">run:</span> aws ecs update</pre>
                 </div>
             </div>
         </div>
