@@ -79,7 +79,7 @@ const startTerminal = () => {
     setInterval(() => {
         const l = document.createElement('div');
         l.className = 'mono text-[9px] flex gap-2 animate-reveal';
-        l.innerHTML = `<span class="text-sky-500">[SYS]</span> <span class="text-slate-500">${LOGS[i]}</span>`;
+        l.innerHTML = `<span class="text-purple-500  dark:text-sky-500">[SYS]</span> <span class="text-white dark:text-slate-500">${LOGS[i]}</span>`;
         terminalLogs.appendChild(l);
         if (terminalLogs.childNodes.length > 5) terminalLogs.removeChild(terminalLogs.firstChild!);
         i = (i + 1) % LOGS.length;
