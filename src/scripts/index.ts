@@ -72,7 +72,6 @@ const renderPalette = (q: string) => {
     togglePalette(false);
 };
 
-// --- Terminal Stream ---
 const LOGS = ["SYNCING REPO...", "DOCKER BUILD...", "UNIT TESTS: PASS", "PUSHING TO ECR", "INVALIDATING CDN", "HEALTH: 100%"];
 const startTerminal = () => {
     let i = 0;
@@ -86,7 +85,6 @@ const startTerminal = () => {
     }, 3000);
 };
 
-// --- Animations ---
 const resize = () => {
     matrixCanvas.width = glowCanvas.width = window.innerWidth;
     matrixCanvas.height = glowCanvas.height = window.innerHeight;
@@ -136,15 +134,13 @@ const updateStats = () => {
     }).catch(() => {});
 };
 
-// --- Initialization ---
 window.addEventListener('resize', resize);
 resize();
 setInterval(drawMatrix, 33);
-setInterval(updateStats, 1000);
+setInterval(updateStats, 3000);
 startTerminal();
 drawGlow();
 
-// --- Event Listeners ---
 document.getElementById('palette-toggle')?.addEventListener('click', () => togglePalette(true));
 document.getElementById('btn-light')?.addEventListener('click', () => rotateTheme());
 document.getElementById('btn-dark')?.addEventListener('click', () => rotateTheme());
