@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Abdel Ahzab | Full-Cycle Product Engineer</title>
+</head>
+<body class="min-h-screen flex flex-col justify-between p-6 md:p-12 relative">
+<canvas id="matrix-canvas"></canvas>
+<canvas id="glow-canvas"></canvas>
+<div class="bg-grid"></div>
+
+<header class="flex justify-between items-start content-layer reveal-text">
+    <div class="space-y-1">
+        <h1 class="text-2xl font-bold tracking-tighter uppercase">Abdel Ahzab</h1>
+        <p class="mono text-[9px] tracking-[0.3em] text-slate-500">v2.0.26 // PRODUCTION_READY</p>
+    </div>
+    <div class="hidden md:block border-glow px-4 py-2 rounded-sm bg-black/80 backdrop-blur-md">
+        <div class="flex items-center gap-3">
+                <span class="relative flex h-2 w-2">
+                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                    <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                </span>
+            <span class="mono text-[10px] text-slate-400 uppercase tracking-widest font-bold">AWS Pipeline: Active</span>
+        </div>
+    </div>
+</header>
+
+<main class="max-w-6xl w-full mx-auto py-12 content-layer">
+    <div class="mb-16 reveal-text" style="animation-delay: 0.2s;">
+        <p class="mono text-sky-500 text-xs mb-4 tracking-[0.4em] uppercase font-bold">Full-Cycle Product Engineer</p>
+        <h2 class="text-5xl md:text-8xl font-thin tracking-tighter leading-tight">
+            Architecting <span class="font-semibold italic text-white">Intelligent</span> <br>
+            Production Systems.
+        </h2>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-0 border border-white/10 bg-black/20 backdrop-blur-sm reveal-text" style="animation-delay: 0.4s;">
+        <div class="grid-card border-r border-b">
+            <span class="mono-label text-sky-400">01 / Experience</span>
+            <h3>React Native & Web</h3>
+            <p>Designing fluid, multi-platform interfaces and scalable web architectures with a focus on native execution.</p>
+        </div>
+        <div class="grid-card border-r border-b">
+            <span class="mono-label text-indigo-400">02 / Intelligence</span>
+            <h3>Applied AI</h3>
+            <p>Integrating LLMs and RAG pipelines into production applications to drive autonomous user logic.</p>
+        </div>
+        <div class="grid-card border-b">
+            <span class="mono-label text-purple-400">03 / Infrastructure</span>
+            <h3>AWS & CI/CD</h3>
+            <p>Automated pipelines from code-commit to production. Managing global scale with Docker and Cloud monitoring.</p>
+        </div>
+    </div>
+</main>
+
+<footer class="flex flex-col md:flex-row justify-between items-end gap-8 pt-12 content-layer reveal-text" style="animation-delay: 0.6s;">
+    <div class="space-y-4 max-w-lg">
+        <p class="lifecycle-text">
+            The Lifecycle: <span class="text-white">Design</span> → <span class="text-white">Build</span> → <span class="text-white">Deploy</span> → <span class="text-white">Monitor</span>
+        </p>
+        <p class="text-xs text-slate-500 leading-loose">
+            Specializing in bridging the gap between <span class="text-white font-semibold">Product Thinking</span> and <span class="text-white font-semibold">Cloud Architecture</span>.
+        </p>
+        <div class="flex gap-6">
+            <a href="mailto:abdel@codefolio.dev" class="link-btn text-sky-500">Initialize Contact</a>
+            <a href="#" class="link-btn">GitHub / Source</a>
+        </div>
+    </div>
+    <div class="text-right">
+        <p class="mono text-[9px] text-slate-700 tracking-[0.3em] uppercase mb-2">Secure Link // Codefolio.dev</p>
+        <div class="flex gap-1 justify-end">
+            <div class="status-bar bg-sky-500 shadow-sky"></div>
+            <div class="status-bar bg-indigo-500 shadow-indigo"></div>
+            <div class="status-bar bg-purple-500 shadow-purple w-16"></div>
+        </div>
+    </div>
+</footer>
+
+<script type="module" src="/scripts/main.ts"></script>
+<script type="module" src="/styles/main.scss"></script>
+</body>
+</html>
