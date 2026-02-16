@@ -11,13 +11,13 @@
 
 body {
   @apply bg-black text-white overflow-x-hidden;
-  font-family: var(--font-sans);
+  font-family: var(--font-sans), monospace;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 .mono {
-  font-family: var(--font-mono);
+  font-family: var(--font-mono), monospace;
   font-variant-ligatures: none;
 }
 #matrix-canvas {
@@ -68,10 +68,10 @@ body {
   @apply mono text-[10px] uppercase tracking-widest border-b border-white/20 pb-1 hover:border-white transition-colors;
 }
 
-.status-bar { @apply h-1; }
-.shadow-sky { box-shadow: 0 0 10px #38bdf8; }
-.shadow-indigo { box-shadow: 0 0 10px #6366f1; }
-.shadow-purple { box-shadow: 0 0 10px #a855f7; }
+.status-bar { @apply h-[4px] w-12; }
+.shadow-sky { @apply bg-sky-500; box-shadow: 0 0 15px #38bdf8; }
+.shadow-indigo { @apply bg-indigo-500; box-shadow: 0 0 15px #6366f1; }
+.shadow-purple { @apply bg-purple-500; box-shadow: 0 0 15px #a855f7; }
 
 .lifecycle-text {
   @apply text-xs text-slate-500 uppercase tracking-widest font-semibold;
