@@ -2,49 +2,29 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --bg-color: #f8fafc;
-  --text-main: #0f172a;
-  --grid-line: rgba(0, 0, 0, 0.05);
-}
+:root { --bg: #f8fafc; --text: #0f172a; --grid: rgba(0, 0, 0, 0.05); }
+html.dark { --bg: #000000; --text: #ffffff; --grid: #111; }
 
-html.dark {
-  --bg-color: #000000;
-  --text-main: #ffffff;
-  --grid-line: #111;
-}
-
-body {
-  background-color: var(--bg-color);
-  color: var(--text-main);
-  @apply transition-colors duration-500 font-sans antialiased;
-}
-
+body { background-color: var(--bg); color: var(--text); @apply transition-colors duration-500 font-sans antialiased; }
 .mono { font-family: 'JetBrains Mono', monospace; }
 
-// Keyboard Keys Styling
-kbd {
-  @apply border-b-2 border-slate-400 dark:border-slate-500;
-}
-
-// Background Layers
-#matrix-canvas { @apply fixed inset-0 z-0 opacity-20 dark:opacity-15 pointer-events-none; }
+#matrix-canvas { @apply fixed inset-0 z-0 opacity-20 pointer-events-none; }
 #glow-canvas { @apply fixed inset-0 z-[1] pointer-events-none; }
 .bg-grid {
-  background-image: linear-gradient(to right, var(--grid-line) 1px, transparent 1px),
-  linear-gradient(to bottom, var(--grid-line) 1px, transparent 1px);
+  background-image: linear-gradient(to right, var(--grid) 1px, transparent 1px),
+  linear-gradient(to bottom, var(--grid) 1px, transparent 1px);
   background-size: 60px 60px;
   @apply fixed inset-0 z-[2] pointer-events-none;
 }
 .content-layer { @apply relative z-10; }
 
-// Card 3D Logic
+/* Fixed 3D Card Logic */
 .grid-card {
   @apply h-[320px] cursor-pointer;
   perspective: 1500px;
 
   .card-inner {
-    @apply relative w-full h-full transition-transform duration-700 ease-in-out;
+    @apply relative w-full h-full transition-transform duration-700;
     transform-style: preserve-3d;
   }
 
@@ -52,48 +32,43 @@ kbd {
     transform: rotateY(180deg);
   }
 
-  &:hover .card-front {
-    @apply bg-slate-100/50 dark:bg-white/[0.05];
-  }
-
   .card-front, .card-back {
     @apply absolute inset-0 w-full h-full;
+    /* Standard CSS instead of missing Tailwind class */
     backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
   }
 
   .card-back {
     transform: rotateY(180deg);
-    @apply border border-white/10 shadow-2xl;
+    @apply border border-white/10 shadow-2xl overflow-hidden;
   }
 }
 
-.mono-label { @apply mono text-[10px] mb-8 block uppercase tracking-widest; }
-
-// Toast Notify
-@keyframes toast-in {
-  0% { transform: translateY(100%) translateX(-50%); opacity: 0; }
-  20%, 80% { transform: translateY(0) translateX(-50%); opacity: 1; }
-  100% { transform: translateY(100%) translateX(-50%); opacity: 0; }
+#terminal-logs {
+  background: linear-gradient(rgba(0,0,0,0) 50%, rgba(0,0,0,0.1) 50%);
+  background-size: 100% 2px;
 }
-.animate-toast { animation: toast-in 2.5s ease-in-out forwards; }
 
-.status-bar { @apply h-[4px] w-12; }
+.status-bar { @apply h-[4px] w-12 transition-all; }
 .shadow-sky { @apply bg-sky-500; box-shadow: 0 0 15px #38bdf8; }
 .shadow-indigo { @apply bg-indigo-500; box-shadow: 0 0 15px #6366f1; }
 .shadow-purple { @apply bg-purple-500; box-shadow: 0 0 15px #a855f7; }
 
-.link-btn { @apply mono text-[10px] uppercase tracking-widest border-b border-slate-300 dark:border-white/20 pb-1 hover:border-sky-500 transition-colors; }
-.lifecycle-text { @apply text-xs text-slate-500 uppercase tracking-widest font-semibold; }
+.link-btn { @apply mono text-[10px] uppercase tracking-widest border-b border-slate-300 dark:border-white/20 pb-1 hover:border-sky-500 transition-all; }
+
+.animate-toast { animation: toast-in 2.5s ease-in-out forwards; }
+
+@keyframes toast-in {
+  0% { transform: translate(-50%, 100%); opacity:0; }
+  20%, 80% { transform: translate(-50%, 0); opacity:1; }
+  100% { transform: translate(-50%, 100%); opacity:0; }
+}
 
 @keyframes reveal {
-  0% { transform: translateY(20px); opacity: 0; filter: blur(5px); }
-  100% { transform: translateY(0); opacity: 1; filter: blur(0); }
+  from { transform: translateY(20px); opacity:0; }
+  to { transform: translateY(0); opacity:1; }
 }
-.reveal-text { animation: reveal 1.2s cubic-bezier(0.77, 0, 0.175, 1) forwards; }
 
-// Custom Scrollbar for Pre tags
-pre {
-  @apply overflow-x-auto;
-  &::-webkit-scrollbar { height: 4px; }
-  &::-webkit-scrollbar-thumb { @apply bg-white/10 rounded; }
-}
+.reveal-text { animation: reveal 1.2s cubic-bezier(0.77, 0, 0.175, 1) forwards; }
+.animate-reveal { animation: reveal 0.4s ease-out forwards; }

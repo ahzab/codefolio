@@ -8,14 +8,14 @@ const toastContainer = document.getElementById('toast-container')!;
 const palette = document.getElementById('command-palette')!;
 const paletteInput = document.getElementById('palette-input') as HTMLInputElement;
 const paletteResults = document.getElementById('palette-results')!;
-const paletteToggle = document.getElementById('palette-toggle')!;
+const terminalLogs = document.getElementById('terminal-logs')!;
 
 const chars = '01ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
 const fontSize = 14;
 let columns = 0;
 let drops: number[] = [];
 
-// --- Command Palette Data ---
+// --- Commands ---
 const commands = [
     { name: 'INITIALIZE CONTACT', action: () => window.location.href = 'mailto:abdel@codefolio.dev', icon: '✉️' },
     { name: 'SWITCH THEME', action: () => rotateTheme(), icon: '🌓' },
@@ -26,37 +26,30 @@ const commands = [
     { name: 'GITHUB REPOSITORY', action: () => window.open('#', '_blank'), icon: '📂' },
 ];
 
-// --- Core Functions ---
-const showToast = (message: string) => {
+const showToast = (msg: string) => {
     toastContainer.innerHTML = '';
-    const toast = document.createElement('div');
-    toast.className = 'mono text-[10px] uppercase tracking-widest px-4 py-2 bg-slate-900/90 dark:bg-white/90 text-white dark:text-black border border-white/10 rounded-sm shadow-2xl animate-toast';
-    toast.innerText = message;
-    toastContainer.appendChild(toast);
-    setTimeout(() => toast.remove(), 2500);
-};
-
-const setTheme = (theme: 'light' | 'dark' | 'system') => {
-    const html = document.documentElement;
-    localStorage.setItem('theme', theme);
-    if (theme === 'dark' || (theme === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-        html.classList.add('dark');
-    } else {
-        html.classList.remove('dark');
-    }
-    showToast(`Mode: ${theme}`);
+    const t = document.createElement('div');
+    t.className = 'mono text-[10px] uppercase tracking-widest px-4 py-2 bg-slate-900/90 dark:bg-white/90 text-white dark:text-black rounded-sm animate-toast';
+    t.innerText = msg;
+    toastContainer.appendChild(t);
+    setTimeout(() => t.remove(), 2500);
 };
 
 const rotateTheme = () => {
     const current = localStorage.getItem('theme') || 'system';
-    const themes: ('light' | 'dark' | 'system')[] = ['light', 'dark', 'system'];
-    const next = themes[(themes.indexOf(current as any) + 1) % themes.length];
-    setTheme(next);
+    const themes: any[] = ['light', 'dark', 'system'];
+    const next = themes[(themes.indexOf(current) + 1) % themes.length];
+
+    const isDark = next === 'dark' || (next === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches);
+    document.documentElement.classList.toggle('dark', isDark);
+
+    localStorage.setItem('theme', next);
+    showToast(`Mode: ${next}`);
 };
 
 const togglePalette = (show: boolean) => {
     palette.classList.toggle('hidden', !show);
-    document.body.style.overflow = show ? 'hidden' : ''; // UX Polish
+    document.body.style.overflow = show ? 'hidden' : '';
     if (show) {
         paletteInput.value = '';
         paletteInput.focus();
@@ -64,36 +57,36 @@ const togglePalette = (show: boolean) => {
     }
 };
 
-const renderPalette = (query: string) => {
-    const filtered = commands.filter(c => c.name.toLowerCase().includes(query.toLowerCase()));
+const renderPalette = (q: string) => {
+    const filtered = commands.filter(c => c.name.toLowerCase().includes(q.toLowerCase()));
     paletteResults.innerHTML = filtered.map((c, i) => `
-        <div class="p-3 flex items-center gap-3 cursor-pointer hover:bg-slate-100 dark:hover:bg-white/5 transition-colors mono text-[10px] text-slate-600 dark:text-slate-300 border-l-2 border-transparent hover:border-sky-500" onclick="window.paletteExec(${i})">
-            <span class="text-base">${c.icon}</span> ${c.name}
+        <div class="p-3 flex items-center gap-3 cursor-pointer hover:bg-slate-100 dark:hover:bg-white/5 transition-colors mono text-[10px] text-slate-600 dark:text-slate-300" onclick="window.paletteExec(${i})">
+            <span>${c.icon}</span> ${c.name}
         </div>
     `).join('');
     (window as any).currentFiltered = filtered;
 };
 
-(window as any).paletteExec = (idx: number) => {
-    (window as any).currentFiltered[idx].action();
+(window as any).paletteExec = (i: number) => {
+    (window as any).currentFiltered[i].action();
     togglePalette(false);
 };
 
-// --- System Metrics ---
-const updateStats = () => {
-    const timeOptions: any = { timeZone: 'Africa/Casablanca', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false };
-    document.getElementById('local-time')!.innerText = new Intl.DateTimeFormat('en-GB', timeOptions).format(new Date());
-
-    const start = Date.now();
-    fetch('/favicon.ico', { mode: 'no-cors' }).then(() => {
-        const delta = Date.now() - start;
-        const el = document.getElementById('latency')!;
-        el.innerText = `${delta}ms`;
-        el.className = delta < 100 ? 'text-emerald-500 font-bold' : 'text-amber-500 font-bold';
-    }).catch(() => {});
+// --- Terminal Stream ---
+const LOGS = ["SYNCING REPO...", "DOCKER BUILD...", "UNIT TESTS: PASS", "PUSHING TO ECR", "INVALIDATING CDN", "HEALTH: 100%"];
+const startTerminal = () => {
+    let i = 0;
+    setInterval(() => {
+        const l = document.createElement('div');
+        l.className = 'mono text-[9px] flex gap-2 animate-reveal';
+        l.innerHTML = `<span class="text-sky-500">[SYS]</span> <span class="text-slate-500">${LOGS[i]}</span>`;
+        terminalLogs.appendChild(l);
+        if (terminalLogs.childNodes.length > 5) terminalLogs.removeChild(terminalLogs.firstChild!);
+        i = (i + 1) % LOGS.length;
+    }, 3000);
 };
 
-// --- Animation ---
+// --- Animations ---
 const resize = () => {
     matrixCanvas.width = glowCanvas.width = window.innerWidth;
     matrixCanvas.height = glowCanvas.height = window.innerHeight;
@@ -101,50 +94,67 @@ const resize = () => {
     drops = new Array(columns).fill(1);
 };
 
-const draw = () => {
+const drawMatrix = () => {
     const isDark = document.documentElement.classList.contains('dark');
-    mctx.fillStyle = isDark ? 'rgba(0, 0, 0, 0.05)' : 'rgba(255, 255, 255, 0.05)';
+    mctx.fillStyle = isDark ? 'rgba(0,0,0,0.05)' : 'rgba(255,255,255,0.05)';
     mctx.fillRect(0, 0, matrixCanvas.width, matrixCanvas.height);
     mctx.fillStyle = isDark ? '#1e293b' : '#cbd5e1';
     mctx.font = `${fontSize}px monospace`;
     drops.forEach((y, i) => {
-        const text = chars[Math.floor(Math.random() * chars.length)];
-        mctx.fillText(text, i * fontSize, y * fontSize);
+        mctx.fillText(chars[Math.floor(Math.random() * chars.length)], i * fontSize, y * fontSize);
         if (y * fontSize > matrixCanvas.height && Math.random() > 0.975) drops[i] = 0;
         drops[i]++;
     });
 };
 
 let mouse: MousePosition = { x: -1000, y: -1000 };
-window.addEventListener('mousemove', (e) => { mouse.x = e.clientX; mouse.y = e.clientY; });
+window.addEventListener('mousemove', (e) => {
+    mouse.x = e.clientX;
+    mouse.y = e.clientY;
+});
 
 const drawGlow = () => {
     gctx.clearRect(0, 0, glowCanvas.width, glowCanvas.height);
     const g = gctx.createRadialGradient(mouse.x, mouse.y, 0, mouse.x, mouse.y, 400);
-    g.addColorStop(0, document.documentElement.classList.contains('dark') ? 'rgba(56,189,248,0.15)' : 'rgba(56,189,248,0.08)');
+    const isDark = document.documentElement.classList.contains('dark');
+    g.addColorStop(0, isDark ? 'rgba(56,189,248,0.15)' : 'rgba(56,189,248,0.08)');
     g.addColorStop(1, 'transparent');
     gctx.fillStyle = g;
     gctx.fillRect(0, 0, glowCanvas.width, glowCanvas.height);
+    requestAnimationFrame(drawGlow);
 };
 
-// --- Init & Handlers ---
+const updateStats = () => {
+    const timeOpts: any = { timeZone: 'Africa/Casablanca', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false };
+    const timeEl = document.getElementById('local-time');
+    if (timeEl) timeEl.innerText = new Intl.DateTimeFormat('en-GB', timeOpts).format(new Date());
+
+    const start = Date.now();
+    fetch('/favicon.ico', { mode: 'no-cors' }).then(() => {
+        const latEl = document.getElementById('latency');
+        if (latEl) latEl.innerText = `${Date.now() - start}ms`;
+    }).catch(() => {});
+};
+
+// --- Initialization ---
 window.addEventListener('resize', resize);
 resize();
-setInterval(draw, 33);
+setInterval(drawMatrix, 33);
 setInterval(updateStats, 1000);
-updateStats();
+startTerminal();
+drawGlow();
 
-const tick = () => { drawGlow(); requestAnimationFrame(tick); };
-tick();
+// --- Event Listeners ---
+document.getElementById('palette-toggle')?.addEventListener('click', () => togglePalette(true));
+document.getElementById('btn-light')?.addEventListener('click', () => rotateTheme());
+document.getElementById('btn-dark')?.addEventListener('click', () => rotateTheme());
+document.getElementById('btn-system')?.addEventListener('click', () => rotateTheme());
 
-document.getElementById('btn-light')?.addEventListener('click', () => setTheme('light'));
-document.getElementById('btn-dark')?.addEventListener('click', () => setTheme('dark'));
-document.getElementById('btn-system')?.addEventListener('click', () => setTheme('system'));
-paletteToggle.addEventListener('click', () => togglePalette(true));
-paletteInput.addEventListener('input', (e) => renderPalette((e.target as HTMLInputElement).value));
+paletteInput.addEventListener('input', (e) => {
+    renderPalette((e.target as HTMLInputElement).value);
+});
 
 window.addEventListener('keydown', (e) => {
-    if (e.key.toLowerCase() === 't' && palette.classList.contains('hidden')) rotateTheme();
     if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
         e.preventDefault();
         togglePalette(palette.classList.contains('hidden'));
