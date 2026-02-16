@@ -2,16 +2,20 @@ import { defineConfig } from 'vite';
 
 export default defineConfig({
     root: 'src',
+    base: './',
+    css: {
+        preprocessorOptions: {
+            scss: { api: 'modern-compiler' }
+        }
+    },
     build: {
         outDir: '../dist',
         emptyOutDir: true,
-        minify: 'esbuild',
-        sourcemap: false,
         rollupOptions: {
             output: {
-                entryFileNames: `[name].[hash].js`,
-                chunkFileNames: `[name].[hash].js`,
-                assetFileNames: `[name].[hash].[ext]`
+                entryFileNames: `assets/[name].[hash].js`,
+                chunkFileNames: `assets/[name].[hash].js`,
+                assetFileNames: `assets/[name].[hash].[ext]`
             }
         }
     }
