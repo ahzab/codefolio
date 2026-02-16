@@ -9,11 +9,27 @@ const palette = document.getElementById('command-palette')!;
 const paletteInput = document.getElementById('palette-input') as HTMLInputElement;
 const paletteResults = document.getElementById('palette-results')!;
 const terminalLogs = document.getElementById('terminal-logs')!;
+const contactBtn = document.getElementById('contact-btn') as HTMLAnchorElement;
 
 const chars = '01ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
 const fontSize = 14;
 let columns = 0;
 let drops: number[] = [];
+
+
+if (contactBtn) {
+    contactBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+
+        const user = contactBtn.getAttribute('data-user');
+        const domain = contactBtn.getAttribute('data-domain');
+
+        if (user && domain) {
+            window.location.href = `mailto:${user}@${domain}`;
+        }
+    });
+}
+
 
 // --- Commands ---
 const commands = [
