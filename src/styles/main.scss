@@ -2,12 +2,24 @@
 @tailwind components;
 @tailwind utilities;
 
-body {
-  @apply bg-black text-white overflow-x-hidden;
+
+:root {
+  --font-sans: 'Inter', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+  --sky-primary: #38bdf8;
 }
 
-.mono { font-family: 'Space Mono', monospace; }
+body {
+  @apply bg-black text-white overflow-x-hidden;
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
 
+.mono {
+  font-family: var(--font-mono);
+  font-variant-ligatures: none;
+}
 #matrix-canvas {
   @apply fixed inset-0 z-0 opacity-15;
 }
