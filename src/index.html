@@ -7,8 +7,11 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap" media="print" onload="this.media='all'">
+    <link rel="preload" as="style"
+          href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap">
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap"
+          media="print" onload="this.media='all'">
 
     <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96"/>
     <link rel="icon" type="image/svg+xml" href="/favicon.svg"/>
@@ -171,8 +174,14 @@
             </div>
         </div>
 
-        <div class="grid-card group border-r border-b border-slate-200 dark:border-white/10"
-             onclick="this.classList.toggle('is-flipped')">
+        <div
+                role="button"
+                tabindex="1"
+                aria-label="Integrating LLMs and RAG pipelines into production
+                        applications to drive autonomous user logic."
+                onkeydown="if(event.key==='Enter'||event.key===' '){this.classList.toggle('is-flipped'); event.preventDefault();}"
+                class="grid-card group border-r border-b border-slate-200 dark:border-white/10"
+                onclick="this.classList.toggle('is-flipped')">
             <div class="card-inner">
                 <div class="card-front p-8 bg-white/40 dark:bg-black/20 backdrop-blur-sm">
                     <span class="mono-label text-indigo-600 dark:text-indigo-400">02 / Intelligence</span>
@@ -199,7 +208,13 @@
             </div>
         </div>
 
-        <div class="grid-card group border-b border-slate-200 dark:border-white/10"
+        <div role="button"
+             tabindex="2"
+             aria-label="IAutomated pipelines from code-commit to
+                        production. Managing global scale with Docker and ECS."
+             onkeydown="if(event.key==='Enter'||event.key===' '){this.classList.toggle('is-flipped'); event.preventDefault();}"
+
+             class="grid-card group border-b border-slate-200 dark:border-white/10"
              onclick="this.classList.toggle('is-flipped')">
             <div class="card-inner">
                 <div class="card-front p-8 bg-white/40 dark:bg-black/20 backdrop-blur-sm">
