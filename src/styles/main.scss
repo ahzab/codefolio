@@ -433,9 +433,14 @@ html.dark .hero[data-spotlight]::before {
 }
 
 /* ── Contact ────────────────────────────────────────── */
+.contact-lede {
+  @apply text-[15px] sm:text-base md:text-lg leading-relaxed max-w-xl mb-8 sm:mb-10 md:mb-12;
+  color: var(--muted);
+}
+
 .email {
   position: relative;
-  @apply serif text-[1.75rem] sm:text-3xl md:text-5xl tracking-tight inline-block mb-6 sm:mb-8 md:mb-10 max-w-full;
+  @apply serif text-[1.75rem] sm:text-3xl md:text-5xl tracking-tight inline-block mb-5 sm:mb-6 md:mb-8 max-w-full;
   padding-bottom: 0.15em;
   transition: color 0.3s ease;
   overflow: hidden;
@@ -472,6 +477,73 @@ html.dark .hero[data-spotlight]::before {
 
 .email:hover .email-text { transform: translateX(2px); }
 
+.contact-actions {
+  @apply flex flex-wrap items-center gap-3 sm:gap-4 mb-8 sm:mb-10 md:mb-12;
+}
+
+.copy-btn {
+  position: relative;
+  @apply mono text-[10px] uppercase tracking-[0.3em] inline-flex items-center gap-2 px-3 py-2 rounded-full;
+  border: 1px solid var(--hairline);
+  background: var(--bg-elevated);
+  color: var(--muted);
+  cursor: pointer;
+  transition: color 0.25s ease, border-color 0.25s ease, transform 0.25s ease, background 0.25s ease;
+  text-decoration: none;
+}
+
+.copy-btn:hover,
+.copy-btn:focus-visible {
+  color: var(--text);
+  border-color: var(--hairline-strong);
+  transform: translateY(-1px);
+  outline: none;
+}
+
+.copy-btn--ghost {
+  background: transparent;
+  border-color: var(--hairline);
+}
+
+.copy-btn__icon {
+  position: relative;
+  display: inline-flex;
+  width: 12px;
+  height: 12px;
+}
+
+.copy-btn__svg {
+  position: absolute;
+  inset: 0;
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+.copy-btn__svg--check {
+  opacity: 0;
+  transform: scale(0.6);
+}
+
+.copy-btn.is-copied {
+  color: var(--text);
+  border-color: var(--text);
+}
+
+.copy-btn.is-copied .copy-btn__svg--copy {
+  opacity: 0;
+  transform: scale(0.6);
+}
+
+.copy-btn.is-copied .copy-btn__svg--check {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.contact-actions__hint {
+  @apply mono text-[10px] uppercase tracking-[0.3em];
+  color: var(--muted);
+  opacity: 0.5;
+}
+
 .social {
   @apply mono text-[10px] uppercase tracking-[0.3em] flex flex-wrap gap-x-6 gap-y-3;
   color: var(--muted);
@@ -481,6 +553,7 @@ html.dark .hero[data-spotlight]::before {
   position: relative;
   display: inline-flex;
   align-items: center;
+  gap: 0.5rem;
   transition: color 0.25s ease;
   overflow: hidden;
 }
@@ -488,6 +561,17 @@ html.dark .hero[data-spotlight]::before {
 .social-link span {
   display: inline-block;
   transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.social-icon {
+  flex: none;
+  opacity: 0.7;
+  transition: opacity 0.25s ease, transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.social-link:hover .social-icon {
+  opacity: 1;
+  transform: translateY(-1px);
 }
 
 .social-link::after {
@@ -516,12 +600,57 @@ html.dark .hero[data-spotlight]::before {
 
 /* ── Footer ─────────────────────────────────────────── */
 .site-footer {
-  @apply flex items-center justify-between py-6 sm:py-8 mono text-[10px] uppercase tracking-[0.3em] gap-4;
+  @apply flex flex-wrap items-center justify-between py-6 sm:py-8 mono text-[10px] uppercase tracking-[0.3em] gap-x-6 gap-y-2;
   color: var(--muted);
   border-top: 1px solid var(--hairline);
 }
 
-.footer-meta { opacity: 0.7; }
+.footer-copy { opacity: 0.8; }
+
+.footer-top {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--muted);
+  transition: color 0.25s ease;
+  overflow: hidden;
+}
+
+.footer-top span {
+  display: inline-block;
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.footer-top svg {
+  flex: none;
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.footer-top::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 1.25rem;
+  bottom: -3px;
+  height: 1px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.footer-top:hover {
+  color: var(--text);
+}
+
+.footer-top:hover::after {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+
+.footer-top:hover svg { transform: translateY(-2px); }
+.footer-top:hover span { transform: translateY(-1px); }
 
 /* ── Reveal animation (on scroll) ────────────────────── */
 .reveal {
