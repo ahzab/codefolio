@@ -7,6 +7,9 @@ const themeButtons: Record<Theme, HTMLButtonElement | null> = {
 };
 const contactBtn = document.getElementById('contact-btn') as HTMLAnchorElement | null;
 
+const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+/* ── Theme ─────────────────────────────────────────── */
 const setTheme = (theme: Theme) => {
     const isDark =
         theme === 'dark' ||
@@ -32,6 +35,7 @@ window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () 
     }
 });
 
+/* ── Contact mailto ────────────────────────────────── */
 if (contactBtn) {
     contactBtn.addEventListener('click', (e) => {
         e.preventDefault();
@@ -41,4 +45,73 @@ if (contactBtn) {
             window.location.href = `mailto:${user}@${domain}`;
         }
     });
+}
+
+/* ── Scroll-triggered reveals ──────────────────────── */
+const revealTargets = document.querySelectorAll<HTMLElement>('[data-reveal]');
+
+if (prefersReducedMotion) {
+    revealTargets.forEach(el => el.classList.add('in-view'));
+} else {
+    const observer = new IntersectionObserver(
+        (entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('in-view');
+                    observer.unobserve(entry.target);
+                }
+            });
+        },
+        { threshold: 0.12, rootMargin: '0px 0px -8% 0px' }
+    );
+
+    revealTargets.forEach(el => observer.observe(el));
+}
+
+/* ── Email scramble on hover ───────────────────────── */
+if (contactBtn && !prefersReducedMotion) {
+    const finalText = contactBtn.getAttribute('data-text') ?? contactBtn.textContent ?? '';
+    const pool = '!<>-_\\/[]{}—=+*^?#abcdef0123456789@.';
+    let raf = 0;
+    let running = false;
+
+    const scramble = () => {
+        if (running) return;
+        running = true;
+        const start = performance.now();
+        const duration = 550;
+
+        const frame = (now: number) => {
+            const t = Math.min((now - start) / duration, 1);
+            const revealed = Math.floor(finalText.length * t);
+            let out = '';
+            for (let i = 0; i < finalText.length; i++) {
+                const ch = finalText[i];
+                if (i < revealed || ch === ' ') {
+                    out += ch;
+                } else {
+                    out += pool[Math.floor(Math.random() * pool.length)];
+                }
+            }
+            contactBtn.textContent = out;
+            if (t < 1) {
+                raf = requestAnimationFrame(frame);
+            } else {
+                contactBtn.textContent = finalText;
+                running = false;
+            }
+        };
+        raf = requestAnimationFrame(frame);
+    };
+
+    const cancel = () => {
+        cancelAnimationFrame(raf);
+        contactBtn.textContent = finalText;
+        running = false;
+    };
+
+    contactBtn.addEventListener('mouseenter', scramble);
+    contactBtn.addEventListener('focus', scramble);
+    contactBtn.addEventListener('mouseleave', cancel);
+    contactBtn.addEventListener('blur', cancel);
 }
