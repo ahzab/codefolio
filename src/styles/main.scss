@@ -145,20 +145,9 @@ section { @apply py-20 md:py-28; }
 
 .social a:hover { color: var(--text); }
 
-.status {
-  @apply mt-10 text-sm flex items-center gap-2;
-  color: var(--muted);
-}
-
-.status::before {
-  content: "";
-  @apply inline-block w-1.5 h-1.5 rounded-full bg-emerald-500;
-  box-shadow: 0 0 6px rgba(16, 185, 129, 0.6);
-}
-
 /* ── Footer ─────────────────────────────────────────── */
 .site-footer {
-  @apply flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 py-8 mono text-[10px] uppercase tracking-[0.3em];
+  @apply flex items-center py-8 mono text-[10px] uppercase tracking-[0.3em];
   color: var(--muted);
   border-top: 1px solid var(--hairline);
 }

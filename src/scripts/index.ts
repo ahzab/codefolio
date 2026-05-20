@@ -6,7 +6,6 @@ const themeButtons: Record<Theme, HTMLButtonElement | null> = {
     system: document.getElementById('btn-system') as HTMLButtonElement | null,
 };
 const contactBtn = document.getElementById('contact-btn') as HTMLAnchorElement | null;
-const timeEl = document.getElementById('local-time');
 
 const setTheme = (theme: Theme) => {
     const isDark =
@@ -43,17 +42,3 @@ if (contactBtn) {
         }
     });
 }
-
-const updateTime = () => {
-    if (!timeEl) return;
-    const opts: Intl.DateTimeFormatOptions = {
-        timeZone: 'Africa/Casablanca',
-        hour: '2-digit',
-        minute: '2-digit',
-        hour12: false,
-    };
-    timeEl.textContent = new Intl.DateTimeFormat('en-GB', opts).format(new Date());
-};
-
-updateTime();
-setInterval(updateTime, 30_000);
