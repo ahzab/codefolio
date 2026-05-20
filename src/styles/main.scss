@@ -209,10 +209,10 @@ body {
 .theme-toggle button[aria-pressed="true"] { color: var(--text); }
 
 /* ── Section structure ──────────────────────────────── */
-section { @apply py-16 sm:py-20 md:py-28; }
+section { @apply py-12 sm:py-20 md:py-28; }
 
 .section-head {
-  @apply flex items-center gap-4 mb-10 md:mb-12;
+  @apply flex items-center gap-4 mb-7 sm:mb-10 md:mb-12;
 }
 
 .section-no {
@@ -237,7 +237,7 @@ section { @apply py-16 sm:py-20 md:py-28; }
 
 /* ── Hero ───────────────────────────────────────────── */
 .hero {
-  @apply pt-12 pb-20 sm:pt-20 sm:pb-24 md:pt-32 md:pb-32;
+  @apply pt-10 pb-10 sm:pt-20 sm:pb-24 md:pt-32 md:pb-32;
   position: relative;
 }
 
@@ -268,7 +268,7 @@ html.dark .hero[data-spotlight]::before {
 }
 
 .eyebrow {
-  @apply mono text-[10px] uppercase tracking-[0.3em] mb-8 md:mb-10 inline-flex items-center gap-2;
+  @apply mono text-[10px] uppercase tracking-[0.3em] mb-6 sm:mb-8 md:mb-10 inline-flex items-center gap-2;
   color: var(--muted);
 }
 
@@ -281,9 +281,9 @@ html.dark .hero[data-spotlight]::before {
 }
 
 .display {
-  @apply serif text-[2.75rem] sm:text-5xl md:text-7xl tracking-tight mb-8 md:mb-10;
+  @apply serif text-[2.5rem] sm:text-5xl md:text-7xl tracking-tight mb-6 sm:mb-8 md:mb-10;
   font-weight: 400;
-  line-height: 1.02;
+  line-height: 1.05;
 }
 
 .display em {
@@ -333,7 +333,7 @@ html.dark .hero[data-spotlight]::before {
 }
 
 .hero-cta {
-  @apply mt-10 md:mt-12 flex items-center gap-4 flex-wrap;
+  @apply mt-8 sm:mt-10 md:mt-12 flex items-center gap-4 flex-wrap;
 }
 
 .cta-link {
@@ -425,20 +425,21 @@ html.dark .hero[data-spotlight]::before {
 
 /* ── About ──────────────────────────────────────────── */
 .prose {
-  @apply max-w-xl space-y-5 md:space-y-6;
+  @apply max-w-xl space-y-4 sm:space-y-5 md:space-y-6;
 }
 
 .prose p {
-  @apply text-base md:text-lg leading-relaxed;
+  @apply text-[15px] sm:text-base md:text-lg leading-relaxed;
 }
 
 /* ── Contact ────────────────────────────────────────── */
 .email {
   position: relative;
-  @apply serif text-[2rem] sm:text-3xl md:text-5xl tracking-tight inline-block mb-8 md:mb-10;
+  @apply serif text-[1.75rem] sm:text-3xl md:text-5xl tracking-tight inline-block mb-6 sm:mb-8 md:mb-10 max-w-full;
   padding-bottom: 0.15em;
   transition: color 0.3s ease;
   overflow: hidden;
+  word-break: break-all;
 }
 
 .email::before,
@@ -515,7 +516,7 @@ html.dark .hero[data-spotlight]::before {
 
 /* ── Footer ─────────────────────────────────────────── */
 .site-footer {
-  @apply flex items-center justify-between py-8 mono text-[10px] uppercase tracking-[0.3em] gap-4;
+  @apply flex items-center justify-between py-6 sm:py-8 mono text-[10px] uppercase tracking-[0.3em] gap-4;
   color: var(--muted);
   border-top: 1px solid var(--hairline);
 }
