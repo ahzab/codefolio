@@ -356,35 +356,6 @@ html.dark .hero[data-spotlight]::before {
 
 .cta-link:hover svg { transform: translateX(3px); }
 
-.hero-cta__sep {
-  width: 1px;
-  height: 16px;
-  background: var(--hairline);
-  display: none;
-
-  @screen sm { display: inline-block; }
-}
-
-.hero-cta__status {
-  @apply mono text-[10px] uppercase tracking-[0.3em] inline-flex items-center gap-2;
-  color: var(--muted);
-}
-
-.status-dot {
-  display: inline-block;
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: #10b981;
-  box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.55);
-  animation: status-pulse 2.4s ease-in-out infinite;
-}
-
-@keyframes status-pulse {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.5); }
-  50%      { box-shadow: 0 0 0 6px rgba(16, 185, 129, 0); }
-}
-
 /* ── Capabilities ───────────────────────────────────── */
 .cap-grid {
   @apply grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-5 md:gap-5;
