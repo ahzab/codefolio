@@ -7,6 +7,9 @@ const themeButtons: Record<Theme, HTMLButtonElement | null> = {
     system: document.getElementById('btn-system') as HTMLButtonElement | null,
 };
 const contactBtn = document.getElementById('contact-btn') as HTMLAnchorElement | null;
+const contactMail = document.getElementById('contact-mail') as HTMLAnchorElement | null;
+const copyBtn = document.getElementById('copy-btn') as HTMLButtonElement | null;
+const footerYear = document.getElementById('footer-year');
 
 /* ── Theme ───────────────────────────────────────────── */
 const setTheme = (theme: Theme) => {
@@ -40,15 +43,60 @@ window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () 
 });
 
 /* ── Contact mailto (obfuscated) ─────────────────────── */
-if (contactBtn) {
-    contactBtn.addEventListener('click', (e) => {
+const openMailto = (el: HTMLElement) => {
+    const user = el.getAttribute('data-user');
+    const domain = el.getAttribute('data-domain');
+    if (user && domain) {
+        window.location.href = `mailto:${user}@${domain}`;
+    }
+};
+
+[contactBtn, contactMail].forEach((el) => {
+    el?.addEventListener('click', (e) => {
         e.preventDefault();
+        openMailto(el);
+    });
+});
+
+/* ── Copy email to clipboard ─────────────────────────── */
+if (copyBtn && contactBtn) {
+    let resetTimer: number | undefined;
+    copyBtn.addEventListener('click', async () => {
         const user = contactBtn.getAttribute('data-user');
         const domain = contactBtn.getAttribute('data-domain');
-        if (user && domain) {
-            window.location.href = `mailto:${user}@${domain}`;
+        if (!user || !domain) return;
+        const email = `${user}@${domain}`;
+        const label = copyBtn.querySelector<HTMLElement>('.copy-btn__label');
+        const defaultText = label?.dataset.default ?? 'Copy address';
+        const copiedText = label?.dataset.copied ?? 'Copied';
+
+        try {
+            await navigator.clipboard.writeText(email);
+        } catch {
+            const ta = document.createElement('textarea');
+            ta.value = email;
+            ta.setAttribute('readonly', '');
+            ta.style.position = 'absolute';
+            ta.style.left = '-9999px';
+            document.body.appendChild(ta);
+            ta.select();
+            try { document.execCommand('copy'); } catch { /* noop */ }
+            document.body.removeChild(ta);
         }
+
+        copyBtn.classList.add('is-copied');
+        if (label) label.textContent = copiedText;
+        if (resetTimer) window.clearTimeout(resetTimer);
+        resetTimer = window.setTimeout(() => {
+            copyBtn.classList.remove('is-copied');
+            if (label) label.textContent = defaultText;
+        }, 1800);
     });
+}
+
+/* ── Footer year ─────────────────────────────────────── */
+if (footerYear) {
+    footerYear.textContent = String(new Date().getFullYear());
 }
 
 const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -175,6 +223,11 @@ document.querySelectorAll<HTMLAnchorElement>('a[href^="#"]').forEach((a) => {
     a.addEventListener('click', (e) => {
         const href = a.getAttribute('href');
         if (!href || href === '#') return;
+        if (href === '#top') {
+            e.preventDefault();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            return;
+        }
         const target = document.querySelector(href);
         if (!target) return;
         e.preventDefault();

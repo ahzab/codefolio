@@ -60,6 +60,7 @@
 
 <div class="container-narrow">
 
+    <a id="top" tabindex="-1" aria-hidden="true"></a>
     <header class="site-header">
         <a href="/" class="mark">
             <span class="mark-dot" aria-hidden="true"></span>
@@ -165,21 +166,66 @@
                 <h2 id="contact-title" class="section-title">Contact</h2>
                 <span class="section-rule" aria-hidden="true"></span>
             </header>
+            <p class="contact-lede">For project work, applied-AI conversations, or anything else worth building. I read everything and reply within a couple of days.</p>
             <a id="contact-btn" href="#" data-user="abdel" data-domain="codefolio.dev" class="email">
                 <span class="email-text">abdel@codefolio.dev</span>
             </a>
+            <div class="contact-actions">
+                <button id="copy-btn" class="copy-btn" type="button" aria-label="Copy email address">
+                    <span class="copy-btn__icon" aria-hidden="true">
+                        <svg class="copy-btn__svg copy-btn__svg--copy" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+                        </svg>
+                        <svg class="copy-btn__svg copy-btn__svg--check" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M20 6L9 17l-5-5"/>
+                        </svg>
+                    </span>
+                    <span class="copy-btn__label" data-default="Copy address" data-copied="Copied">Copy address</span>
+                </button>
+                <span class="contact-actions__hint" aria-hidden="true">or</span>
+                <a id="contact-mail" href="#" data-user="abdel" data-domain="codefolio.dev" class="copy-btn copy-btn--ghost">
+                    <span class="copy-btn__icon" aria-hidden="true">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="3" y="5" width="18" height="14" rx="2"/>
+                            <path d="m3 7 9 6 9-6"/>
+                        </svg>
+                    </span>
+                    <span class="copy-btn__label">Open in mail</span>
+                </a>
+            </div>
             <nav class="social" aria-label="Social links">
-                <a href="#" rel="noopener" class="social-link"><span>GitHub</span></a>
-                <a href="#" rel="noopener" class="social-link"><span>LinkedIn</span></a>
-                <a href="#" rel="noopener" class="social-link"><span>X</span></a>
+                <a href="https://github.com/ahzab" target="_blank" rel="noopener noreferrer" class="social-link">
+                    <svg class="social-icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.44 9.8 8.21 11.39.6.11.82-.26.82-.58 0-.29-.01-1.05-.02-2.06-3.34.73-4.04-1.61-4.04-1.61-.55-1.39-1.34-1.76-1.34-1.76-1.09-.74.08-.73.08-.73 1.2.08 1.84 1.23 1.84 1.23 1.07 1.83 2.8 1.3 3.48.99.11-.77.42-1.3.76-1.6-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.23-3.22-.12-.3-.53-1.52.12-3.17 0 0 1-.32 3.3 1.23a11.4 11.4 0 0 1 6 0c2.3-1.55 3.3-1.23 3.3-1.23.65 1.65.24 2.87.12 3.17.77.84 1.23 1.91 1.23 3.22 0 4.61-2.81 5.62-5.48 5.92.43.37.81 1.1.81 2.22 0 1.6-.02 2.88-.02 3.27 0 .32.22.7.83.58A12 12 0 0 0 24 12c0-6.63-5.37-12-12-12z"/>
+                    </svg>
+                    <span>GitHub</span>
+                </a>
+                <a href="https://www.linkedin.com/in/ahzab" target="_blank" rel="noopener noreferrer" class="social-link">
+                    <svg class="social-icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M20.45 20.45h-3.55v-5.57c0-1.33-.03-3.04-1.85-3.04-1.85 0-2.13 1.45-2.13 2.95v5.66H9.36V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.72v20.55C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.72V1.72C24 .77 23.2 0 22.22 0z"/>
+                    </svg>
+                    <span>LinkedIn</span>
+                </a>
+                <a href="https://x.com/ahzab" target="_blank" rel="noopener noreferrer" class="social-link">
+                    <svg class="social-icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231 5.45-6.231zm-1.161 17.52h1.833L7.084 4.126H5.117l11.966 15.644z"/>
+                    </svg>
+                    <span>X</span>
+                </a>
             </nav>
         </section>
 
     </main>
 
     <footer class="site-footer">
-        <span>© 2025 Codefolio.dev</span>
-        <span class="footer-meta">Crafted with care</span>
+        <span class="footer-copy">© <span id="footer-year">2026</span> Codefolio.dev · Crafted with care</span>
+        <a href="#top" class="footer-top" aria-label="Back to top">
+            <span>Back to top</span>
+            <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 19V5M5 12l7-7 7 7"/>
+            </svg>
+        </a>
     </footer>
 
 </div>
