@@ -4,6 +4,13 @@ export default {
     content: [
         "./src/**/*.{html,ts}",
     ],
+    corePlugins: {
+        // We define our own .container in src/styles/partials/_base.scss
+        // (max-w-6xl + responsive horizontal padding). Tailwind's default
+        // .container component would otherwise win by source order and
+        // collapse the page to its own responsive widths.
+        container: false,
+    },
     theme: {
         extend: {
             fontFamily: {

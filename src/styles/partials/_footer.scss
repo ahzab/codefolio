@@ -1,0 +1,75 @@
+/* ──────────────────────────────────────────────────────
+   FOOTER: oversized wordmark + bottom strip
+   ────────────────────────────────────────────────────── */
+.site-footer {
+  margin-top: 2rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--hairline);
+}
+
+.site-footer__top {
+  position: relative;
+  overflow: hidden;
+  margin-bottom: 1.5rem;
+}
+
+.footer-wordmark {
+  display: block;
+  font-family: 'Instrument Serif', Georgia, serif;
+  font-style: italic;
+  font-size: clamp(5rem, 22vw, 19rem);
+  line-height: 0.9;
+  letter-spacing: -0.04em;
+  color: var(--ink);
+  background: linear-gradient(180deg, var(--text) 30%, var(--accent) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-align: left;
+  user-select: none;
+  white-space: nowrap;
+}
+
+.site-footer__bottom {
+  @apply flex flex-wrap items-center justify-between gap-x-6 gap-y-2 py-6 sm:py-8;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--muted);
+  border-top: 1px solid var(--hairline);
+}
+
+.footer-copy { opacity: 0.85; }
+
+.footer-top {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--muted);
+  transition: color 0.25s ease;
+  overflow: hidden;
+  text-decoration: none;
+}
+
+.footer-top span { display: inline-block; transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1); }
+.footer-top svg  { flex: none; transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1); }
+
+.footer-top::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 1.25rem;
+  bottom: -3px;
+  height: 1px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.footer-top:hover { color: var(--accent); }
+.footer-top:hover::after { transform: scaleX(1); transform-origin: left; }
+.footer-top:hover svg  { transform: translateY(-2px); }
+.footer-top:hover span { transform: translateY(-1px); }

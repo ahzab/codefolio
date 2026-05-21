@@ -1,0 +1,54 @@
+/* ──────────────────────────────────────────────────────
+   DESIGN TOKENS
+   ────────────────────────────────────────────────────── */
+:root {
+  --bg: #f4efe4;
+  --bg-elevated: rgba(255, 251, 241, 0.7);
+  --bg-card: rgba(255, 251, 241, 0.55);
+  --paper: #fbf6ea;
+  --ink: #0c0c10;
+  --text: #0c0c10;
+  --muted: #5a5a62;
+  --muted-strong: #34343a;
+  --hairline: rgba(12, 12, 16, 0.1);
+  --hairline-strong: rgba(12, 12, 16, 0.22);
+  --accent: #ff3d14;
+  --accent-ink: #ffffff;
+  --accent-soft: rgba(255, 61, 20, 0.12);
+  --accent-glow: rgba(255, 61, 20, 0.35);
+  --orb-a: rgba(255, 90, 50, 0.18);
+  --orb-b: rgba(120, 119, 198, 0.16);
+  --orb-c: rgba(60, 200, 180, 0.12);
+  --grain-opacity: 0.045;
+  --shadow-soft: 0 1px 2px rgba(10, 10, 10, 0.05), 0 12px 30px -12px rgba(10, 10, 10, 0.14);
+  --shadow-card: 0 1px 0 rgba(255, 255, 255, 0.6) inset, 0 12px 40px -16px rgba(10, 10, 10, 0.18);
+  --display-tracking: -0.025em;
+  --header-h: 64px;
+}
+
+@media (min-width: 768px) {
+  :root { --header-h: 72px; }
+}
+
+html.dark {
+  --bg: #0a0a0d;
+  --bg-elevated: rgba(20, 20, 26, 0.65);
+  --bg-card: rgba(24, 24, 30, 0.55);
+  --paper: #14141a;
+  --ink: #f5efe2;
+  --text: #f3eee0;
+  --muted: #8c8c95;
+  --muted-strong: #c9c9d0;
+  --hairline: rgba(255, 255, 255, 0.08);
+  --hairline-strong: rgba(255, 255, 255, 0.22);
+  --accent: #ff5a32;
+  --accent-ink: #0a0a0d;
+  --accent-soft: rgba(255, 90, 50, 0.14);
+  --accent-glow: rgba(255, 90, 50, 0.45);
+  --orb-a: rgba(255, 90, 50, 0.22);
+  --orb-b: rgba(120, 119, 198, 0.2);
+  --orb-c: rgba(80, 200, 230, 0.16);
+  --grain-opacity: 0.06;
+  --shadow-soft: 0 1px 2px rgba(0, 0, 0, 0.4), 0 12px 30px -10px rgba(0, 0, 0, 0.6);
+  --shadow-card: 0 1px 0 rgba(255, 255, 255, 0.04) inset, 0 14px 40px -16px rgba(0, 0, 0, 0.7);
+}

@@ -1,0 +1,85 @@
+/* ──────────────────────────────────────────────────────
+   PROCESS LIST
+   ────────────────────────────────────────────────────── */
+.process-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  padding: 0;
+  margin: 0;
+  border-top: 1px solid var(--hairline);
+}
+
+.process-step {
+  display: grid;
+  grid-template-columns: 60px 1fr auto;
+  align-items: baseline;
+  gap: 1.25rem 1.25rem;
+  padding: 1.75rem 0.25rem;
+  border-bottom: 1px solid var(--hairline);
+  position: relative;
+  transition: padding-left 0.4s cubic-bezier(0.16, 1, 0.3, 1), background 0.3s ease;
+
+  @screen md {
+    grid-template-columns: 96px 1fr auto;
+    padding: 2.25rem 0.5rem;
+  }
+}
+
+.process-step::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: var(--accent);
+  transform: scaleY(0);
+  transform-origin: top;
+  transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.process-step:hover {
+  padding-left: 1.25rem;
+  background: linear-gradient(90deg, var(--accent-soft), transparent 60%);
+}
+.process-step:hover::before { transform: scaleY(1); }
+
+.process-step__index {
+  font-family: 'Instrument Serif', Georgia, serif;
+  font-style: italic;
+  font-size: clamp(1.75rem, 3.5vw, 2.75rem);
+  color: var(--muted);
+  line-height: 1;
+  transition: color 0.3s ease;
+}
+
+.process-step:hover .process-step__index { color: var(--accent); }
+
+.process-step__body h3 {
+  font-family: 'Instrument Serif', Georgia, serif;
+  font-size: clamp(1.25rem, 2.4vw, 1.85rem);
+  font-weight: 400;
+  letter-spacing: -0.01em;
+  margin-bottom: 0.4rem;
+  line-height: 1.15;
+}
+
+.process-step__body p {
+  color: var(--muted-strong);
+  font-size: 0.95rem;
+  line-height: 1.6;
+  max-width: 56ch;
+}
+
+.process-step__meta {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--muted);
+  white-space: nowrap;
+  align-self: flex-start;
+  padding-top: 0.4rem;
+}

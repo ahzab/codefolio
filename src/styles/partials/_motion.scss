@@ -1,0 +1,48 @@
+/* ──────────────────────────────────────────────────────
+   MOTION OVERRIDES
+   - prefers-reduced-motion: disable animations and the
+     scroll-driven parallax (restore base transforms)
+   - mobile breakpoint refinements that didn't fit
+     naturally inside a single section partial
+   ────────────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .ambient-orb { animation: none !important; }
+  .display .word-inner { transform: none; opacity: 1; }
+  .reveal { opacity: 1; transform: none; }
+  .work-card { opacity: 1; transform: none; }
+  .marquee__track { animation: none !important; }
+
+  /* Disable parallax: ignore --scroll-y, restore base transforms */
+  .hero-bg__letter--a   { transform: none !important; }
+  .hero-bg__letter--b   { transform: rotate(-12deg) !important; }
+  .ambient-rule--left   { transform: none !important; }
+  .ambient-rule--right  { transform: translateY(8vh) !important; }
+  .ambient-mark         { transform: none !important; }
+  .ambient-tag--coord   { transform: rotate(180deg) !important; }
+  .ambient-tag--proof   { transform: none !important; }
+  .ambient-tag--reg     { transform: translate(50%, -50%) !important; }
+}
+
+@media (max-width: 640px) {
+  .hero[data-spotlight]::before { display: none; }
+  .ambient-orb { filter: blur(60px); opacity: 0.7; }
+  .ambient-mark { width: 22px; height: 22px; }
+  .ambient-mark--tl, .ambient-mark--tr { top: 14px; }
+  .ambient-mark--bl, .ambient-mark--br { bottom: 14px; }
+  .ambient-mark--tl, .ambient-mark--bl { left: 14px; }
+  .ambient-mark--tr, .ambient-mark--br { right: 14px; }
+  .hero-bg__letter--a { font-size: 28rem; right: -20%; top: -2%; }
+  .footer-wordmark { letter-spacing: -0.02em; }
+  .marquee { margin: 0 -1.25rem; }
+  .process-step { grid-template-columns: 44px 1fr; }
+  .process-step__meta { grid-column: 1 / -1; padding-top: 0; padding-left: 0.25rem; }
+}

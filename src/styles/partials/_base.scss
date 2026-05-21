@@ -1,0 +1,74 @@
+/* ──────────────────────────────────────────────────────
+   BASE: html / body / fonts / layout shell / shared bits
+   ────────────────────────────────────────────────────── */
+* { -webkit-tap-highlight-color: transparent; }
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+  scroll-padding-top: 96px;
+}
+
+body {
+  background-color: var(--bg);
+  color: var(--text);
+  font-feature-settings: "ss01", "cv11";
+  overflow-x: hidden;
+  @apply font-sans antialiased;
+  transition: background-color 0.5s ease, color 0.5s ease;
+}
+
+.mono    { font-family: 'JetBrains Mono', monospace; }
+.serif   { font-family: 'Instrument Serif', Georgia, serif; }
+.grotesk { font-family: 'Space Grotesk', 'Inter', sans-serif; }
+
+.container { @apply max-w-6xl mx-auto px-5 sm:px-7 md:px-10; }
+
+/* Scroll progress bar (fixed at very top of viewport) */
+.scroll-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 2px;
+  width: 0;
+  background: linear-gradient(90deg, transparent, var(--accent) 50%, transparent);
+  z-index: 100;
+  pointer-events: none;
+  transition: width 0.08s linear;
+  opacity: 0.95;
+}
+
+/* Section heads , shared across work / process / stack / about / contact */
+main > section { @apply py-16 sm:py-24 md:py-32; }
+main > section.marquee { @apply py-6 sm:py-8; }
+
+.section-head { @apply flex items-center gap-4 mb-8 sm:mb-12 md:mb-16; }
+
+.section-no {
+  font-family: 'JetBrains Mono', monospace;
+  @apply text-[10px] uppercase tracking-[0.3em];
+  color: var(--muted);
+}
+
+.section-title { @apply text-base font-medium tracking-tight; }
+
+.section-rule {
+  flex: 1;
+  height: 1px;
+  background: var(--hairline);
+  transform-origin: left;
+  transform: scaleX(0);
+  transition: transform 1.1s cubic-bezier(0.16, 1, 0.3, 1) 0.15s;
+}
+
+.reveal.in-view .section-rule { transform: scaleX(1); }
+
+/* Scroll-triggered reveal wrapper */
+.reveal {
+  opacity: 0;
+  transform: translateY(14px);
+  transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+.reveal.in-view { opacity: 1; transform: translateY(0); }

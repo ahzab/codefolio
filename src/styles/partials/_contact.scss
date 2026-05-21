@@ -1,0 +1,184 @@
+/* ──────────────────────────────────────────────────────
+   CONTACT: lede, large italic email, copy/mail buttons,
+   social row
+   ────────────────────────────────────────────────────── */
+.contact-lede {
+  font-size: clamp(1.05rem, 1.6vw, 1.25rem);
+  line-height: 1.6;
+  color: var(--muted-strong);
+  max-width: 38rem;
+  margin-bottom: 2rem;
+
+  @screen md { margin-bottom: 2.5rem; }
+}
+
+.email {
+  position: relative;
+  font-family: 'Instrument Serif', Georgia, serif;
+  font-style: italic;
+  font-size: clamp(2rem, 6.5vw, 5rem);
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding-bottom: 0.18em;
+  margin-bottom: 1.5rem;
+  text-decoration: none;
+  color: var(--text);
+  transition: color 0.3s ease;
+  max-width: 100%;
+  word-break: break-word;
+
+  @screen md { margin-bottom: 2rem; }
+}
+
+.email::before,
+.email::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 1px;
+  background: var(--hairline-strong);
+}
+
+.email::after {
+  background: var(--accent);
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  height: 2px;
+}
+
+.email:hover { color: var(--accent); }
+.email:hover::after { transform: scaleX(1); transform-origin: left; }
+
+.email-text {
+  display: inline-block;
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.email:hover .email-text { transform: translateX(2px); }
+
+.email-arrow {
+  display: inline-flex;
+  color: var(--accent);
+  opacity: 0;
+  transform: translate(-12px, 8px) rotate(-20deg);
+  transition: opacity 0.4s ease, transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.email:hover .email-arrow {
+  opacity: 1;
+  transform: translate(0, 0) rotate(0);
+}
+
+.contact-actions {
+  @apply flex flex-wrap items-center gap-3 sm:gap-4 mb-10 sm:mb-12 md:mb-16;
+}
+
+.copy-btn {
+  position: relative;
+  font-family: 'JetBrains Mono', monospace;
+  @apply text-[10px] uppercase tracking-[0.3em] inline-flex items-center gap-2 px-3 py-2 rounded-full;
+  border: 1px solid var(--hairline);
+  background: var(--bg-elevated);
+  color: var(--muted);
+  cursor: pointer;
+  transition: color 0.25s ease, border-color 0.25s ease, transform 0.25s ease, background 0.25s ease;
+  text-decoration: none;
+}
+
+.copy-btn:hover,
+.copy-btn:focus-visible {
+  color: var(--text);
+  border-color: var(--hairline-strong);
+  transform: translateY(-1px);
+  outline: none;
+}
+
+.copy-btn--ghost {
+  background: transparent;
+  border-color: var(--hairline);
+}
+
+.copy-btn__icon {
+  position: relative;
+  display: inline-flex;
+  width: 12px;
+  height: 12px;
+}
+
+.copy-btn__svg {
+  position: absolute;
+  inset: 0;
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+.copy-btn__svg--check { opacity: 0; transform: scale(0.6); }
+
+.copy-btn.is-copied {
+  color: var(--accent);
+  border-color: var(--accent);
+}
+
+.copy-btn.is-copied .copy-btn__svg--copy { opacity: 0; transform: scale(0.6); }
+.copy-btn.is-copied .copy-btn__svg--check { opacity: 1; transform: scale(1); }
+
+.contact-actions__hint {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--muted);
+  opacity: 0.5;
+}
+
+.social {
+  font-family: 'JetBrains Mono', monospace;
+  @apply text-[10px] uppercase tracking-[0.3em] flex flex-wrap gap-x-6 gap-y-3;
+  color: var(--muted);
+}
+
+.social-link {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: color 0.25s ease;
+  overflow: hidden;
+  text-decoration: none;
+  color: inherit;
+}
+
+.social-link span {
+  display: inline-block;
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.social-icon {
+  flex: none;
+  opacity: 0.7;
+  transition: opacity 0.25s ease, transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.social-link:hover .social-icon { opacity: 1; transform: translateY(-1px); }
+
+.social-link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -3px;
+  height: 1px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.social-link:hover { color: var(--accent); }
+.social-link:hover::after { transform: scaleX(1); transform-origin: left; }
+.social-link:hover span { transform: translateY(-1px); }
