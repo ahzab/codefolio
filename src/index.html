@@ -56,7 +56,27 @@
     <div class="ambient-orb ambient-orb--a"></div>
     <div class="ambient-orb ambient-orb--b"></div>
     <div class="ambient-orb ambient-orb--c"></div>
-    <div class="ambient-grid"></div>
+
+    <span class="ambient-rule ambient-rule--left"></span>
+    <span class="ambient-rule ambient-rule--right"></span>
+
+    <svg class="ambient-mark ambient-mark--tl" viewBox="0 0 32 32">
+        <path d="M0 16 H18 M16 0 V18" stroke="currentColor" stroke-width="1" fill="none"/>
+    </svg>
+    <svg class="ambient-mark ambient-mark--tr" viewBox="0 0 32 32">
+        <path d="M32 16 H14 M16 0 V18" stroke="currentColor" stroke-width="1" fill="none"/>
+    </svg>
+    <svg class="ambient-mark ambient-mark--bl" viewBox="0 0 32 32">
+        <path d="M0 16 H18 M16 32 V14" stroke="currentColor" stroke-width="1" fill="none"/>
+    </svg>
+    <svg class="ambient-mark ambient-mark--br" viewBox="0 0 32 32">
+        <path d="M32 16 H14 M16 32 V14" stroke="currentColor" stroke-width="1" fill="none"/>
+    </svg>
+
+    <span class="ambient-tag ambient-tag--coord">N 50.85° / E 4.35°</span>
+    <span class="ambient-tag ambient-tag--proof">PROOF · 003 / OK TO PRINT</span>
+    <span class="ambient-tag ambient-tag--reg">⊕ REG</span>
+
     <div class="ambient-grain"></div>
 </div>
 
@@ -67,43 +87,60 @@
     <header class="site-header">
         <a href="/" class="mark" aria-label="Home">
             <span class="mark-glyph" aria-hidden="true">
+                <span class="mark-glyph__slash"></span>
                 <span class="mark-glyph__dot"></span>
             </span>
             <span class="mark-text">
                 <span class="mark-text__name">Abdel Ahzab</span>
-                <span class="mark-text__role">Engineer / Applied AI</span>
+                <span class="mark-text__role">
+                    <span class="mark-text__issue">No. 2026 / V2</span>
+                    <span class="mark-text__sep" aria-hidden="true">·</span>
+                    <span>Engineer / Applied AI</span>
+                </span>
             </span>
         </a>
+
         <nav class="primary-nav" aria-label="Primary">
-            <a href="#work">Work</a>
-            <a href="#process">Process</a>
-            <a href="#stack">Stack</a>
-            <a href="#contact">Contact</a>
+            <a href="#work"><span class="primary-nav__no" aria-hidden="true">01</span><span class="primary-nav__label">Work</span></a>
+            <a href="#process"><span class="primary-nav__no" aria-hidden="true">02</span><span class="primary-nav__label">Process</span></a>
+            <a href="#stack"><span class="primary-nav__no" aria-hidden="true">03</span><span class="primary-nav__label">Stack</span></a>
+            <a href="#contact"><span class="primary-nav__no" aria-hidden="true">04</span><span class="primary-nav__label">Contact</span></a>
         </nav>
-        <nav class="theme-toggle" role="group" aria-label="Theme">
-            <span class="theme-toggle__indicator" aria-hidden="true"></span>
-            <button id="btn-light" aria-label="Light theme" type="button">
-                <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
-                     fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <circle cx="12" cy="12" r="4"/>
-                    <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M22 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/>
-                </svg>
-            </button>
-            <button id="btn-dark" aria-label="Dark theme" type="button">
-                <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
-                     fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/>
-                </svg>
-            </button>
-            <button id="btn-system" aria-label="System theme" type="button">
-                <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
-                     fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <rect width="20" height="14" x="2" y="3" rx="2"/>
-                    <line x1="8" y1="21" x2="16" y2="21"/>
-                    <line x1="12" y1="17" x2="12" y2="21"/>
-                </svg>
-            </button>
-        </nav>
+
+        <div class="header-meta">
+            <a href="#contact" class="header-status" aria-label="Open for projects">
+                <span class="header-status__pulse" aria-hidden="true"></span>
+                <span class="header-status__label">
+                    <span class="header-status__line header-status__line--top">Brussels · <span id="header-clock">--:--</span></span>
+                    <span class="header-status__line header-status__line--bot">Open for projects</span>
+                </span>
+            </a>
+            <span class="header-divider" aria-hidden="true"></span>
+            <nav class="theme-toggle" role="group" aria-label="Theme">
+                <span class="theme-toggle__indicator" aria-hidden="true"></span>
+                <button id="btn-light" aria-label="Light theme" type="button">
+                    <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
+                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="4"/>
+                        <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M22 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/>
+                    </svg>
+                </button>
+                <button id="btn-dark" aria-label="Dark theme" type="button">
+                    <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
+                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/>
+                    </svg>
+                </button>
+                <button id="btn-system" aria-label="System theme" type="button">
+                    <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
+                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect width="20" height="14" x="2" y="3" rx="2"/>
+                        <line x1="8" y1="21" x2="16" y2="21"/>
+                        <line x1="12" y1="17" x2="12" y2="21"/>
+                    </svg>
+                </button>
+            </nav>
+        </div>
     </header>
 
     <main>
@@ -146,7 +183,7 @@
             <dl class="hero-meta" aria-label="At a glance">
                 <div class="hero-meta__item">
                     <dt>Since</dt>
-                    <dd>2017</dd>
+                    <dd>2015</dd>
                 </div>
                 <div class="hero-meta__item">
                     <dt>Stack</dt>

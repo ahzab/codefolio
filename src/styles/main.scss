@@ -130,16 +130,83 @@ body {
 @keyframes drift-b { 0% { transform: translate3d(0,0,0) scale(1); } 100% { transform: translate3d(-80px,-60px,0) scale(1.1); } }
 @keyframes drift-c { 0% { transform: translate3d(0,0,0) scale(1); } 100% { transform: translate3d(40px,-60px,0) scale(1.2); } }
 
-.ambient-grid {
+/* Asymmetric vertical column rules — like a newspaper margin line */
+.ambient-rule {
   position: absolute;
-  inset: 0;
-  background-image:
-    linear-gradient(var(--hairline) 1px, transparent 1px),
-    linear-gradient(90deg, var(--hairline) 1px, transparent 1px);
-  background-size: 80px 80px;
-  mask-image: radial-gradient(ellipse at center, rgba(0,0,0,0.5) 0%, transparent 70%);
-  -webkit-mask-image: radial-gradient(ellipse at center, rgba(0,0,0,0.5) 0%, transparent 70%);
-  opacity: 0.5;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: linear-gradient(180deg,
+    transparent 0,
+    var(--hairline) 14%,
+    var(--hairline) 86%,
+    transparent 100%);
+  opacity: 0.85;
+}
+
+.ambient-rule--left  { left: 13.2%; }
+.ambient-rule--right { right: 21.6%; transform: translateY(8vh); }
+
+/* Printer's crop marks pinned to the four corners */
+.ambient-mark {
+  position: absolute;
+  width: 32px;
+  height: 32px;
+  color: var(--muted);
+  opacity: 0.45;
+  pointer-events: none;
+}
+
+.ambient-mark--tl { top: 26px;    left: 26px; }
+.ambient-mark--tr { top: 26px;    right: 26px; }
+.ambient-mark--bl { bottom: 26px; left: 26px; }
+.ambient-mark--br { bottom: 26px; right: 26px; }
+
+/* Tiny mono annotation labels — like a designer's proof notes */
+.ambient-tag {
+  position: absolute;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--muted);
+  opacity: 0.55;
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+.ambient-tag--coord {
+  top: 70px;
+  left: 26px;
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  letter-spacing: 0.32em;
+}
+
+.ambient-tag--proof {
+  bottom: 70px;
+  right: 26px;
+  writing-mode: vertical-rl;
+}
+
+.ambient-tag--reg {
+  top: 38%;
+  right: 21.6%;
+  transform: translate(50%, -50%);
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  background: var(--bg);
+  padding: 0 6px;
+  color: var(--accent);
+  opacity: 0.6;
+}
+
+@media (max-width: 900px) {
+  .ambient-rule--right { right: 8%; }
+  .ambient-rule--left  { left: 6%; }
+  .ambient-tag--coord,
+  .ambient-tag--proof { display: none; }
+  .ambient-tag--reg   { right: 8%; }
 }
 
 .ambient-grain {
@@ -154,24 +221,27 @@ body {
    HEADER / NAV
    ────────────────────────────────────────────────────── */
 .site-header {
-  @apply flex items-center justify-between py-4 md:py-5 gap-4;
+  @apply flex items-center justify-between py-3 md:py-4 gap-4;
   position: sticky;
   top: 0;
   z-index: 50;
   background: var(--bg-elevated);
-  backdrop-filter: saturate(180%) blur(16px);
-  -webkit-backdrop-filter: saturate(180%) blur(16px);
-  border-bottom: 1px solid transparent;
+  backdrop-filter: saturate(180%) blur(18px);
+  -webkit-backdrop-filter: saturate(180%) blur(18px);
+  border-bottom: 1px solid var(--hairline);
   margin: 0 -1.25rem;
   padding-left: 1.25rem;
   padding-right: 1.25rem;
-  transition: border-color 0.3s ease, padding 0.3s ease;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
 
   @screen sm { margin: 0 -1.75rem; padding-left: 1.75rem; padding-right: 1.75rem; }
   @screen md { margin: 0 -2.5rem; padding-left: 2.5rem; padding-right: 2.5rem; }
 }
 
-.site-header.is-scrolled { border-bottom-color: var(--hairline); }
+.site-header.is-scrolled {
+  border-bottom-color: var(--hairline-strong);
+  box-shadow: 0 8px 24px -18px rgba(0, 0, 0, 0.35);
+}
 
 .mark {
   display: inline-flex;
@@ -231,23 +301,23 @@ body {
   flex-direction: column;
   line-height: 1.05;
 }
-.mark-text__name { @apply text-sm font-medium tracking-tight; }
+.mark-text__name { @apply text-sm font-medium tracking-tight; color: var(--text); }
 .mark-text__role {
   font-family: 'JetBrains Mono', monospace;
   font-size: 10px;
-  letter-spacing: 0.16em;
+  letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: var(--muted);
-  margin-top: 2px;
+  color: var(--muted-strong);
+  margin-top: 3px;
 }
 
 .primary-nav {
   display: none;
   align-items: center;
-  gap: 0;
+  gap: 0.15rem;
   font-family: 'JetBrains Mono', monospace;
   font-size: 11px;
-  letter-spacing: 0.18em;
+  letter-spacing: 0.2em;
   text-transform: uppercase;
 
   @screen md { display: inline-flex; }
@@ -255,30 +325,40 @@ body {
 
 .primary-nav a {
   position: relative;
-  padding: 0.5rem 0.85rem;
-  color: var(--muted);
+  padding: 0.55rem 0.9rem;
+  color: var(--muted-strong);
   text-decoration: none;
-  transition: color 0.25s ease;
+  border-radius: 999px;
+  transition: color 0.25s ease, background 0.25s ease;
 }
 .primary-nav a::before {
   content: "";
   position: absolute;
-  left: 0.85rem;
-  right: 0.85rem;
-  bottom: 0.35rem;
+  left: 0.9rem;
+  right: 0.9rem;
+  bottom: 0.38rem;
   height: 1px;
-  background: currentColor;
+  background: var(--accent);
   transform: scaleX(0);
   transform-origin: right;
   transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
-.primary-nav a:hover { color: var(--text); }
-.primary-nav a:hover::before { transform: scaleX(1); transform-origin: left; }
+.primary-nav a:hover,
+.primary-nav a:focus-visible {
+  color: var(--text);
+  background: var(--accent-soft);
+  outline: none;
+}
+.primary-nav a:hover::before,
+.primary-nav a:focus-visible::before {
+  transform: scaleX(1);
+  transform-origin: left;
+}
 
 .theme-toggle {
   position: relative;
   @apply inline-flex items-center gap-0.5 p-0.5 rounded-full;
-  border: 1px solid var(--hairline);
+  border: 1px solid var(--hairline-strong);
   background: var(--bg-elevated);
   isolation: isolate;
 }
@@ -288,7 +368,8 @@ body {
   top: 50%; left: 0;
   width: 28px; height: 28px;
   border-radius: 999px;
-  background: var(--hairline);
+  background: var(--accent-soft);
+  border: 1px solid var(--hairline-strong);
   transform: translate(2px, -50%);
   transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), background 0.3s ease;
   z-index: 0;
@@ -1322,7 +1403,11 @@ html.dark .hero-bg__letter--b { opacity: 0.1; }
 @media (max-width: 640px) {
   .hero[data-spotlight]::before { display: none; }
   .ambient-orb { filter: blur(60px); opacity: 0.7; }
-  .ambient-grid { background-size: 50px 50px; opacity: 0.35; }
+  .ambient-mark { width: 22px; height: 22px; }
+  .ambient-mark--tl, .ambient-mark--tr { top: 14px; }
+  .ambient-mark--bl, .ambient-mark--br { bottom: 14px; }
+  .ambient-mark--tl, .ambient-mark--bl { left: 14px; }
+  .ambient-mark--tr, .ambient-mark--br { right: 14px; }
   .hero-bg__letter--a { font-size: 28rem; right: -20%; top: -2%; }
   .footer-wordmark { letter-spacing: -0.02em; }
   .marquee { margin: 0 -1.25rem; }
