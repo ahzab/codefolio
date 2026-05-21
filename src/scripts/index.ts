@@ -26,7 +26,7 @@ const setTheme = (theme: Theme) => {
     themeToggle?.setAttribute('data-active', theme);
 
     const meta = document.querySelector<HTMLMetaElement>('meta[name="theme-color"]');
-    if (meta) meta.content = isDark ? '#0a0a0a' : '#fafaf9';
+    if (meta) meta.content = isDark ? '#0a0a0d' : '#f4efe4';
 };
 
 const currentTheme = (localStorage.getItem('theme') as Theme | null) ?? 'system';
@@ -100,6 +100,7 @@ if (footerYear) {
 }
 
 const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const isHoverDevice = window.matchMedia('(hover: hover)').matches;
 
 /* ── Split-text on display heading ───────────────────── */
 const splitDisplay = () => {
@@ -122,13 +123,18 @@ const splitDisplay = () => {
                         inner.className = 'word-inner';
                         inner.textContent = tok;
                         inner.style.transitionDelay = `${delayRef.value}s, ${delayRef.value}s`;
-                        delayRef.value += 0.06;
+                        delayRef.value += 0.05;
                         word.appendChild(inner);
                         out.push(word);
                     }
                 });
             } else if (child.nodeType === Node.ELEMENT_NODE) {
                 const el = child as HTMLElement;
+                // Don't split inside the rotator — it manages its own animation.
+                if (el.classList.contains('rotator')) {
+                    out.push(el.cloneNode(true));
+                    return;
+                }
                 const clone = el.cloneNode(false) as HTMLElement;
                 const children = walk(el, delayRef);
                 children.forEach((c) => clone.appendChild(c));
@@ -147,6 +153,34 @@ const splitDisplay = () => {
 };
 
 if (!prefersReducedMotion) splitDisplay();
+
+/* ── Rotating hero word ──────────────────────────────── */
+const rotator = document.querySelector<HTMLElement>('.rotator');
+if (rotator && !prefersReducedMotion) {
+    let words: string[] = [];
+    try {
+        words = JSON.parse(rotator.getAttribute('data-rotate') ?? '[]');
+    } catch {
+        words = [];
+    }
+    const wordEl = rotator.querySelector<HTMLElement>('.rotator__word');
+    if (wordEl && words.length > 1) {
+        let i = 0;
+        rotator.classList.add('is-in');
+        setInterval(() => {
+            rotator.classList.remove('is-in');
+            rotator.classList.add('is-out');
+            window.setTimeout(() => {
+                i = (i + 1) % words.length;
+                wordEl.textContent = words[i];
+                rotator.classList.remove('is-out');
+                // force reflow so transition replays
+                void rotator.offsetWidth;
+                rotator.classList.add('is-in');
+            }, 380);
+        }, 2600);
+    }
+}
 
 /* ── Scroll-triggered reveals ────────────────────────── */
 const reveals = document.querySelectorAll<HTMLElement>('.reveal');
@@ -191,7 +225,7 @@ onScroll();
 
 /* ── Hero spotlight (cursor-tracked) ─────────────────── */
 const hero = document.querySelector<HTMLElement>('[data-spotlight]');
-if (hero && !prefersReducedMotion && window.matchMedia('(hover: hover)').matches) {
+if (hero && !prefersReducedMotion && isHoverDevice) {
     let frame = 0;
     let active = false;
     const update = (x: number, y: number) => {
@@ -215,6 +249,52 @@ if (hero && !prefersReducedMotion && window.matchMedia('(hover: hover)').matches
     hero.addEventListener('pointerleave', () => {
         hero.classList.remove('is-active');
         active = false;
+    });
+}
+
+/* ── Per-card spotlight (work cards) ─────────────────── */
+if (!prefersReducedMotion && isHoverDevice) {
+    document.querySelectorAll<HTMLElement>('[data-tilt]').forEach((card) => {
+        let frame = 0;
+        card.addEventListener('pointermove', (e) => {
+            if (frame) return;
+            frame = requestAnimationFrame(() => {
+                const rect = card.getBoundingClientRect();
+                const mx = ((e.clientX - rect.left) / rect.width) * 100;
+                const my = ((e.clientY - rect.top) / rect.height) * 100;
+                card.style.setProperty('--mx', `${mx}%`);
+                card.style.setProperty('--my', `${my}%`);
+                frame = 0;
+            });
+        });
+    });
+}
+
+/* ── Magnetic buttons ────────────────────────────────── */
+if (!prefersReducedMotion && isHoverDevice) {
+    document.querySelectorAll<HTMLElement>('[data-magnetic]').forEach((el) => {
+        const strength = 0.22;
+        let frame = 0;
+        let rect: DOMRect | null = null;
+        const recalc = () => { rect = el.getBoundingClientRect(); };
+        el.addEventListener('pointerenter', recalc);
+        el.addEventListener('pointermove', (e) => {
+            if (frame) return;
+            frame = requestAnimationFrame(() => {
+                if (!rect) rect = el.getBoundingClientRect();
+                const cx = rect.left + rect.width / 2;
+                const cy = rect.top + rect.height / 2;
+                const dx = (e.clientX - cx) * strength;
+                const dy = (e.clientY - cy) * strength;
+                el.style.transform = `translate(${dx}px, ${dy}px)`;
+                frame = 0;
+            });
+        });
+        el.addEventListener('pointerleave', () => {
+            el.style.transform = '';
+            rect = null;
+        });
+        window.addEventListener('resize', () => { rect = null; });
     });
 }
 
