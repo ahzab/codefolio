@@ -99,6 +99,21 @@ if (footerYear) {
     footerYear.textContent = String(new Date().getFullYear());
 }
 
+/* ── Header live clock (Brussels) ───────────────────── */
+const headerClock = document.getElementById('header-clock');
+if (headerClock) {
+    const fmt = new Intl.DateTimeFormat('en-GB', {
+        hour: '2-digit',
+        minute: '2-digit',
+        timeZone: 'Europe/Brussels',
+        hour12: false,
+    });
+    const tick = () => { headerClock.textContent = fmt.format(new Date()); };
+    tick();
+    const msToNextMinute = 60_000 - (Date.now() % 60_000);
+    window.setTimeout(() => { tick(); window.setInterval(tick, 60_000); }, msToNextMinute);
+}
+
 const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 const isHoverDevice = window.matchMedia('(hover: hover)').matches;
 
