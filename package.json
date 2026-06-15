@@ -4,8 +4,9 @@
   "version": "2.0.26",
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "tsc && vite build",
+    "writing": "node scripts/build-writing.mjs",
+    "dev": "node scripts/build-writing.mjs && vite",
+    "build": "node scripts/build-writing.mjs && tsc && vite build",
     "preview": "vite preview",
     "lint": "tsc --noEmit"
   },
@@ -16,5 +17,9 @@
     "tailwindcss": "^3.4.1",
     "typescript": "^5.2.2",
     "vite": "^5.1.4"
+  },
+  "dependencies": {
+    "gray-matter": "^4.0.3",
+    "marked": "^18.0.5"
   }
 }

@@ -36,3 +36,6 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 /.idea
+
+# Generated article pages (markdown in src/writing/content/ is the source)
+src/writing/*.html
