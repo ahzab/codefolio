@@ -232,7 +232,6 @@ function shareLinks(url, title) {
     { name: 'LinkedIn', href: `https://www.linkedin.com/sharing/share-offsite/?url=${u}`, icon: ICONS.linkedin },
     { name: 'Facebook', href: `https://www.facebook.com/sharer/sharer.php?u=${u}`, icon: ICONS.facebook },
     { name: 'Reddit', href: `https://www.reddit.com/submit?url=${u}&title=${t}`, icon: ICONS.reddit },
-    { name: 'Hacker News', href: `https://news.ycombinator.com/submitlink?u=${u}&t=${t}`, icon: ICONS.hn },
   ];
 }
 
