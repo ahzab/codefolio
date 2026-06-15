@@ -356,10 +356,14 @@ function page({ slug, title = slug, description = '', tag = '', date = '', image
             </span>
             <span class="mark-text">
                 <span class="mark-text__name">Abdel Ahzab</span>
-                <span class="mark-text__role"><span>Engineer / Applied AI</span></span>
+                <span class="mark-text__role">
+                    <span class="mark-text__issue">No. 2026 / V2</span>
+                    <span class="mark-text__sep" aria-hidden="true">·</span>
+                    <span>Engineer / Applied AI</span>
+                </span>
             </span>
         </a>
-        <a href="/#writing" class="article__back">← Writing</a>
+        <a href="/writing" class="article__back">← Writing</a>
     </div>
 </header>
 
@@ -413,6 +417,22 @@ ${relatedSection(related)}
         try { document.execCommand('copy'); } catch (e) {}
         document.body.removeChild(ta); flash();
       }
+    });
+  });
+
+  // Social share links (Facebook/X/LinkedIn/Reddit) open in a centered popup.
+  // Falls back to the anchor's default new-tab behaviour if the popup is blocked.
+  document.querySelectorAll('a.article__share-btn, a.article__rail-btn').forEach(function (a) {
+    a.addEventListener('click', function (e) {
+      var w = 600, h = 540;
+      var dualLeft = window.screenLeft !== undefined ? window.screenLeft : screen.left;
+      var dualTop = window.screenTop !== undefined ? window.screenTop : screen.top;
+      var vw = window.innerWidth || document.documentElement.clientWidth || screen.width;
+      var vh = window.innerHeight || document.documentElement.clientHeight || screen.height;
+      var left = (vw - w) / 2 + dualLeft;
+      var top = (vh - h) / 2 + dualTop;
+      var popup = window.open(a.href, 'share-window', 'scrollbars=yes,width=' + w + ',height=' + h + ',top=' + top + ',left=' + left);
+      if (popup) { e.preventDefault(); popup.focus(); }
     });
   });
 
@@ -575,7 +595,11 @@ function writingIndex(gridHtml, pageNum, totalPages) {
             </span>
             <span class="mark-text">
                 <span class="mark-text__name">Abdel Ahzab</span>
-                <span class="mark-text__role"><span>Engineer / Applied AI</span></span>
+                <span class="mark-text__role">
+                    <span class="mark-text__issue">No. 2026 / V2</span>
+                    <span class="mark-text__sep" aria-hidden="true">·</span>
+                    <span>Engineer / Applied AI</span>
+                </span>
             </span>
         </a>
         <a href="/" class="article__back">← Home</a>
