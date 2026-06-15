@@ -180,6 +180,46 @@
 .article__share-btn:hover { border-color: var(--text); }
 .article__share-btn svg { display: block; }
 
+.article__share-btn.is-copied,
+.article__rail-btn.is-copied {
+  border-color: var(--accent, var(--text));
+  color: var(--accent, var(--text));
+}
+
+/* Floating share rail (desktop) */
+.article__rail { display: none; }
+
+@media (min-width: 1100px) {
+  .article__rail {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    position: fixed;
+    top: 50%;
+    left: calc((100vw - 46rem) / 2 - 3.5rem);
+    transform: translateY(-50%);
+    z-index: 5;
+  }
+}
+
+.article__rail-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  color: var(--text);
+  background: var(--bg-card);
+  border: 1px solid var(--hairline);
+  border-radius: 50%;
+  cursor: pointer;
+  text-decoration: none;
+  transition: border-color 0.3s ease, transform 0.2s ease;
+}
+
+.article__rail-btn:hover { border-color: var(--text); transform: translateY(-1px); }
+.article__rail-btn svg { display: block; }
+
 /* Article page */
 .article {
   max-width: 46rem;

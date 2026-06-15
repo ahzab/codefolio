@@ -169,6 +169,28 @@ function card({ slug, title = slug, tag = '', description = '', image = '' }) {
                 </a>`;
 }
 
+const ICONS = {
+  x: '<svg viewBox="0 0 24 24" width="15" height="15" fill="currentColor" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231 5.45-6.231zm-1.161 17.52h1.833L7.084 4.126H5.117l11.966 15.644z"/></svg>',
+  linkedin: '<svg viewBox="0 0 24 24" width="15" height="15" fill="currentColor" aria-hidden="true"><path d="M20.45 20.45h-3.55v-5.57c0-1.33-.03-3.04-1.85-3.04-1.85 0-2.13 1.45-2.13 2.95v5.66H9.36V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.72v20.55C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.72V1.72C24 .77 23.2 0 22.22 0z"/></svg>',
+  facebook: '<svg viewBox="0 0 24 24" width="15" height="15" fill="currentColor" aria-hidden="true"><path d="M22 12.06C22 6.5 17.52 2 12 2S2 6.5 2 12.06c0 5 3.66 9.15 8.44 9.94v-7.03H7.9v-2.9h2.54V9.85c0-2.5 1.49-3.89 3.78-3.89 1.09 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56v1.88h2.78l-.44 2.9h-2.34V22c4.78-.79 8.44-4.94 8.44-9.94z"/></svg>',
+  reddit: '<svg viewBox="0 0 24 24" width="15" height="15" fill="currentColor" aria-hidden="true"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm5.01 11.07c.02.16.03.32.03.49 0 2.5-2.91 4.52-6.5 4.52s-6.5-2.02-6.5-4.52c0-.17.01-.33.03-.49a1.6 1.6 0 1 1 1.77-2.55c.87-.6 2.06-.99 3.38-1.04l.71-3.35 2.36.5a1.13 1.13 0 1 0 .13-.6l-2.62-.55-.79 3.74c1.27.07 2.41.46 3.26 1.04a1.6 1.6 0 1 1 1.36 2.31zM9.25 12.5a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm5.5 0a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm-.36 3.2c-.5.5-1.4.74-2.39.74s-1.89-.24-2.39-.74a.27.27 0 1 0-.38.38c.66.66 1.73.86 2.77.86s2.11-.2 2.77-.86a.27.27 0 1 0-.38-.38z"/></svg>',
+  hn: '<svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 5l5 7 5-7M12 12v7"/></svg>',
+  copy: '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.07 0l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.07 0l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>',
+  native: '<svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 13.5l6.8 4M15.4 6.5l-6.8 4"/></svg>',
+};
+
+function shareLinks(url, title) {
+  const u = encodeURIComponent(url);
+  const t = encodeURIComponent(title);
+  return [
+    { name: 'X', href: `https://twitter.com/intent/tweet?text=${t}&url=${u}`, icon: ICONS.x },
+    { name: 'LinkedIn', href: `https://www.linkedin.com/sharing/share-offsite/?url=${u}`, icon: ICONS.linkedin },
+    { name: 'Facebook', href: `https://www.facebook.com/sharer/sharer.php?u=${u}`, icon: ICONS.facebook },
+    { name: 'Reddit', href: `https://www.reddit.com/submit?url=${u}&title=${t}`, icon: ICONS.reddit },
+    { name: 'Hacker News', href: `https://news.ycombinator.com/submitlink?u=${u}&t=${t}`, icon: ICONS.hn },
+  ];
+}
+
 function page({ slug, title = slug, description = '', tag = '', date = '', image = '', bodyHtml }) {
   const t = escapeHtml(title);
   const url = `${SITE}/writing/${slug}`;
@@ -178,8 +200,13 @@ function page({ slug, title = slug, description = '', tag = '', date = '', image
     : image.startsWith('http')
       ? image
       : `${SITE}${image.startsWith('/') ? '' : '/'}${image}`;
-  const shareUrl = encodeURIComponent(url);
-  const shareText = encodeURIComponent(title);
+  const links = shareLinks(url, title);
+  const barLinks = links
+    .map((l) => `<a class="article__share-btn" href="${l.href}" target="_blank" rel="noopener noreferrer" aria-label="Share on ${l.name}">${l.icon}</a>`)
+    .join('\n          ');
+  const railLinks = links
+    .map((l) => `<a class="article__rail-btn" href="${l.href}" target="_blank" rel="noopener noreferrer" aria-label="Share on ${l.name}">${l.icon}</a>`)
+    .join('\n      ');
   return `<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -233,6 +260,11 @@ function page({ slug, title = slug, description = '', tag = '', date = '', image
 </header>
 
 <main>
+    <div class="article__rail" aria-label="Share this article">
+      ${railLinks}
+      <button class="article__rail-btn" type="button" data-copy="${url}" aria-label="Copy link">${ICONS.copy}</button>
+      <button class="article__rail-btn article__share-native" type="button" hidden data-url="${url}" data-title="${t}" aria-label="Share">${ICONS.native}</button>
+    </div>
     <article class="article">
         <img class="article__hero" src="${hero}" alt="">
         <p class="article__meta">${escapeHtml(tag)} · ${escapeHtml(date)}</p>
@@ -244,12 +276,9 @@ function page({ slug, title = slug, description = '', tag = '', date = '', image
           </button>
           <span class="article__actions-spacer"></span>
           <span class="article__share-label">Share</span>
-          <button class="article__share-btn article__share-native" type="button" hidden data-url="${url}" data-title="${t}" aria-label="Share">
-            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 13.5l6.8 4M15.4 6.5l-6.8 4"/></svg>
-          </button>
-          <a class="article__share-btn" href="https://twitter.com/intent/tweet?text=${shareText}&url=${shareUrl}" target="_blank" rel="noopener noreferrer" aria-label="Share on X"><svg viewBox="0 0 24 24" width="13" height="13" fill="currentColor" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231 5.45-6.231zm-1.161 17.52h1.833L7.084 4.126H5.117l11.966 15.644z"/></svg></a>
-          <a class="article__share-btn" href="https://www.linkedin.com/sharing/share-offsite/?url=${shareUrl}" target="_blank" rel="noopener noreferrer" aria-label="Share on LinkedIn"><svg viewBox="0 0 24 24" width="13" height="13" fill="currentColor" aria-hidden="true"><path d="M20.45 20.45h-3.55v-5.57c0-1.33-.03-3.04-1.85-3.04-1.85 0-2.13 1.45-2.13 2.95v5.66H9.36V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.72v20.55C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.72V1.72C24 .77 23.2 0 22.22 0z"/></svg></a>
-          <button class="article__share-btn" type="button" data-copy="${url}">Copy link</button>
+          <button class="article__share-btn article__share-native" type="button" hidden data-url="${url}" data-title="${t}" aria-label="Share">${ICONS.native}</button>
+          ${barLinks}
+          <button class="article__share-btn" type="button" data-copy="${url}" aria-label="Copy link">${ICONS.copy}</button>
         </div>
 ${bodyHtml}
         <div class="article__footer">
@@ -260,37 +289,38 @@ ${bodyHtml}
 
 <script>
 (function () {
-  // Copy-link share
-  var copyBtn = document.querySelector('.article__share-btn[data-copy]');
-  if (copyBtn) {
-    copyBtn.addEventListener('click', function () {
-      var link = copyBtn.getAttribute('data-copy');
-      var done = function () {
-        var prev = copyBtn.textContent;
-        copyBtn.textContent = 'Copied';
-        setTimeout(function () { copyBtn.textContent = prev; }, 1500);
+  // Copy-link share (toolbar + rail)
+  document.querySelectorAll('[data-copy]').forEach(function (cb) {
+    cb.addEventListener('click', function () {
+      var link = cb.getAttribute('data-copy');
+      var flash = function () {
+        cb.classList.add('is-copied');
+        var prev = cb.getAttribute('aria-label');
+        cb.setAttribute('aria-label', 'Link copied');
+        setTimeout(function () { cb.classList.remove('is-copied'); cb.setAttribute('aria-label', prev); }, 1400);
       };
       if (navigator.clipboard && navigator.clipboard.writeText) {
-        navigator.clipboard.writeText(link).then(done, done);
+        navigator.clipboard.writeText(link).then(flash, flash);
       } else {
         var ta = document.createElement('textarea');
         ta.value = link; document.body.appendChild(ta); ta.select();
         try { document.execCommand('copy'); } catch (e) {}
-        document.body.removeChild(ta); done();
+        document.body.removeChild(ta); flash();
       }
     });
-  }
+  });
 
-  // Native share sheet (mobile and supported browsers)
-  var nativeBtn = document.querySelector('.article__share-native');
-  if (nativeBtn && navigator.share) {
-    nativeBtn.hidden = false;
-    nativeBtn.addEventListener('click', function () {
-      navigator.share({
-        title: nativeBtn.getAttribute('data-title') || document.title,
-        text: nativeBtn.getAttribute('data-title') || '',
-        url: nativeBtn.getAttribute('data-url') || location.href
-      }).catch(function () {});
+  // Native share sheet (toolbar + rail), where supported
+  if (navigator.share) {
+    document.querySelectorAll('.article__share-native').forEach(function (nb) {
+      nb.hidden = false;
+      nb.addEventListener('click', function () {
+        navigator.share({
+          title: nb.getAttribute('data-title') || document.title,
+          text: nb.getAttribute('data-title') || '',
+          url: nb.getAttribute('data-url') || location.href
+        }).catch(function () {});
+      });
     });
   }
 
