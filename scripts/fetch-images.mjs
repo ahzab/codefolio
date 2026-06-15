@@ -11,6 +11,20 @@ import matter from 'gray-matter';
 const root = dirname(fileURLToPath(import.meta.url));
 const contentDir = join(root, '../src/writing/content');
 const imgDir = join(root, '../public/writing/img');
+
+// Load PEXELS_API_KEY from .env.local / .env (gitignored) if not in the environment.
+if (!process.env.PEXELS_API_KEY) {
+  for (const name of ['.env.local', '.env']) {
+    const p = join(root, '..', name);
+    if (existsSync(p)) {
+      const m = readFileSync(p, 'utf8').match(/^\s*PEXELS_API_KEY\s*=\s*(.+?)\s*$/m);
+      if (m) {
+        process.env.PEXELS_API_KEY = m[1].replace(/^['"]|['"]$/g, '');
+        break;
+      }
+    }
+  }
+}
 const KEY = process.env.PEXELS_API_KEY;
 
 if (!KEY) {
@@ -35,6 +49,13 @@ function queryFor(data) {
   return QUERY_BY_TAG[t] || `${data.tag || 'technology'} abstract`;
 }
 
+// Deterministic per-slug index so posts sharing a query still get distinct photos.
+function hashStr(s) {
+  let h = 0;
+  for (let i = 0; i < s.length; i++) h = (h * 31 + s.charCodeAt(i)) >>> 0;
+  return h;
+}
+
 const files = readdirSync(contentDir).filter((f) => f.endsWith('.md'));
 let got = 0;
 
@@ -50,7 +71,7 @@ for (const file of files) {
   const q = queryFor(data);
   try {
     const res = await fetch(
-      `https://api.pexels.com/v1/search?query=${encodeURIComponent(q)}&orientation=landscape&size=large&per_page=1`,
+      `https://api.pexels.com/v1/search?query=${encodeURIComponent(q)}&orientation=landscape&size=large&per_page=20`,
       { headers: { Authorization: KEY } }
     );
     if (!res.ok) {
@@ -58,11 +79,12 @@ for (const file of files) {
       continue;
     }
     const json = await res.json();
-    const photo = json.photos && json.photos[0];
-    if (!photo) {
+    const photos = json.photos || [];
+    if (!photos.length) {
       console.log(`  ${slug}: no result for "${q}" — keeping SVG`);
       continue;
     }
+    const photo = photos[hashStr(slug) % photos.length];
     const src = photo.src.landscape || photo.src.large2x || photo.src.large || photo.src.original;
     const imgRes = await fetch(src);
     if (!imgRes.ok) {

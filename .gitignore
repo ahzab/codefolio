@@ -42,3 +42,4 @@ src/writing/*.html
 
 # Generated hero images (markdown is the source)
 public/writing/hero/*.svg
+.env.local
