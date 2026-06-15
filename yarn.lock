@@ -636,6 +636,11 @@ hasown@^2.0.2:
   dependencies:
     function-bind "^1.1.2"
 
+highlight.js@^11.11.1:
+  version "11.11.1"
+  resolved "https://registry.yarnpkg.com/highlight.js/-/highlight.js-11.11.1.tgz#fca06fa0e5aeecf6c4d437239135fabc15213585"
+  integrity sha512-Xwwo44whKBVCYoliBQwaPvtd/2tYFkRQtXDWj1nackaV2JPXx3L0+Jvd8/qCJ2p+ML0/XVkJ2q+Mr+UVdpJK5w==
+
 immutable@^5.0.2:
   version "5.1.4"
   resolved "https://registry.yarnpkg.com/immutable/-/immutable-5.1.4.tgz#e3f8c1fe7b567d56cf26698f31918c241dae8c1f"
@@ -704,6 +709,11 @@ lines-and-columns@^1.1.6:
   version "1.2.4"
   resolved "https://registry.yarnpkg.com/lines-and-columns/-/lines-and-columns-1.2.4.tgz#eca284f75d2965079309dc0ad9255abb2ebc1632"
   integrity sha512-7ylylesZQ/PV29jhEDl3Ufjo6ZX7gCqJr5F7PKrqc93v7fzSymt1BpwEU8nAUXs8qzzvqhbjhK5QZg6Mt/HkBg==
+
+marked-highlight@^2.2.4:
+  version "2.2.4"
+  resolved "https://registry.yarnpkg.com/marked-highlight/-/marked-highlight-2.2.4.tgz#e8d9a3b9ab8cdba8c255a5bcca9d922716befa5e"
+  integrity sha512-PZxisNMJDduSjc0q6uvjsnqqHCXc9s0eyzxDO9sB1eNGJnd/H1/Fu+z6g/liC1dfJdFW4SftMwMlLvsBhUPrqQ==
 
 marked@^18.0.5:
   version "18.0.5"

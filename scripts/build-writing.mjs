@@ -5,6 +5,19 @@ import { fileURLToPath } from 'url';
 import { dirname, join, basename } from 'path';
 import matter from 'gray-matter';
 import { marked } from 'marked';
+import { markedHighlight } from 'marked-highlight';
+import hljs from 'highlight.js';
+
+// Syntax-highlight code blocks at build time (Atom One Dark via _code.scss).
+marked.use(
+  markedHighlight({
+    langPrefix: 'hljs language-',
+    highlight(code, lang) {
+      const language = lang && hljs.getLanguage(lang) ? lang : 'plaintext';
+      return hljs.highlight(code, { language }).value;
+    },
+  })
+);
 
 const root = dirname(fileURLToPath(import.meta.url));
 const contentDir = join(root, '../src/writing/content');
