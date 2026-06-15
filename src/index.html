@@ -424,36 +424,71 @@
                 <span class="section-rule" aria-hidden="true"></span>
             </header>
             <div class="writing-grid">
+                <!-- writing:cards:start -->
                 <a class="writing-card" href="writing/structured-outputs.html">
+                    <img class="writing-card__hero" src="/writing/hero/structured-outputs.svg" alt="" loading="lazy">
                     <span class="writing-card__tag">Applied AI</span>
                     <h3 class="writing-card__title">Stop parsing LLM text. Use tool calls.</h3>
-                    <p class="writing-card__excerpt">Asking a model for JSON and parsing the text breaks in production. Define a typed tool and let the model fill it.</p>
+                    <p class="writing-card__excerpt">Asking a model for JSON and parsing the text breaks in production. Define a typed tool, force the model to call it, and get validated structured data back.</p>
                     <span class="writing-card__more">Read →</span>
                 </a>
                 <a class="writing-card" href="writing/prompt-caching.html">
+                    <img class="writing-card__hero" src="/writing/hero/prompt-caching.svg" alt="" loading="lazy">
                     <span class="writing-card__tag">Applied AI</span>
                     <h3 class="writing-card__title">Cut your LLM bill with prompt caching</h3>
-                    <p class="writing-card__excerpt">Most AI features resend the same large prompt every call. Cache the stable prefix and pay a fraction on every reuse.</p>
+                    <p class="writing-card__excerpt">Most AI features resend the same large prompt every call and pay full price for it. Cache the stable prefix and pay a fraction on every reuse.</p>
                     <span class="writing-card__more">Read →</span>
                 </a>
                 <a class="writing-card" href="writing/supabase-rls.html">
+                    <img class="writing-card__hero" src="/writing/hero/supabase-rls.svg" alt="" loading="lazy">
                     <span class="writing-card__tag">Stack</span>
                     <h3 class="writing-card__title">The Supabase mistake that exposes your data</h3>
-                    <p class="writing-card__excerpt">Filtering in queries and hiding it in the UI feels secure. Without Row Level Security, your anon key reads everything.</p>
-                    <span class="writing-card__more">Read →</span>
-                </a>
-                <a class="writing-card" href="writing/profile-audit.html">
-                    <span class="writing-card__tag">Building</span>
-                    <h3 class="writing-card__title">I audited my own online presence. It was a mess.</h3>
-                    <p class="writing-card__excerpt">Three profiles, three different people, none of them the one actually building. Your profiles are your storefront.</p>
+                    <p class="writing-card__excerpt">Filtering data in your queries and hiding it in the UI feels secure. Without Row Level Security, anyone with your public anon key can read the whole table.</p>
                     <span class="writing-card__more">Read →</span>
                 </a>
                 <a class="writing-card" href="writing/fake-door-honesty.html">
+                    <img class="writing-card__hero" src="/writing/hero/fake-door-honesty.svg" alt="" loading="lazy">
                     <span class="writing-card__tag">Building</span>
                     <h3 class="writing-card__title">I almost listed a product I never built</h3>
-                    <p class="writing-card__excerpt">A fake-door landing page is a great way to test demand. It is not a product, and calling it one costs trust.</p>
+                    <p class="writing-card__excerpt">A fake-door landing page is a great way to test demand. It is not a product. Calling it one costs the trust that building in public runs on.</p>
                     <span class="writing-card__more">Read →</span>
                 </a>
+                <a class="writing-card" href="writing/profile-audit.html">
+                    <img class="writing-card__hero" src="/writing/hero/profile-audit.svg" alt="" loading="lazy">
+                    <span class="writing-card__tag">Building</span>
+                    <h3 class="writing-card__title">I audited my own online presence. It was a mess.</h3>
+                    <p class="writing-card__excerpt">Three profiles, three different people, none of them the one actually building. Your profiles are your storefront, and mine contradicted each other.</p>
+                    <span class="writing-card__more">Read →</span>
+                </a>
+                <a class="writing-card" href="writing/nextjs-server-actions.html">
+                    <img class="writing-card__hero" src="/writing/hero/nextjs-server-actions.svg" alt="" loading="lazy">
+                    <span class="writing-card__tag">Next.js</span>
+                    <h3 class="writing-card__title">Your Next.js Server Action is a public endpoint</h3>
+                    <p class="writing-card__excerpt">A server action looks like a function call, but it compiles to a public POST endpoint anyone can hit with any arguments. Authenticate and validate inside it.</p>
+                    <span class="writing-card__more">Read →</span>
+                </a>
+                <a class="writing-card" href="writing/nextjs-client-bundle.html">
+                    <img class="writing-card__hero" src="/writing/hero/nextjs-client-bundle.svg" alt="" loading="lazy">
+                    <span class="writing-card__tag">Next.js</span>
+                    <h3 class="writing-card__title">What actually ends up in your Next.js client bundle</h3>
+                    <p class="writing-card__excerpt">NEXT_PUBLIC env vars and anything a client component imports ship to the browser. One import line can leak a secret. The server-only package makes it impossible.</p>
+                    <span class="writing-card__more">Read →</span>
+                </a>
+                <a class="writing-card" href="writing/stripe-webhook-verification.html">
+                    <img class="writing-card__hero" src="/writing/hero/stripe-webhook-verification.svg" alt="" loading="lazy">
+                    <span class="writing-card__tag">Security</span>
+                    <h3 class="writing-card__title">Verify your Stripe webhooks, or anyone can grant themselves Pro</h3>
+                    <p class="writing-card__excerpt">An unverified webhook endpoint is a public URL that upgrades accounts. Without signature verification, anyone can POST a fake checkout.session.completed and unlock your paid plan.</p>
+                    <span class="writing-card__more">Read →</span>
+                </a>
+                <a class="writing-card" href="writing/cut-the-feature-list.html">
+                    <img class="writing-card__hero" src="/writing/hero/cut-the-feature-list.svg" alt="" loading="lazy">
+                    <span class="writing-card__tag">Building</span>
+                    <h3 class="writing-card__title">Cut the feature list before you build it</h3>
+                    <p class="writing-card__excerpt">Shipping solo means the bottleneck is always you. The way to ship is not to work faster, it is to build less. Cut to the one thing that tests the bet.</p>
+                    <span class="writing-card__more">Read →</span>
+                </a>
+                <!-- writing:cards:end -->
             </div>
         </section>
 

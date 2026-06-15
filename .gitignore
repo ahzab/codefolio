@@ -39,3 +39,6 @@ next-env.d.ts
 
 # Generated article pages (markdown in src/writing/content/ is the source)
 src/writing/*.html
+
+# Generated hero images (markdown is the source)
+public/writing/hero/*.svg

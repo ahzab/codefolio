@@ -48,6 +48,25 @@
   text-transform: uppercase;
 }
 
+.writing-card__hero {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  border-radius: 12px;
+  border: 1px solid var(--hairline);
+  display: block;
+}
+
+.article__hero {
+  width: 100%;
+  aspect-ratio: 12 / 5;
+  object-fit: cover;
+  border-radius: 18px;
+  border: 1px solid var(--hairline);
+  display: block;
+  margin-bottom: 2rem;
+}
+
 /* Article page */
 .article {
   max-width: 46rem;

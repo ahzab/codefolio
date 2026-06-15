@@ -1,6 +1,6 @@
 // Build step: convert src/writing/content/*.md into styled article HTML pages.
 // Markdown (with frontmatter) is the source of truth; the .html output is gitignored.
-import { readFileSync, writeFileSync, readdirSync } from 'fs';
+import { readFileSync, writeFileSync, readdirSync, mkdirSync } from 'fs';
 import { fileURLToPath } from 'url';
 import { dirname, join, basename } from 'path';
 import matter from 'gray-matter';
@@ -22,6 +22,8 @@ marked.use(
 const root = dirname(fileURLToPath(import.meta.url));
 const contentDir = join(root, '../src/writing/content');
 const outDir = join(root, '../src/writing');
+const heroDir = join(root, '../public/writing/hero');
+const indexPath = join(root, '../src/index.html');
 
 const FONTS =
   'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;700&display=swap';
@@ -33,6 +35,61 @@ function escapeHtml(s = '') {
     .replace(/</g, '&lt;')
     .replace(/>/g, '&gt;')
     .replace(/"/g, '&quot;');
+}
+
+// Deterministic, on-brand hero banner per post (no external images / licensing).
+function hashStr(s) {
+  let h = 0;
+  for (let i = 0; i < s.length; i++) h = (h * 31 + s.charCodeAt(i)) >>> 0;
+  return h;
+}
+
+function genHero(slug, tag) {
+  const h = hashStr(slug);
+  const h1 = h % 360;
+  const h2 = (h1 + 150) % 360;
+  const h3 = (h1 + 45) % 360;
+  const bx = 18 + (h % 30);
+  const by = 22 + ((h >> 3) % 30);
+  const cx = 64 + ((h >> 6) % 26);
+  const cy = 58 + ((h >> 9) % 26);
+  const label = escapeHtml(String(tag).toUpperCase());
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 500" width="1200" height="500" preserveAspectRatio="xMidYMid slice" role="img" aria-hidden="true">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="hsl(${h1}, 45%, 13%)"/>
+      <stop offset="1" stop-color="hsl(${h2}, 42%, 8%)"/>
+    </linearGradient>
+    <radialGradient id="b1" cx="${bx}%" cy="${by}%" r="46%">
+      <stop offset="0" stop-color="hsl(${h1}, 82%, 62%)" stop-opacity="0.5"/>
+      <stop offset="1" stop-color="hsl(${h1}, 82%, 62%)" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="b2" cx="${cx}%" cy="${cy}%" r="42%">
+      <stop offset="0" stop-color="hsl(${h3}, 85%, 60%)" stop-opacity="0.4"/>
+      <stop offset="1" stop-color="hsl(${h3}, 85%, 60%)" stop-opacity="0"/>
+    </radialGradient>
+    <pattern id="dots" width="26" height="26" patternUnits="userSpaceOnUse">
+      <circle cx="2" cy="2" r="1.1" fill="#ffffff" opacity="0.06"/>
+    </pattern>
+  </defs>
+  <rect width="1200" height="500" fill="url(#bg)"/>
+  <rect width="1200" height="500" fill="url(#b1)"/>
+  <rect width="1200" height="500" fill="url(#b2)"/>
+  <rect width="1200" height="500" fill="url(#dots)"/>
+  <path d="M1066 360 h74 M1103 323 v74" stroke="#ffffff" stroke-opacity="0.22" stroke-width="2"/>
+  <text x="58" y="452" font-family="'JetBrains Mono', ui-monospace, monospace" font-size="26" letter-spacing="8" fill="#ffffff" fill-opacity="0.7">${label}</text>
+</svg>
+`;
+}
+
+function card({ slug, title = slug, tag = '', description = '' }) {
+  return `                <a class="writing-card" href="writing/${slug}.html">
+                    <img class="writing-card__hero" src="/writing/hero/${slug}.svg" alt="" loading="lazy">
+                    <span class="writing-card__tag">${escapeHtml(tag)}</span>
+                    <h3 class="writing-card__title">${escapeHtml(title)}</h3>
+                    <p class="writing-card__excerpt">${escapeHtml(description)}</p>
+                    <span class="writing-card__more">Read →</span>
+                </a>`;
 }
 
 function page({ slug, title = slug, description = '', tag = '', date = '', bodyHtml }) {
@@ -91,6 +148,7 @@ function page({ slug, title = slug, description = '', tag = '', date = '', bodyH
 
 <main>
     <article class="article">
+        <img class="article__hero" src="/writing/hero/${slug}.svg" alt="">
         <p class="article__meta">${escapeHtml(tag)} · ${escapeHtml(date)}</p>
         <h1>${t}</h1>
 ${bodyHtml}
@@ -106,12 +164,31 @@ ${bodyHtml}
 `;
 }
 
-const files = readdirSync(contentDir).filter((f) => f.endsWith('.md'));
-for (const file of files) {
-  const slug = basename(file, '.md');
-  const { data, content } = matter(readFileSync(join(contentDir, file), 'utf8'));
+const posts = readdirSync(contentDir)
+  .filter((f) => f.endsWith('.md'))
+  .map((file) => {
+    const slug = basename(file, '.md');
+    const { data, content } = matter(readFileSync(join(contentDir, file), 'utf8'));
+    return { slug, data, content };
+  })
+  .sort((a, b) => (a.data.order ?? 999) - (b.data.order ?? 999));
+
+mkdirSync(heroDir, { recursive: true });
+
+const cards = [];
+for (const { slug, data, content } of posts) {
   const bodyHtml = marked.parse(content);
   writeFileSync(join(outDir, `${slug}.html`), page({ slug, ...data, bodyHtml }));
+  writeFileSync(join(heroDir, `${slug}.svg`), genHero(slug, data.tag));
+  cards.push(card({ slug, ...data }));
   console.log(`  writing/${slug}.html`);
 }
-console.log(`build-writing: generated ${files.length} article page(s) from markdown`);
+
+// Inject the generated cards into the homepage Writing section (between markers).
+const indexHtml = readFileSync(indexPath, 'utf8').replace(
+  /<!-- writing:cards:start -->[\s\S]*?<!-- writing:cards:end -->/,
+  `<!-- writing:cards:start -->\n${cards.join('\n')}\n                <!-- writing:cards:end -->`
+);
+writeFileSync(indexPath, indexHtml);
+
+console.log(`build-writing: generated ${posts.length} articles, hero images, and homepage cards`);
