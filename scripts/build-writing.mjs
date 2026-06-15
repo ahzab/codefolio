@@ -195,11 +195,15 @@ function page({ slug, title = slug, description = '', tag = '', date = '', image
   const t = escapeHtml(title);
   const url = `${SITE}/writing/${slug}`;
   const hero = image || localImage(slug) || `/writing/hero/${slug}.svg`;
-  const ogImage = !image
-    ? `${SITE}/og-preview.png`
-    : image.startsWith('http')
-      ? image
-      : `${SITE}${image.startsWith('/') ? '' : '/'}${image}`;
+  // og:image must be an absolute raster URL — social crawlers (X, Facebook) don't
+  // render the generated SVG fallback, so use the real photo when one exists and
+  // only fall back to the site-wide raster preview when there's no hero photo.
+  const ogSrc = image || localImage(slug);
+  const ogImage = ogSrc
+    ? ogSrc.startsWith('http')
+      ? ogSrc
+      : `${SITE}${ogSrc.startsWith('/') ? '' : '/'}${ogSrc}`
+    : `${SITE}/og-preview.png`;
   const links = shareLinks(url, title);
   const barLinks = links
     .map((l) => `<a class="article__share-btn" href="${l.href}" target="_blank" rel="noopener noreferrer" aria-label="Share on ${l.name}">${l.icon}</a>`)
@@ -221,11 +225,12 @@ function page({ slug, title = slug, description = '', tag = '', date = '', image
     <meta property="og:title" content="${t}">
     <meta property="og:description" content="${escapeHtml(description)}">
     <meta property="og:image" content="${ogImage}">
-    <meta property="twitter:card" content="summary_large_image">
-    <meta property="twitter:url" content="${url}">
-    <meta property="twitter:title" content="${t}">
-    <meta property="twitter:description" content="${escapeHtml(description)}">
-    <meta property="twitter:image" content="${ogImage}">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="${url}">
+    <meta name="twitter:title" content="${t}">
+    <meta name="twitter:description" content="${escapeHtml(description)}">
+    <meta name="twitter:image" content="${ogImage}">
+    <meta property="og:image:alt" content="${t}">
 
     <link rel="stylesheet" href="${FONTS}">
     <link rel="icon" type="image/svg+xml" href="/favicon.svg"/>
