@@ -141,6 +141,40 @@
 .article__listen:hover { border-color: var(--text); }
 .article__listen-icon { font-size: 9px; line-height: 1; }
 
+.article__share {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 2.5rem;
+}
+
+.article__share-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-right: 0.25rem;
+}
+
+.article__share-btn {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text);
+  background: var(--bg-card);
+  border: 1px solid var(--hairline);
+  border-radius: 999px;
+  padding: 0.4rem 0.85rem;
+  text-decoration: none;
+  cursor: pointer;
+  transition: border-color 0.3s ease;
+}
+
+.article__share-btn:hover { border-color: var(--text); }
+
 /* Article page */
 .article {
   max-width: 46rem;

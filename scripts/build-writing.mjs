@@ -61,40 +61,89 @@ function hashStr(s) {
   return h;
 }
 
+const THEMES = {
+  ai: { hue: 265, accent: 290, motif: 'ai' },
+  nextjs: { hue: 205, accent: 190, motif: 'web' },
+  security: { hue: 6, accent: 30, motif: 'shield' },
+  stack: { hue: 150, accent: 168, motif: 'layers' },
+  building: { hue: 28, accent: 44, motif: 'blocks' },
+  default: { hue: 222, accent: 260, motif: 'ai' },
+};
+
+function themeFor(tag) {
+  const t = String(tag).toLowerCase();
+  if (t.includes('next')) return THEMES.nextjs;
+  if (t.includes('secur')) return THEMES.security;
+  if (t.includes('stack') || t.includes('data')) return THEMES.stack;
+  if (t.includes('build')) return THEMES.building;
+  if (t.includes('ai')) return THEMES.ai;
+  return THEMES.default;
+}
+
+function motifFor(name, acc) {
+  const s = `hsl(${acc}, 80%, 72%)`;
+  const motifs = {
+    ai: `<g transform="translate(840,140)">
+    <path d="M40 40 L160 20 M40 40 L120 130 M160 20 L240 90 M120 130 L240 90 M120 130 L80 220 M240 90 L200 200 M80 220 L200 200" stroke="${s}" stroke-opacity="0.3" stroke-width="2" fill="none"/>
+    <g fill="${s}" fill-opacity="0.5"><circle cx="40" cy="40" r="9"/><circle cx="160" cy="20" r="7"/><circle cx="240" cy="90" r="10"/><circle cx="120" cy="130" r="8"/><circle cx="80" cy="220" r="7"/><circle cx="200" cy="200" r="9"/></g>
+  </g>`,
+    web: `<g transform="translate(860,110)" fill="none" stroke="${s}" stroke-width="2.5">
+    <path d="M150 30 L260 255 L40 255 Z" stroke-opacity="0.4"/>
+    <circle cx="150" cy="175" r="125" stroke-opacity="0.16"/>
+    <path d="M150 30 L150 255" stroke-opacity="0.22"/>
+  </g>`,
+    shield: `<g transform="translate(905,105)" fill="none" stroke="${s}" stroke-width="2.5">
+    <path d="M120 20 L220 60 L220 150 C220 232 168 272 120 292 C72 272 20 232 20 150 L20 60 Z" stroke-opacity="0.4"/>
+    <path d="M92 150 l22 24 l44 -60" stroke-width="3" stroke-opacity="0.55"/>
+  </g>`,
+    layers: `<g transform="translate(880,120)" fill="none" stroke="${s}" stroke-width="2.5" stroke-opacity="0.4">
+    <ellipse cx="130" cy="50" rx="112" ry="34"/>
+    <path d="M18 50 V132 C18 151 68 167 130 167 C192 167 242 151 242 132 V50"/>
+    <path d="M18 110 C18 129 68 145 130 145 C192 145 242 129 242 110" stroke-opacity="0.24"/>
+  </g>`,
+    blocks: `<g transform="translate(885,115)" fill="none" stroke="${s}" stroke-width="2.5" stroke-opacity="0.42">
+    <rect x="20" y="200" width="78" height="70" rx="6"/>
+    <rect x="108" y="148" width="78" height="122" rx="6"/>
+    <rect x="196" y="86" width="78" height="184" rx="6"/>
+  </g>`,
+  };
+  return motifs[name] || motifs.ai;
+}
+
 function genHero(slug, tag) {
   const h = hashStr(slug);
-  const h1 = h % 360;
-  const h2 = (h1 + 150) % 360;
-  const h3 = (h1 + 45) % 360;
-  const bx = 18 + (h % 30);
-  const by = 22 + ((h >> 3) % 30);
-  const cx = 64 + ((h >> 6) % 26);
-  const cy = 58 + ((h >> 9) % 26);
+  const th = themeFor(tag);
+  const h1 = th.hue;
+  const h2 = (th.hue + 16) % 360;
+  const bx = 14 + (h % 24);
+  const by = 18 + ((h >> 3) % 24);
+  const cx = 58 + ((h >> 6) % 20);
+  const cy = 52 + ((h >> 9) % 22);
   const label = escapeHtml(String(tag).toUpperCase());
   return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 500" width="1200" height="500" preserveAspectRatio="xMidYMid slice" role="img" aria-hidden="true">
   <defs>
     <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="hsl(${h1}, 45%, 13%)"/>
-      <stop offset="1" stop-color="hsl(${h2}, 42%, 8%)"/>
+      <stop offset="0" stop-color="hsl(${h1}, 48%, 12%)"/>
+      <stop offset="1" stop-color="hsl(${h2}, 44%, 7%)"/>
     </linearGradient>
-    <radialGradient id="b1" cx="${bx}%" cy="${by}%" r="46%">
-      <stop offset="0" stop-color="hsl(${h1}, 82%, 62%)" stop-opacity="0.5"/>
-      <stop offset="1" stop-color="hsl(${h1}, 82%, 62%)" stop-opacity="0"/>
+    <radialGradient id="b1" cx="${bx}%" cy="${by}%" r="48%">
+      <stop offset="0" stop-color="hsl(${th.accent}, 82%, 62%)" stop-opacity="0.45"/>
+      <stop offset="1" stop-color="hsl(${th.accent}, 82%, 62%)" stop-opacity="0"/>
     </radialGradient>
-    <radialGradient id="b2" cx="${cx}%" cy="${cy}%" r="42%">
-      <stop offset="0" stop-color="hsl(${h3}, 85%, 60%)" stop-opacity="0.4"/>
-      <stop offset="1" stop-color="hsl(${h3}, 85%, 60%)" stop-opacity="0"/>
+    <radialGradient id="b2" cx="${cx}%" cy="${cy}%" r="44%">
+      <stop offset="0" stop-color="hsl(${h1}, 80%, 58%)" stop-opacity="0.38"/>
+      <stop offset="1" stop-color="hsl(${h1}, 80%, 58%)" stop-opacity="0"/>
     </radialGradient>
     <pattern id="dots" width="26" height="26" patternUnits="userSpaceOnUse">
-      <circle cx="2" cy="2" r="1.1" fill="#ffffff" opacity="0.06"/>
+      <circle cx="2" cy="2" r="1.1" fill="#ffffff" opacity="0.05"/>
     </pattern>
   </defs>
   <rect width="1200" height="500" fill="url(#bg)"/>
   <rect width="1200" height="500" fill="url(#b1)"/>
   <rect width="1200" height="500" fill="url(#b2)"/>
   <rect width="1200" height="500" fill="url(#dots)"/>
-  <path d="M1066 360 h74 M1103 323 v74" stroke="#ffffff" stroke-opacity="0.22" stroke-width="2"/>
-  <text x="58" y="452" font-family="'JetBrains Mono', ui-monospace, monospace" font-size="26" letter-spacing="8" fill="#ffffff" fill-opacity="0.7">${label}</text>
+  ${motifFor(th.motif, th.accent)}
+  <text x="58" y="452" font-family="'JetBrains Mono', ui-monospace, monospace" font-size="26" letter-spacing="8" fill="#ffffff" fill-opacity="0.72">${label}</text>
 </svg>
 `;
 }
@@ -112,13 +161,15 @@ function card({ slug, title = slug, tag = '', description = '', image = '' }) {
 
 function page({ slug, title = slug, description = '', tag = '', date = '', image = '', bodyHtml }) {
   const t = escapeHtml(title);
-  const url = `${SITE}/writing/${slug}.html`;
+  const url = `${SITE}/writing/${slug}`;
   const hero = image || `/writing/hero/${slug}.svg`;
   const ogImage = !image
     ? `${SITE}/og-preview.png`
     : image.startsWith('http')
       ? image
       : `${SITE}${image.startsWith('/') ? '' : '/'}${image}`;
+  const shareUrl = encodeURIComponent(url);
+  const shareText = encodeURIComponent(title);
   return `<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -181,6 +232,12 @@ function page({ slug, title = slug, description = '', tag = '', date = '', image
           <span class="article__listen-label">Listen</span>
         </button>
 ${bodyHtml}
+        <div class="article__share" aria-label="Share this article">
+          <span class="article__share-label">Share</span>
+          <a class="article__share-btn" href="https://twitter.com/intent/tweet?text=${shareText}&url=${shareUrl}" target="_blank" rel="noopener noreferrer">X</a>
+          <a class="article__share-btn" href="https://www.linkedin.com/sharing/share-offsite/?url=${shareUrl}" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+          <button class="article__share-btn" type="button" data-copy="${url}">Copy link</button>
+        </div>
         <div class="article__footer">
             Written by Abdel Ahzab. <a href="../index.html">More at codefolio.dev</a> · <a href="https://x.com/T3chW1zard" target="_blank" rel="noopener noreferrer">@T3chW1zard</a>
         </div>
@@ -189,12 +246,60 @@ ${bodyHtml}
 
 <script>
 (function () {
+  // Copy-link share
+  var copyBtn = document.querySelector('.article__share-btn[data-copy]');
+  if (copyBtn) {
+    copyBtn.addEventListener('click', function () {
+      var link = copyBtn.getAttribute('data-copy');
+      var done = function () {
+        var prev = copyBtn.textContent;
+        copyBtn.textContent = 'Copied';
+        setTimeout(function () { copyBtn.textContent = prev; }, 1500);
+      };
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(link).then(done, done);
+      } else {
+        var ta = document.createElement('textarea');
+        ta.value = link; document.body.appendChild(ta); ta.select();
+        try { document.execCommand('copy'); } catch (e) {}
+        document.body.removeChild(ta); done();
+      }
+    });
+  }
+
+  // Listen (text-to-speech) with the most natural voice available
   var synth = window.speechSynthesis;
   var btn = document.querySelector('.article__listen');
   if (!btn) return;
   if (!synth) { btn.style.display = 'none'; return; }
   var icon = btn.querySelector('.article__listen-icon');
   var label = btn.querySelector('.article__listen-label');
+
+  function pickVoice() {
+    var voices = synth.getVoices() || [];
+    if (!voices.length) return null;
+    var en = voices.filter(function (v) { return /^en(-|_|$)/i.test(v.lang); });
+    var pool = en.length ? en : voices;
+    var prefer = [
+      function (v) { return /natural|neural|premium|enhanced/i.test(v.name); },
+      function (v) { return /google/i.test(v.name); },
+      function (v) { return /(samantha|aria|jenny|libby|sonia|serena|allison|ava|nora|emma)/i.test(v.name); },
+      function (v) { return v.localService === false; },
+    ];
+    for (var i = 0; i < prefer.length; i++) {
+      var found = pool.find(prefer[i]);
+      if (found) return found;
+    }
+    return pool[0];
+  }
+
+  var voice = null;
+  function ensureVoice() { if (!voice) voice = pickVoice(); return voice; }
+  if (synth.onvoiceschanged !== undefined) {
+    synth.onvoiceschanged = function () { voice = pickVoice(); };
+  }
+  ensureVoice();
+
   function setState(s) {
     if (s === 'playing') { icon.textContent = '⏸'; label.textContent = 'Pause'; }
     else if (s === 'paused') { icon.textContent = '▶'; label.textContent = 'Resume'; }
@@ -204,7 +309,7 @@ ${bodyHtml}
     var nodes = document.querySelectorAll('.article h1, .article h2, .article p, .article li');
     var parts = [];
     nodes.forEach(function (n) {
-      if (!n.closest('pre') && !n.closest('.article__footer')) parts.push(n.textContent);
+      if (!n.closest('pre') && !n.closest('.article__footer') && !n.closest('.article__share')) parts.push(n.textContent);
     });
     return parts.join('. ');
   }
@@ -213,7 +318,10 @@ ${bodyHtml}
     if (synth.paused) { synth.resume(); setState('playing'); return; }
     synth.cancel();
     var u = new SpeechSynthesisUtterance(articleText());
-    u.rate = 1;
+    var v = ensureVoice();
+    if (v) { u.voice = v; u.lang = v.lang; }
+    u.rate = 0.96;
+    u.pitch = 1.02;
     u.onend = function () { setState('idle'); };
     synth.speak(u);
     setState('playing');
