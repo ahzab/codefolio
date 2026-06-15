@@ -30,6 +30,21 @@ const PAGE_SIZE = 6;
 const FONTS =
   'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;700&display=swap';
 const SITE = 'https://codefolio.dev';
+// Set your GA4 Measurement ID here. Analytics stays OFF while this is the placeholder.
+const GA_ID = 'G-XXXXXXXXXX';
+
+function gaTag() {
+  if (!GA_ID || GA_ID.includes('XXXX')) {
+    return '<!-- Google Analytics disabled: set GA_ID in scripts/build-writing.mjs -->';
+  }
+  return `<script async src="https://www.googletagmanager.com/gtag/js?id=${GA_ID}"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){ dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', '${GA_ID}');
+    </script>`;
+}
 
 function escapeHtml(s = '') {
   return String(s)
@@ -136,6 +151,7 @@ function page({ slug, title = slug, description = '', tag = '', date = '', image
             document.documentElement.classList.remove('dark');
         }
     </script>
+    ${gaTag()}
 </head>
 <body>
 
@@ -160,12 +176,51 @@ function page({ slug, title = slug, description = '', tag = '', date = '', image
         <img class="article__hero" src="${hero}" alt="">
         <p class="article__meta">${escapeHtml(tag)} · ${escapeHtml(date)}</p>
         <h1>${t}</h1>
+        <button class="article__listen" type="button" aria-label="Listen to this article">
+          <span class="article__listen-icon" aria-hidden="true">&#9654;</span>
+          <span class="article__listen-label">Listen</span>
+        </button>
 ${bodyHtml}
         <div class="article__footer">
             Written by Abdel Ahzab. <a href="../index.html">More at codefolio.dev</a> · <a href="https://x.com/T3chW1zard" target="_blank" rel="noopener noreferrer">@T3chW1zard</a>
         </div>
     </article>
 </main>
+
+<script>
+(function () {
+  var synth = window.speechSynthesis;
+  var btn = document.querySelector('.article__listen');
+  if (!btn) return;
+  if (!synth) { btn.style.display = 'none'; return; }
+  var icon = btn.querySelector('.article__listen-icon');
+  var label = btn.querySelector('.article__listen-label');
+  function setState(s) {
+    if (s === 'playing') { icon.textContent = '⏸'; label.textContent = 'Pause'; }
+    else if (s === 'paused') { icon.textContent = '▶'; label.textContent = 'Resume'; }
+    else { icon.textContent = '▶'; label.textContent = 'Listen'; }
+  }
+  function articleText() {
+    var nodes = document.querySelectorAll('.article h1, .article h2, .article p, .article li');
+    var parts = [];
+    nodes.forEach(function (n) {
+      if (!n.closest('pre') && !n.closest('.article__footer')) parts.push(n.textContent);
+    });
+    return parts.join('. ');
+  }
+  btn.addEventListener('click', function () {
+    if (synth.speaking && !synth.paused) { synth.pause(); setState('paused'); return; }
+    if (synth.paused) { synth.resume(); setState('playing'); return; }
+    synth.cancel();
+    var u = new SpeechSynthesisUtterance(articleText());
+    u.rate = 1;
+    u.onend = function () { setState('idle'); };
+    synth.speak(u);
+    setState('playing');
+  });
+  window.addEventListener('pagehide', function () { synth.cancel(); });
+})();
+</script>
 
 <script type="module" src="../styles/main.scss"></script>
 </body>
@@ -232,6 +287,7 @@ function writingIndex(gridHtml, pageNum, totalPages) {
             document.documentElement.classList.remove('dark');
         }
     </script>
+    ${gaTag()}
 </head>
 <body>
 
@@ -294,10 +350,15 @@ for (const { slug, data, content } of posts) {
 const featured = posts.filter((p) => p.data.featured);
 const homePosts = (featured.length ? featured : posts).slice(0, FEATURED_ON_HOME);
 const homeCards = homePosts.map((p) => card({ slug: p.slug, ...p.data }, 'writing/')).join('\n');
-const indexHtml = readFileSync(indexPath, 'utf8').replace(
-  /<!-- writing:cards:start -->[\s\S]*?<!-- writing:cards:end -->/,
-  `<!-- writing:cards:start -->\n${homeCards}\n                <!-- writing:cards:end -->`
-);
+const indexHtml = readFileSync(indexPath, 'utf8')
+  .replace(
+    /<!-- writing:cards:start -->[\s\S]*?<!-- writing:cards:end -->/,
+    `<!-- writing:cards:start -->\n${homeCards}\n                <!-- writing:cards:end -->`
+  )
+  .replace(
+    /<!-- ga:start -->[\s\S]*?<!-- ga:end -->/,
+    `<!-- ga:start -->\n    ${gaTag()}\n    <!-- ga:end -->`
+  );
 writeFileSync(indexPath, indexHtml);
 
 // Full blog index, paginated (index.html, page-2.html, ...)
