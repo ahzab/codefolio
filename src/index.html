@@ -84,7 +84,13 @@
         }
     </script>
     <!-- ga:start -->
-    <!-- Google Analytics disabled: set GA_ID in scripts/build-writing.mjs -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-9B47PMLJZH"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){ dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-9B47PMLJZH');
+    </script>
     <!-- ga:end -->
 </head>
 <body>
