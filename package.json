@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "writing": "node scripts/build-writing.mjs",
+    "images": "node scripts/fetch-images.mjs",
     "dev": "node scripts/build-writing.mjs && vite",
     "build": "node scripts/build-writing.mjs && tsc && vite build",
     "preview": "vite preview",

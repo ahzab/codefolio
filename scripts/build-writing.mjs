@@ -1,6 +1,6 @@
 // Build step: convert src/writing/content/*.md into styled article HTML pages.
 // Markdown (with frontmatter) is the source of truth; the .html output is gitignored.
-import { readFileSync, writeFileSync, readdirSync, mkdirSync } from 'fs';
+import { existsSync, readFileSync, writeFileSync, readdirSync, mkdirSync } from 'fs';
 import { fileURLToPath } from 'url';
 import { dirname, join, basename } from 'path';
 import matter from 'gray-matter';
@@ -26,6 +26,16 @@ const heroDir = join(root, '../public/writing/hero');
 const indexPath = join(root, '../src/index.html');
 const FEATURED_ON_HOME = 3;
 const PAGE_SIZE = 6;
+const IMG_EXTS = ['jpg', 'jpeg', 'png', 'webp', 'avif'];
+
+// A locally downloaded photo (from scripts/fetch-images.mjs), if one exists for this slug.
+function localImage(slug) {
+  for (const ext of IMG_EXTS) {
+    const rel = `/writing/img/${slug}.${ext}`;
+    if (existsSync(join(root, '../public' + rel))) return rel;
+  }
+  return '';
+}
 
 const FONTS =
   'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;700&display=swap';
@@ -149,7 +159,7 @@ function genHero(slug, tag) {
 }
 
 function card({ slug, title = slug, tag = '', description = '', image = '' }) {
-  const hero = image || `/writing/hero/${slug}.svg`;
+  const hero = image || localImage(slug) || `/writing/hero/${slug}.svg`;
   return `                <a class="writing-card" href="/writing/${slug}.html">
                     <img class="writing-card__hero" src="${hero}" alt="" loading="lazy">
                     <span class="writing-card__tag">${escapeHtml(tag)}</span>
@@ -162,7 +172,7 @@ function card({ slug, title = slug, tag = '', description = '', image = '' }) {
 function page({ slug, title = slug, description = '', tag = '', date = '', image = '', bodyHtml }) {
   const t = escapeHtml(title);
   const url = `${SITE}/writing/${slug}`;
-  const hero = image || `/writing/hero/${slug}.svg`;
+  const hero = image || localImage(slug) || `/writing/hero/${slug}.svg`;
   const ogImage = !image
     ? `${SITE}/og-preview.png`
     : image.startsWith('http')
@@ -468,7 +478,7 @@ mkdirSync(heroDir, { recursive: true });
 for (const { slug, data, content } of posts) {
   const bodyHtml = marked.parse(content);
   writeFileSync(join(outDir, `${slug}.html`), page({ slug, ...data, bodyHtml }));
-  if (!data.image) writeFileSync(join(heroDir, `${slug}.svg`), genHero(slug, data.tag));
+  if (!data.image && !localImage(slug)) writeFileSync(join(heroDir, `${slug}.svg`), genHero(slug, data.tag));
   console.log(`  writing/${slug}.html`);
 }
 
