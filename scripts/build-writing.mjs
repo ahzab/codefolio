@@ -237,18 +237,21 @@ function page({ slug, title = slug, description = '', tag = '', date = '', image
         <img class="article__hero" src="${hero}" alt="">
         <p class="article__meta">${escapeHtml(tag)} · ${escapeHtml(date)}</p>
         <h1>${t}</h1>
-        <button class="article__listen" type="button" aria-label="Listen to this article">
-          <span class="article__listen-icon" aria-hidden="true">&#9654;</span>
-          <span class="article__listen-label">Listen</span>
-        </button>
-${bodyHtml}
-        <div class="article__share" aria-label="Share this article">
+        <div class="article__actions">
+          <button class="article__listen" type="button" aria-label="Listen to this article">
+            <span class="article__listen-icon" aria-hidden="true">&#9654;</span>
+            <span class="article__listen-label">Listen</span>
+          </button>
+          <span class="article__actions-spacer"></span>
           <span class="article__share-label">Share</span>
-          <button class="article__share-btn article__share-native" type="button" hidden data-url="${url}" data-title="${t}">Share…</button>
-          <a class="article__share-btn" href="https://twitter.com/intent/tweet?text=${shareText}&url=${shareUrl}" target="_blank" rel="noopener noreferrer">X</a>
-          <a class="article__share-btn" href="https://www.linkedin.com/sharing/share-offsite/?url=${shareUrl}" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+          <button class="article__share-btn article__share-native" type="button" hidden data-url="${url}" data-title="${t}" aria-label="Share">
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 13.5l6.8 4M15.4 6.5l-6.8 4"/></svg>
+          </button>
+          <a class="article__share-btn" href="https://twitter.com/intent/tweet?text=${shareText}&url=${shareUrl}" target="_blank" rel="noopener noreferrer" aria-label="Share on X"><svg viewBox="0 0 24 24" width="13" height="13" fill="currentColor" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231 5.45-6.231zm-1.161 17.52h1.833L7.084 4.126H5.117l11.966 15.644z"/></svg></a>
+          <a class="article__share-btn" href="https://www.linkedin.com/sharing/share-offsite/?url=${shareUrl}" target="_blank" rel="noopener noreferrer" aria-label="Share on LinkedIn"><svg viewBox="0 0 24 24" width="13" height="13" fill="currentColor" aria-hidden="true"><path d="M20.45 20.45h-3.55v-5.57c0-1.33-.03-3.04-1.85-3.04-1.85 0-2.13 1.45-2.13 2.95v5.66H9.36V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.72v20.55C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.72V1.72C24 .77 23.2 0 22.22 0z"/></svg></a>
           <button class="article__share-btn" type="button" data-copy="${url}">Copy link</button>
         </div>
+${bodyHtml}
         <div class="article__footer">
             Written by Abdel Ahzab. <a href="../index.html">More at codefolio.dev</a> · <a href="https://x.com/T3chW1zard" target="_blank" rel="noopener noreferrer">@T3chW1zard</a>
         </div>
@@ -333,7 +336,7 @@ ${bodyHtml}
     var nodes = document.querySelectorAll('.article h1, .article h2, .article p, .article li');
     var parts = [];
     nodes.forEach(function (n) {
-      if (!n.closest('pre') && !n.closest('.article__footer') && !n.closest('.article__share')) parts.push(n.textContent);
+      if (!n.closest('pre') && !n.closest('.article__footer') && !n.closest('.article__actions')) parts.push(n.textContent);
     });
     return parts.join('. ');
   }
