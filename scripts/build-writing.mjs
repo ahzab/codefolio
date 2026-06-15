@@ -24,6 +24,8 @@ const contentDir = join(root, '../src/writing/content');
 const outDir = join(root, '../src/writing');
 const heroDir = join(root, '../public/writing/hero');
 const indexPath = join(root, '../src/index.html');
+const FEATURED_ON_HOME = 3;
+const PAGE_SIZE = 6;
 
 const FONTS =
   'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;700&display=swap';
@@ -82,9 +84,9 @@ function genHero(slug, tag) {
 `;
 }
 
-function card({ slug, title = slug, tag = '', description = '', image = '' }) {
+function card({ slug, title = slug, tag = '', description = '', image = '' }, linkBase = 'writing/') {
   const hero = image || `/writing/hero/${slug}.svg`;
-  return `                <a class="writing-card" href="writing/${slug}.html">
+  return `                <a class="writing-card" href="${linkBase}${slug}.html">
                     <img class="writing-card__hero" src="${hero}" alt="" loading="lazy">
                     <span class="writing-card__tag">${escapeHtml(tag)}</span>
                     <h3 class="writing-card__title">${escapeHtml(title)}</h3>
@@ -171,6 +173,104 @@ ${bodyHtml}
 `;
 }
 
+function pageHref(k) {
+  return k === 1 ? 'index.html' : `page-${k}.html`;
+}
+
+function pagination(pageNum, totalPages) {
+  if (totalPages <= 1) return '';
+  let nums = '';
+  for (let k = 1; k <= totalPages; k++) {
+    nums +=
+      k === pageNum
+        ? `<span class="pagination__num is-current" aria-current="page">${k}</span>`
+        : `<a class="pagination__num" href="${pageHref(k)}">${k}</a>`;
+  }
+  const prev =
+    pageNum > 1
+      ? `<a class="pagination__step" href="${pageHref(pageNum - 1)}">← Prev</a>`
+      : `<span class="pagination__step is-disabled">← Prev</span>`;
+  const next =
+    pageNum < totalPages
+      ? `<a class="pagination__step" href="${pageHref(pageNum + 1)}">Next →</a>`
+      : `<span class="pagination__step is-disabled">Next →</span>`;
+  return `<nav class="pagination" aria-label="Pagination">
+            ${prev}
+            <div class="pagination__nums">${nums}</div>
+            ${next}
+        </nav>`;
+}
+
+function writingIndex(gridHtml, pageNum, totalPages) {
+  const canonical = `${SITE}/writing/${pageNum === 1 ? '' : `page-${pageNum}.html`}`;
+  const label = totalPages > 1 ? ` (page ${pageNum})` : '';
+  return `<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Writing${label} · Abdel Ahzab</title>
+    <meta name="description" content="Notes on shipping SaaS solo: applied AI, Next.js, security, and building in public.">
+    <link rel="canonical" href="${canonical}">
+
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="${canonical}">
+    <meta property="og:title" content="Writing · Abdel Ahzab">
+    <meta property="og:description" content="Notes on shipping SaaS solo: applied AI, Next.js, security, and building in public.">
+    <meta property="og:image" content="${SITE}/og-preview.png">
+    <meta property="twitter:card" content="summary_large_image">
+
+    <link rel="stylesheet" href="${FONTS}">
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg"/>
+    <meta name="theme-color" content="#0a0a0c">
+
+    <script>
+        const theme = localStorage.getItem('theme') || 'system';
+        if (theme === 'dark' || (theme === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+        }
+    </script>
+</head>
+<body>
+
+<header class="site-header">
+    <div class="site-header__inner">
+        <a href="../index.html" class="mark" aria-label="Home">
+            <span class="mark-glyph" aria-hidden="true">
+                <span class="mark-glyph__slash"></span>
+                <span class="mark-glyph__dot"></span>
+            </span>
+            <span class="mark-text">
+                <span class="mark-text__name">Abdel Ahzab</span>
+                <span class="mark-text__role"><span>Engineer / Applied AI</span></span>
+            </span>
+        </a>
+        <a href="../index.html" class="article__back">← Home</a>
+    </div>
+</header>
+
+<main>
+    <section class="writing-page">
+        <header class="section-head">
+            <span class="section-no">All</span>
+            <h1 class="section-title">Writing</h1>
+            <span class="section-rule" aria-hidden="true"></span>
+        </header>
+        <div class="writing-grid">
+${gridHtml}
+        </div>
+        ${pagination(pageNum, totalPages)}
+    </section>
+</main>
+
+<script type="module" src="../styles/main.scss"></script>
+</body>
+</html>
+`;
+}
+
 const posts = readdirSync(contentDir)
   .filter((f) => f.endsWith('.md'))
   .map((file) => {
@@ -182,20 +282,34 @@ const posts = readdirSync(contentDir)
 
 mkdirSync(heroDir, { recursive: true });
 
-const cards = [];
+// Article pages + hero images
 for (const { slug, data, content } of posts) {
   const bodyHtml = marked.parse(content);
   writeFileSync(join(outDir, `${slug}.html`), page({ slug, ...data, bodyHtml }));
   if (!data.image) writeFileSync(join(heroDir, `${slug}.svg`), genHero(slug, data.tag));
-  cards.push(card({ slug, ...data }));
   console.log(`  writing/${slug}.html`);
 }
 
-// Inject the generated cards into the homepage Writing section (between markers).
+// Homepage: featured posts only (fall back to the first few by order)
+const featured = posts.filter((p) => p.data.featured);
+const homePosts = (featured.length ? featured : posts).slice(0, FEATURED_ON_HOME);
+const homeCards = homePosts.map((p) => card({ slug: p.slug, ...p.data }, 'writing/')).join('\n');
 const indexHtml = readFileSync(indexPath, 'utf8').replace(
   /<!-- writing:cards:start -->[\s\S]*?<!-- writing:cards:end -->/,
-  `<!-- writing:cards:start -->\n${cards.join('\n')}\n                <!-- writing:cards:end -->`
+  `<!-- writing:cards:start -->\n${homeCards}\n                <!-- writing:cards:end -->`
 );
 writeFileSync(indexPath, indexHtml);
 
-console.log(`build-writing: generated ${posts.length} articles, hero images, and homepage cards`);
+// Full blog index, paginated (index.html, page-2.html, ...)
+const pages = [];
+for (let i = 0; i < posts.length; i += PAGE_SIZE) pages.push(posts.slice(i, i + PAGE_SIZE));
+const totalPages = Math.max(1, pages.length);
+pages.forEach((pagePosts, idx) => {
+  const pageNum = idx + 1;
+  const grid = pagePosts.map((p) => card({ slug: p.slug, ...p.data }, '')).join('\n');
+  writeFileSync(join(outDir, pageHref(pageNum)), writingIndex(grid, pageNum, totalPages));
+});
+
+console.log(
+  `build-writing: ${posts.length} posts, ${homePosts.length} featured on home, ${totalPages} index page(s)`
+);

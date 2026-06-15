@@ -2,6 +2,7 @@
 title: Your Next.js Server Action is a public endpoint
 description: A server action looks like a function call, but it compiles to a public POST endpoint anyone can hit with any arguments. Authenticate and validate inside it.
 tag: Next.js
+featured: true
 date: 2026
 order: 6
 ---

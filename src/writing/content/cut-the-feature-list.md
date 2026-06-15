@@ -2,6 +2,7 @@
 title: Cut the feature list before you build it
 description: Shipping solo means the bottleneck is always you. The way to ship is not to work faster, it is to build less. Cut to the one thing that tests the bet.
 tag: Building
+featured: true
 date: 2026
 order: 9
 ---

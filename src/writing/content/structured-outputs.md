@@ -2,6 +2,7 @@
 title: Stop parsing LLM text. Use tool calls.
 description: Asking a model for JSON and parsing the text breaks in production. Define a typed tool, force the model to call it, and get validated structured data back.
 tag: Applied AI
+featured: true
 date: 2026
 order: 1
 ---
