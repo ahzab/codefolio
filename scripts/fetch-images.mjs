@@ -7,6 +7,7 @@ import { existsSync, readFileSync, writeFileSync, readdirSync, mkdirSync } from 
 import { fileURLToPath } from 'url';
 import { dirname, join, basename } from 'path';
 import matter from 'gray-matter';
+import sharp from 'sharp';
 
 const root = dirname(fileURLToPath(import.meta.url));
 const contentDir = join(root, '../src/writing/content');
@@ -91,7 +92,12 @@ for (const file of files) {
       console.log(`  ${slug}: image download HTTP ${imgRes.status} — keeping SVG`);
       continue;
     }
-    writeFileSync(join(imgDir, `${slug}.jpg`), Buffer.from(await imgRes.arrayBuffer()));
+    const optimized = await sharp(Buffer.from(await imgRes.arrayBuffer()))
+      .rotate()
+      .resize({ width: 1600, withoutEnlargement: true })
+      .jpeg({ quality: 72, mozjpeg: true, progressive: true })
+      .toBuffer();
+    writeFileSync(join(imgDir, `${slug}.jpg`), optimized);
     got++;
     console.log(`  ${slug}: saved photo for "${q}" (by ${photo.photographer}, Pexels)`);
   } catch (e) {

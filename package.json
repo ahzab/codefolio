@@ -6,6 +6,7 @@
   "scripts": {
     "writing": "node scripts/build-writing.mjs",
     "images": "node scripts/fetch-images.mjs",
+    "optimize:images": "node scripts/optimize-images.mjs",
     "dev": "node scripts/build-writing.mjs && vite",
     "build": "node scripts/build-writing.mjs && tsc && vite build",
     "preview": "vite preview",
@@ -15,6 +16,7 @@
     "autoprefixer": "^10.4.17",
     "postcss": "^8.4.35",
     "sass": "^1.71.1",
+    "sharp": "^0.35.1",
     "tailwindcss": "^3.4.1",
     "typescript": "^5.2.2",
     "vite": "^5.1.4"
