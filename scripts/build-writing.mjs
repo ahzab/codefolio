@@ -99,9 +99,9 @@ function genHero(slug, tag) {
 `;
 }
 
-function card({ slug, title = slug, tag = '', description = '', image = '' }, linkBase = 'writing/') {
+function card({ slug, title = slug, tag = '', description = '', image = '' }) {
   const hero = image || `/writing/hero/${slug}.svg`;
-  return `                <a class="writing-card" href="${linkBase}${slug}.html">
+  return `                <a class="writing-card" href="/writing/${slug}.html">
                     <img class="writing-card__hero" src="${hero}" alt="" loading="lazy">
                     <span class="writing-card__tag">${escapeHtml(tag)}</span>
                     <h3 class="writing-card__title">${escapeHtml(title)}</h3>
@@ -157,7 +157,7 @@ function page({ slug, title = slug, description = '', tag = '', date = '', image
 
 <header class="site-header">
     <div class="site-header__inner">
-        <a href="../index.html" class="mark" aria-label="Home">
+        <a href="/" class="mark" aria-label="Home">
             <span class="mark-glyph" aria-hidden="true">
                 <span class="mark-glyph__slash"></span>
                 <span class="mark-glyph__dot"></span>
@@ -167,7 +167,7 @@ function page({ slug, title = slug, description = '', tag = '', date = '', image
                 <span class="mark-text__role"><span>Engineer / Applied AI</span></span>
             </span>
         </a>
-        <a href="../index.html#writing" class="article__back">← Writing</a>
+        <a href="/#writing" class="article__back">← Writing</a>
     </div>
 </header>
 
@@ -228,8 +228,12 @@ ${bodyHtml}
 `;
 }
 
-function pageHref(k) {
+function fileName(k) {
   return k === 1 ? 'index.html' : `page-${k}.html`;
+}
+
+function pageLink(k) {
+  return k === 1 ? '/writing/index.html' : `/writing/page-${k}.html`;
 }
 
 function pagination(pageNum, totalPages) {
@@ -239,15 +243,15 @@ function pagination(pageNum, totalPages) {
     nums +=
       k === pageNum
         ? `<span class="pagination__num is-current" aria-current="page">${k}</span>`
-        : `<a class="pagination__num" href="${pageHref(k)}">${k}</a>`;
+        : `<a class="pagination__num" href="${pageLink(k)}">${k}</a>`;
   }
   const prev =
     pageNum > 1
-      ? `<a class="pagination__step" href="${pageHref(pageNum - 1)}">← Prev</a>`
+      ? `<a class="pagination__step" href="${pageLink(pageNum - 1)}">← Prev</a>`
       : `<span class="pagination__step is-disabled">← Prev</span>`;
   const next =
     pageNum < totalPages
-      ? `<a class="pagination__step" href="${pageHref(pageNum + 1)}">Next →</a>`
+      ? `<a class="pagination__step" href="${pageLink(pageNum + 1)}">Next →</a>`
       : `<span class="pagination__step is-disabled">Next →</span>`;
   return `<nav class="pagination" aria-label="Pagination">
             ${prev}
@@ -293,7 +297,7 @@ function writingIndex(gridHtml, pageNum, totalPages) {
 
 <header class="site-header">
     <div class="site-header__inner">
-        <a href="../index.html" class="mark" aria-label="Home">
+        <a href="/" class="mark" aria-label="Home">
             <span class="mark-glyph" aria-hidden="true">
                 <span class="mark-glyph__slash"></span>
                 <span class="mark-glyph__dot"></span>
@@ -303,7 +307,7 @@ function writingIndex(gridHtml, pageNum, totalPages) {
                 <span class="mark-text__role"><span>Engineer / Applied AI</span></span>
             </span>
         </a>
-        <a href="../index.html" class="article__back">← Home</a>
+        <a href="/" class="article__back">← Home</a>
     </div>
 </header>
 
@@ -368,7 +372,7 @@ const totalPages = Math.max(1, pages.length);
 pages.forEach((pagePosts, idx) => {
   const pageNum = idx + 1;
   const grid = pagePosts.map((p) => card({ slug: p.slug, ...p.data }, '')).join('\n');
-  writeFileSync(join(outDir, pageHref(pageNum)), writingIndex(grid, pageNum, totalPages));
+  writeFileSync(join(outDir, fileName(pageNum)), writingIndex(grid, pageNum, totalPages));
 });
 
 console.log(
