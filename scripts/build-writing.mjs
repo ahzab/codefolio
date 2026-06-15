@@ -193,6 +193,27 @@ function card({ slug, title = slug, tag = '', description = '', image = '' }) {
                 </a>`;
 }
 
+// "Read next": up to n posts, same-tag first (most relevant), then fill by order.
+function pickRelated(current, all, n = 3) {
+  const others = all.filter((p) => p.slug !== current.slug);
+  const tag = (current.data.tag || '').toLowerCase();
+  const sameTag = others.filter((p) => (p.data.tag || '').toLowerCase() === tag);
+  const rest = others.filter((p) => (p.data.tag || '').toLowerCase() !== tag);
+  return [...sameTag, ...rest].slice(0, n);
+}
+
+function relatedSection(related) {
+  if (!related.length) return '';
+  const cards = related.map((p) => card({ slug: p.slug, ...p.data })).join('\n');
+  return `
+        <aside class="article__next" aria-label="Read next">
+            <h2 class="article__next-title">Read next</h2>
+            <div class="article__next-grid">
+${cards}
+            </div>
+        </aside>`;
+}
+
 const ICONS = {
   x: '<svg viewBox="0 0 24 24" width="15" height="15" fill="currentColor" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231 5.45-6.231zm-1.161 17.52h1.833L7.084 4.126H5.117l11.966 15.644z"/></svg>',
   linkedin: '<svg viewBox="0 0 24 24" width="15" height="15" fill="currentColor" aria-hidden="true"><path d="M20.45 20.45h-3.55v-5.57c0-1.33-.03-3.04-1.85-3.04-1.85 0-2.13 1.45-2.13 2.95v5.66H9.36V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.72v20.55C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.72V1.72C24 .77 23.2 0 22.22 0z"/></svg>',
@@ -215,7 +236,7 @@ function shareLinks(url, title) {
   ];
 }
 
-function page({ slug, title = slug, description = '', tag = '', date = '', image = '', bodyHtml }) {
+function page({ slug, title = slug, description = '', tag = '', date = '', image = '', bodyHtml, related = [] }) {
   const t = escapeHtml(title);
   const url = `${SITE}/writing/${slug}`;
   const hero = image || localImage(slug) || `/writing/hero/${slug}.svg`;
@@ -320,6 +341,7 @@ ${bodyHtml}
             Written by Abdel Ahzab. <a href="../index.html">More at codefolio.dev</a> · <a href="https://x.com/T3chW1zard" target="_blank" rel="noopener noreferrer">@T3chW1zard</a>
         </div>
     </article>
+${relatedSection(related)}
 </main>
 
 <script>
@@ -543,9 +565,11 @@ const posts = readdirSync(contentDir)
 mkdirSync(heroDir, { recursive: true });
 
 // Article pages + hero images
-for (const { slug, data, content } of posts) {
+for (const post of posts) {
+  const { slug, data, content } = post;
   const bodyHtml = marked.parse(content);
-  writeFileSync(join(outDir, `${slug}.html`), page({ slug, ...data, bodyHtml }));
+  const related = pickRelated(post, posts, 3);
+  writeFileSync(join(outDir, `${slug}.html`), page({ slug, ...data, bodyHtml, related }));
   if (!data.image && !localImage(slug)) writeFileSync(join(heroDir, `${slug}.svg`), genHero(slug, data.tag));
   console.log(`  writing/${slug}.html`);
 }

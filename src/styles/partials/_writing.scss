@@ -231,6 +231,33 @@
 .article__rail-btn:hover { border-color: var(--text); transform: translateY(-1px); }
 .article__rail-btn svg { display: block; }
 
+/* Read-next (related posts at the end of an article) */
+.article__next {
+  max-width: 60rem;
+  margin: 1rem auto 0;
+  padding: 2.5rem 1.5rem 4rem;
+}
+
+.article__next-title {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 1.25rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--hairline);
+}
+
+.article__next-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+
+  @screen sm { grid-template-columns: repeat(2, 1fr); }
+  @screen lg { grid-template-columns: repeat(3, 1fr); }
+}
+
 /* Article page */
 .article {
   max-width: 46rem;
