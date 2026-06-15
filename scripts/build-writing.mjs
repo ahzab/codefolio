@@ -107,7 +107,7 @@ const THEMES = {
 function themeFor(tag) {
   const t = String(tag).toLowerCase();
   if (t.includes('next') || t.includes('front')) return THEMES.nextjs;
-  if (t.includes('secur')) return THEMES.security;
+  if (t.includes('secur') || t.includes('incid')) return THEMES.security;
   if (t.includes('stack') || t.includes('data') || t.includes('back')) return THEMES.stack;
   if (t.includes('build') || t.includes('scale')) return THEMES.building;
   if (t.includes('ai')) return THEMES.ai;
