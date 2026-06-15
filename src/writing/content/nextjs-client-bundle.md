@@ -2,7 +2,7 @@
 title: What actually ends up in your Next.js client bundle
 description: NEXT_PUBLIC env vars and anything a client component imports ship to the browser. One import line can leak a secret. The server-only package makes it impossible.
 tag: Next.js
-date: 2026
+date: "2025-08-05"
 order: 7
 ---
 

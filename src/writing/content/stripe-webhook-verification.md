@@ -2,7 +2,7 @@
 title: Verify your Stripe webhooks, or anyone can grant themselves Pro
 description: An unverified webhook endpoint is a public URL that upgrades accounts. Without signature verification, anyone can POST a fake checkout.session.completed and unlock your paid plan.
 tag: Security
-date: 2026
+date: "2025-07-15"
 order: 8
 ---
 

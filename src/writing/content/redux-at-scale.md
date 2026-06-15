@@ -2,7 +2,7 @@
 title: Redux that survives a complex checkout
 description: A real checkout has more state than a tutorial admits. A few rules keep a large Redux store maintainable. Normalize it, read through selectors, and keep side effects out of components.
 tag: Frontend
-date: 2026
+date: "2025-04-30"
 order: 11
 query: frontend developer code on laptop screen
 ---

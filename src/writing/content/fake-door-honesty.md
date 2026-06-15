@@ -2,7 +2,7 @@
 title: I almost listed a product I never built
 description: A fake-door landing page is a great way to test demand. It is not a product. Calling it one costs the trust that building in public runs on.
 tag: Building
-date: 2026
+date: "2025-10-14"
 order: 4
 ---
 

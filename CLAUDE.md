@@ -20,6 +20,7 @@ Write from the *lesson*, not the *instance*. "On a high-traffic checkout, idempo
 ## Blog pipeline (how `/writing` is built)
 
 - Source of truth: `src/writing/content/*.md` with frontmatter `title, description, tag, date, order, featured?, image?, query?`. The `.html` output is generated and gitignored.
+- **Dates:** quote a full ISO date, e.g. `date: "2026-03-14"` (quotes matter — unquoted YAML parses it into a Date object). Existing posts are backfilled across 2025; new posts use 2026 onward. Lower `order` = newer = shown first, so give a new post a low `order` and a later date than the post above it.
 - `scripts/build-writing.mjs` runs before `vite build` (via `yarn build`) and generates: article pages, homepage featured cards (`featured: true`, top 3 by `order`), the paginated `/writing` index, hero SVGs, and social meta tags.
 - Hero images: `yarn images` fetches a Pexels photo per post (key in gitignored `.env.local`), optimized to 1200x627. A post uses, in order: frontmatter `image` > downloaded Pexels photo > generated SVG.
 - Social cards: `og:image` / `twitter:image` resolve to the post's own hero (absolute `https://www.codefolio.dev/...`); `og:image:width/height` are emitted for LinkedIn. Use the canonical `www` host everywhere (apex 308-redirects).

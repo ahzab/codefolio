@@ -2,7 +2,7 @@
 title: Cut your LLM bill with prompt caching
 description: Most AI features resend the same large prompt every call and pay full price for it. Cache the stable prefix and pay a fraction on every reuse.
 tag: Applied AI
-date: 2026
+date: "2025-11-24"
 order: 2
 ---
 

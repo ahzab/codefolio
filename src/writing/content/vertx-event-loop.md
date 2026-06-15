@@ -2,7 +2,7 @@
 title: Why I reach for Vert.x on high-throughput services
 description: A thread per request does not scale to thousands of concurrent connections. An event loop does. Vert.x on the JVM with Kotlin makes non-blocking services that stay fast under load.
 tag: Backend
-date: 2026
+date: "2025-03-18"
 order: 12
 query: data center server racks technology
 ---
