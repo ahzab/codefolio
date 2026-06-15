@@ -234,6 +234,7 @@ function page({ slug, title = slug, description = '', tag = '', date = '', image
 ${bodyHtml}
         <div class="article__share" aria-label="Share this article">
           <span class="article__share-label">Share</span>
+          <button class="article__share-btn article__share-native" type="button" hidden data-url="${url}" data-title="${t}">Share…</button>
           <a class="article__share-btn" href="https://twitter.com/intent/tweet?text=${shareText}&url=${shareUrl}" target="_blank" rel="noopener noreferrer">X</a>
           <a class="article__share-btn" href="https://www.linkedin.com/sharing/share-offsite/?url=${shareUrl}" target="_blank" rel="noopener noreferrer">LinkedIn</a>
           <button class="article__share-btn" type="button" data-copy="${url}">Copy link</button>
@@ -264,6 +265,19 @@ ${bodyHtml}
         try { document.execCommand('copy'); } catch (e) {}
         document.body.removeChild(ta); done();
       }
+    });
+  }
+
+  // Native share sheet (mobile and supported browsers)
+  var nativeBtn = document.querySelector('.article__share-native');
+  if (nativeBtn && navigator.share) {
+    nativeBtn.hidden = false;
+    nativeBtn.addEventListener('click', function () {
+      navigator.share({
+        title: nativeBtn.getAttribute('data-title') || document.title,
+        text: nativeBtn.getAttribute('data-title') || '',
+        url: nativeBtn.getAttribute('data-url') || location.href
+      }).catch(function () {});
     });
   }
 
