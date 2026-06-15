@@ -3,7 +3,7 @@ title: I audited my own online presence. It was a mess.
 description: Three profiles, three different people, none of them the one actually building. Your profiles are your storefront, and mine contradicted each other.
 tag: Building
 date: "2025-09-22"
-order: 5
+order: 6
 ---
 
 I audited my own online presence this week. It was a mess. Three profiles, three completely different people.

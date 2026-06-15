@@ -3,7 +3,7 @@ title: Cut the feature list before you build it
 description: Shipping solo means the bottleneck is always you. The way to ship is not to work faster, it is to build less. Cut to the one thing that tests the bet.
 tag: Building
 date: "2025-06-19"
-order: 9
+order: 10
 ---
 
 When you build alone, the bottleneck is always you. There is no second engineer to parallelize with, no team to absorb scope. The only lever that actually moves your ship date is how much you decide not to build.

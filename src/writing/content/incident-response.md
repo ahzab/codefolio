@@ -3,7 +3,7 @@ title: How to handle a production incident without making it worse
 description: When something breaks in production the instinct is to dive into the code. The right first moves are calmer than that. Stabilize, communicate, then find the cause.
 tag: Incidents
 date: "2026-06-14"
-order: 13
+order: 1
 query: server room monitoring screens night
 ---
 

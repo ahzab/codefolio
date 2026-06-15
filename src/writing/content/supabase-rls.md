@@ -3,7 +3,7 @@ title: The Supabase mistake that exposes your data
 description: Filtering data in your queries and hiding it in the UI feels secure. Without Row Level Security, anyone with your public anon key can read the whole table.
 tag: Stack
 date: "2025-11-03"
-order: 3
+order: 4
 ---
 
 Here is a mistake I see all the time. Your app filters data in the query and hides it in the UI, so it feels secure. But if Row Level Security is off, anyone with your public anon key can read the whole table directly.

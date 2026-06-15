@@ -4,7 +4,7 @@ description: A server action looks like a function call, but it compiles to a pu
 tag: Next.js
 featured: true
 date: "2025-08-28"
-order: 6
+order: 7
 ---
 
 Server Actions make mutations feel like calling a function. You write `'use server'`, import it into a component, and call it. It is easy to forget what it actually is: a public HTTP endpoint.

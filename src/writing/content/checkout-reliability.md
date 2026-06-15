@@ -4,7 +4,7 @@ description: Years on a production e-commerce checkout came down to a few hard r
 tag: Scale
 featured: true
 date: "2025-05-27"
-order: 10
+order: 11
 query: online shopping payment checkout laptop
 ---
 

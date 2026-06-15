@@ -4,7 +4,7 @@ description: Asking a model for JSON and parsing the text breaks in production. 
 tag: Applied AI
 featured: true
 date: "2025-12-16"
-order: 1
+order: 2
 ---
 
 If you ship an AI feature that returns structured data, you have probably written this: prompt the model for JSON, hope it is valid, and parse the text with a try/catch and a regex for the times it is not.

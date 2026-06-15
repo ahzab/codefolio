@@ -3,7 +3,7 @@ title: Cut your LLM bill with prompt caching
 description: Most AI features resend the same large prompt every call and pay full price for it. Cache the stable prefix and pay a fraction on every reuse.
 tag: Applied AI
 date: "2025-11-24"
-order: 2
+order: 3
 ---
 
 If you call an LLM with the same large system prompt on every request, you are overpaying. Most AI features send the same instructions, context, and tool definitions every single call, and pay full input price for all of it every time. The stable part is the expensive part, and it never changes.
