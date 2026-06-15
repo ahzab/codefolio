@@ -5,8 +5,10 @@ import { initTextEffects } from './modules/text-effects';
 import { initReveals } from './modules/reveals';
 import { initScroll } from './modules/scroll';
 import { initPointerEffects } from './modules/pointer-effects';
+import { initMobileNav } from './modules/nav';
 
 initTheme();
+initMobileNav();
 initContact();
 initFooterYear();
 initHeaderClock();

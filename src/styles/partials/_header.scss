@@ -203,6 +203,95 @@
   transform-origin: left;
 }
 
+/* ── Mobile nav toggle (hamburger) ───────────────────── */
+.nav-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  border: 1px solid var(--hairline-strong);
+  background: var(--bg-elevated);
+  color: var(--text);
+  cursor: pointer;
+  padding: 0;
+  transition: border-color 0.25s ease, background 0.25s ease;
+
+  @screen md { display: none; }
+}
+.nav-toggle:hover,
+.nav-toggle:focus-visible {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+  outline: none;
+}
+
+/* Three-bar icon drawn from the middle bar + its ::before/::after. */
+.nav-toggle__bars,
+.nav-toggle__bars::before,
+.nav-toggle__bars::after {
+  content: "";
+  display: block;
+  width: 18px;
+  height: 2px;
+  border-radius: 2px;
+  background: currentColor;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.2s ease;
+}
+.nav-toggle__bars { position: relative; }
+.nav-toggle__bars::before { position: absolute; top: -6px; }
+.nav-toggle__bars::after  { position: absolute; top: 6px; }
+
+.nav-toggle[aria-expanded="true"] .nav-toggle__bars { background: transparent; }
+.nav-toggle[aria-expanded="true"] .nav-toggle__bars::before { top: 0; transform: rotate(45deg); }
+.nav-toggle[aria-expanded="true"] .nav-toggle__bars::after  { top: 0; transform: rotate(-45deg); }
+
+/* ── Mobile nav panel ────────────────────────────────── */
+.mobile-nav {
+  border-top: 1px solid var(--hairline);
+  background: var(--bg-elevated);
+  backdrop-filter: saturate(180%) blur(18px);
+  -webkit-backdrop-filter: saturate(180%) blur(18px);
+
+  @screen md { display: none; }
+}
+.mobile-nav[hidden] { display: none; }
+
+.mobile-nav__links {
+  @apply max-w-6xl mx-auto px-5 sm:px-7;
+  display: flex;
+  flex-direction: column;
+  padding-top: 0.5rem;
+  padding-bottom: 0.75rem;
+}
+.mobile-nav__links a {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  padding: 0.85rem 0.25rem;
+  color: var(--text);
+  text-decoration: none;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  border-bottom: 1px solid var(--hairline);
+  transition: color 0.2s ease, padding-left 0.2s ease;
+}
+.mobile-nav__links a:last-child { border-bottom: 0; }
+.mobile-nav__links a:hover,
+.mobile-nav__links a:focus-visible {
+  color: var(--accent);
+  padding-left: 0.6rem;
+  outline: none;
+}
+.mobile-nav__no {
+  font-size: 10px;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+
 /* ── Header right cluster: status + divider + theme ─── */
 .header-meta {
   display: inline-flex;
