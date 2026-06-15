@@ -130,7 +130,18 @@
   border-bottom: 1px solid var(--hairline);
 }
 
-.article__actions-spacer { flex: 1 1 0.5rem; }
+.article__share-inline {
+  display: inline-flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-left: auto;
+}
+
+/* On desktop the floating rail handles sharing, so hide the inline share. */
+@media (min-width: 1100px) {
+  .article__share-inline { display: none; }
+}
 
 .article__listen {
   display: inline-flex;

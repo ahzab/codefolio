@@ -274,11 +274,12 @@ function page({ slug, title = slug, description = '', tag = '', date = '', image
             <span class="article__listen-icon" aria-hidden="true">&#9654;</span>
             <span class="article__listen-label">Listen</span>
           </button>
-          <span class="article__actions-spacer"></span>
-          <span class="article__share-label">Share</span>
-          <button class="article__share-btn article__share-native" type="button" hidden data-url="${url}" data-title="${t}" aria-label="Share">${ICONS.native}</button>
-          ${barLinks}
-          <button class="article__share-btn" type="button" data-copy="${url}" aria-label="Copy link">${ICONS.copy}</button>
+          <div class="article__share-inline">
+            <span class="article__share-label">Share</span>
+            <button class="article__share-btn article__share-native" type="button" hidden data-url="${url}" data-title="${t}" aria-label="Share">${ICONS.native}</button>
+            ${barLinks}
+            <button class="article__share-btn" type="button" data-copy="${url}" aria-label="Copy link">${ICONS.copy}</button>
+          </div>
         </div>
 ${bodyHtml}
         <div class="article__footer">
