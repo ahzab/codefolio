@@ -12,6 +12,7 @@ const outDir = join(root, '../src/writing');
 
 const FONTS =
   'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;700&display=swap';
+const SITE = 'https://codefolio.dev';
 
 function escapeHtml(s = '') {
   return String(s)
@@ -21,15 +22,28 @@ function escapeHtml(s = '') {
     .replace(/"/g, '&quot;');
 }
 
-function page({ title, description, tag, date, bodyHtml }) {
+function page({ slug, title = slug, description = '', tag = '', date = '', bodyHtml }) {
   const t = escapeHtml(title);
+  const url = `${SITE}/writing/${slug}.html`;
   return `<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>${t} — Abdel Ahzab</title>
+    <title>${t} · Abdel Ahzab</title>
     <meta name="description" content="${escapeHtml(description)}">
+    <link rel="canonical" href="${url}">
+
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="${url}">
+    <meta property="og:title" content="${t}">
+    <meta property="og:description" content="${escapeHtml(description)}">
+    <meta property="og:image" content="${SITE}/og-preview.png">
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="${url}">
+    <meta property="twitter:title" content="${t}">
+    <meta property="twitter:description" content="${escapeHtml(description)}">
+    <meta property="twitter:image" content="${SITE}/og-preview.png">
 
     <link rel="stylesheet" href="${FONTS}">
     <link rel="icon" type="image/svg+xml" href="/favicon.svg"/>
@@ -84,7 +98,7 @@ for (const file of files) {
   const slug = basename(file, '.md');
   const { data, content } = matter(readFileSync(join(contentDir, file), 'utf8'));
   const bodyHtml = marked.parse(content);
-  writeFileSync(join(outDir, `${slug}.html`), page({ ...data, bodyHtml }));
+  writeFileSync(join(outDir, `${slug}.html`), page({ slug, ...data, bodyHtml }));
   console.log(`  writing/${slug}.html`);
 }
 console.log(`build-writing: generated ${files.length} article page(s) from markdown`);
