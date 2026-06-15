@@ -37,6 +37,30 @@ function localImage(slug) {
   return '';
 }
 
+// Read raster pixel dimensions synchronously (JPEG/PNG) so we can emit
+// og:image:width/height — LinkedIn needs them to render the large image card
+// instead of falling back to a bare link.
+function imageSize(absPath) {
+  try {
+    const b = readFileSync(absPath);
+    if (b.length > 24 && b[0] === 0x89 && b[1] === 0x50) {
+      return { w: b.readUInt32BE(16), h: b.readUInt32BE(20) }; // PNG
+    }
+    if (b[0] === 0xff && b[1] === 0xd8) {
+      let o = 2; // JPEG: walk markers to the SOF frame header
+      while (o + 9 < b.length) {
+        if (b[o] !== 0xff) { o++; continue; }
+        const m = b[o + 1];
+        if (m >= 0xc0 && m <= 0xcf && ![0xc4, 0xc8, 0xcc].includes(m)) {
+          return { h: b.readUInt16BE(o + 5), w: b.readUInt16BE(o + 7) };
+        }
+        o += 2 + b.readUInt16BE(o + 2);
+      }
+    }
+  } catch {}
+  return null;
+}
+
 const FONTS =
   'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;700&display=swap';
 const SITE = 'https://www.codefolio.dev';
@@ -204,6 +228,11 @@ function page({ slug, title = slug, description = '', tag = '', date = '', image
       ? ogSrc
       : `${SITE}${ogSrc.startsWith('/') ? '' : '/'}${ogSrc}`
     : `${SITE}/og-preview.png`;
+  let ogDims = '';
+  if (ogSrc && !ogSrc.startsWith('http')) {
+    const d = imageSize(join(root, '../public' + (ogSrc.startsWith('/') ? '' : '/') + ogSrc));
+    if (d) ogDims = `\n    <meta property="og:image:width" content="${d.w}">\n    <meta property="og:image:height" content="${d.h}">`;
+  }
   const links = shareLinks(url, title);
   const barLinks = links
     .map((l) => `<a class="article__share-btn" href="${l.href}" target="_blank" rel="noopener noreferrer" aria-label="Share on ${l.name}">${l.icon}</a>`)
@@ -224,13 +253,13 @@ function page({ slug, title = slug, description = '', tag = '', date = '', image
     <meta property="og:url" content="${url}">
     <meta property="og:title" content="${t}">
     <meta property="og:description" content="${escapeHtml(description)}">
-    <meta property="og:image" content="${ogImage}">
+    <meta property="og:image" content="${ogImage}">${ogDims}
+    <meta property="og:image:alt" content="${t}">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:url" content="${url}">
     <meta name="twitter:title" content="${t}">
     <meta name="twitter:description" content="${escapeHtml(description)}">
     <meta name="twitter:image" content="${ogImage}">
-    <meta property="og:image:alt" content="${t}">
 
     <link rel="stylesheet" href="${FONTS}">
     <link rel="icon" type="image/svg+xml" href="/favicon.svg"/>

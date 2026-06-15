@@ -2,6 +2,7 @@
 title: What a high-traffic checkout taught me about reliability
 description: Years on a production e-commerce checkout came down to a few hard rules. Make every operation idempotent, never trust the network, and degrade instead of failing.
 tag: Scale
+featured: true
 date: 2026
 order: 10
 query: online shopping payment checkout laptop
