@@ -235,6 +235,39 @@ function shareLinks(url, title) {
   ];
 }
 
+// Structured data (schema.org) so search engines render rich results for posts.
+function articleLd({ url, title, description, ogImage, date, tag }) {
+  const author = { '@type': 'Person', name: 'Abdel Ahzab', url: SITE };
+  const data = {
+    '@context': 'https://schema.org',
+    '@graph': [
+      {
+        '@type': 'BlogPosting',
+        '@id': `${url}#article`,
+        mainEntityOfPage: { '@type': 'WebPage', '@id': url },
+        headline: title,
+        description,
+        image: ogImage,
+        author,
+        publisher: author,
+        url,
+        ...(date ? { datePublished: String(date) } : {}),
+        ...(tag ? { keywords: tag } : {}),
+      },
+      {
+        '@type': 'BreadcrumbList',
+        itemListElement: [
+          { '@type': 'ListItem', position: 1, name: 'Home', item: `${SITE}/` },
+          { '@type': 'ListItem', position: 2, name: 'Writing', item: `${SITE}/writing` },
+          { '@type': 'ListItem', position: 3, name: title },
+        ],
+      },
+    ],
+  };
+  // Escape "<" so a "</script>" sequence in any field can't break out of the tag.
+  return `<script type="application/ld+json">${JSON.stringify(data).replace(/</g, '\\u003c')}</script>`;
+}
+
 function page({ slug, title = slug, description = '', tag = '', date = '', image = '', bodyHtml, related = [] }) {
   const t = escapeHtml(title);
   const url = `${SITE}/writing/${slug}`;
@@ -267,19 +300,28 @@ function page({ slug, title = slug, description = '', tag = '', date = '', image
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>${t} · Abdel Ahzab</title>
     <meta name="description" content="${escapeHtml(description)}">
+    <meta name="author" content="Abdel Ahzab">
+    <meta name="robots" content="index, follow, max-image-preview:large">
     <link rel="canonical" href="${url}">
+    <link rel="sitemap" type="application/xml" href="/sitemap.xml">
 
     <meta property="og:type" content="article">
+    <meta property="og:site_name" content="codefolio.dev">
     <meta property="og:url" content="${url}">
     <meta property="og:title" content="${t}">
     <meta property="og:description" content="${escapeHtml(description)}">
     <meta property="og:image" content="${ogImage}">${ogDims}
     <meta property="og:image:alt" content="${t}">
+    ${date ? `<meta property="article:published_time" content="${escapeHtml(String(date))}">` : ''}
+    <meta property="article:author" content="Abdel Ahzab">
+    ${tag ? `<meta property="article:tag" content="${escapeHtml(tag)}">` : ''}
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:url" content="${url}">
     <meta name="twitter:title" content="${t}">
     <meta name="twitter:description" content="${escapeHtml(description)}">
     <meta name="twitter:image" content="${ogImage}">
+    <meta name="twitter:creator" content="@T3chW1zard">
+    ${articleLd({ url, title, description, ogImage, date, tag })}
 
     <link rel="stylesheet" href="${FONTS}">
     <link rel="icon" type="image/svg+xml" href="/favicon.svg"/>
@@ -320,7 +362,7 @@ function page({ slug, title = slug, description = '', tag = '', date = '', image
       <button class="article__rail-btn article__share-native" type="button" hidden data-url="${url}" data-title="${t}" aria-label="Share">${ICONS.native}</button>
     </div>
     <article class="article">
-        <img class="article__hero" src="${hero}" alt="">
+        <img class="article__hero" src="${hero}" alt="${t}" width="1200" height="627">
         <p class="article__meta">${escapeHtml(tag)} · ${escapeHtml(date)}</p>
         <h1>${t}</h1>
         <div class="article__actions">
@@ -598,6 +640,21 @@ pages.forEach((pagePosts, idx) => {
   writeFileSync(join(outDir, fileName(pageNum)), writingIndex(grid, pageNum, totalPages));
 });
 
+// Sitemap (written to public/ so Vite copies it to the site root).
+const sitemapUrls = [
+  `${SITE}/`,
+  ...Array.from({ length: totalPages }, (_, i) =>
+    `${SITE}/writing/${i === 0 ? '' : `page-${i + 1}.html`}`
+  ),
+  ...posts.map((p) => `${SITE}/writing/${p.slug}`),
+];
+const sitemap =
+  `<?xml version="1.0" encoding="UTF-8"?>\n` +
+  `<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n` +
+  sitemapUrls.map((loc) => `  <url><loc>${loc}</loc></url>`).join('\n') +
+  `\n</urlset>\n`;
+writeFileSync(join(root, '../public/sitemap.xml'), sitemap);
+
 console.log(
-  `build-writing: ${posts.length} posts, ${homePosts.length} featured on home, ${totalPages} index page(s)`
+  `build-writing: ${posts.length} posts, ${homePosts.length} featured on home, ${totalPages} index page(s), ${sitemapUrls.length} sitemap urls`
 );
