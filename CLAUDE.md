@@ -24,4 +24,5 @@ Write from the *lesson*, not the *instance*. "On a high-traffic checkout, idempo
 - `scripts/build-writing.mjs` runs before `vite build` (via `yarn build`) and generates: article pages, homepage featured cards (`featured: true`, top 3 by `order`), the paginated `/writing` index, hero SVGs, and social meta tags.
 - Hero images: `yarn images` fetches a Pexels photo per post (key in gitignored `.env.local`), optimized to 1200x627. A post uses, in order: frontmatter `image` > downloaded Pexels photo > generated SVG.
 - Social cards: `og:image` / `twitter:image` resolve to the post's own hero (absolute `https://www.codefolio.dev/...`); `og:image:width/height` are emitted for LinkedIn. Use the canonical `www` host everywhere (apex 308-redirects).
+- SEO/syndication: the build also generates `public/sitemap.xml` and a `public/rss.xml` (RSS 2.0, newest first) from the posts — both gitignored. Pages link the feed via `<link rel="alternate" type="application/rss+xml" href="/rss.xml">`.
 - Don't commit secrets; `.env.local` and generated artifacts stay gitignored.

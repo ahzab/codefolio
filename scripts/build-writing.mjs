@@ -312,6 +312,7 @@ function page({ slug, title = slug, description = '', tag = '', date = '', image
     <meta name="robots" content="index, follow, max-image-preview:large">
     <link rel="canonical" href="${url}">
     <link rel="sitemap" type="application/xml" href="/sitemap.xml">
+    <link rel="alternate" type="application/rss+xml" title="Abdel Ahzab — Writing" href="/rss.xml">
 
     <meta property="og:type" content="article">
     <meta property="og:site_name" content="codefolio.dev">
@@ -562,6 +563,7 @@ function writingIndex(gridHtml, pageNum, totalPages) {
     <title>Writing${label} · Abdel Ahzab</title>
     <meta name="description" content="Notes on shipping SaaS solo: applied AI, Next.js, security, and building in public.">
     <link rel="canonical" href="${canonical}">
+    <link rel="alternate" type="application/rss+xml" title="Abdel Ahzab — Writing" href="/rss.xml">
 
     <meta property="og:type" content="website">
     <meta property="og:url" content="${canonical}">
@@ -687,6 +689,43 @@ const sitemap =
   `\n</urlset>\n`;
 writeFileSync(join(root, '../public/sitemap.xml'), sitemap);
 
+// RSS 2.0 feed (written to public/ so Vite copies it to the site root).
+function rfc822(d = '') {
+  const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(String(d));
+  return m ? new Date(`${d}T00:00:00Z`).toUTCString() : '';
+}
+const FEED_TITLE = 'Abdel Ahzab — Writing';
+const FEED_DESC =
+  'Notes on shipping SaaS solo: applied AI, Next.js, security, and building in public.';
+const rssItems = posts
+  .map((p) => {
+    const u = `${SITE}/writing/${p.slug}`;
+    const pub = rfc822(p.data.date);
+    return (
+      `    <item>\n` +
+      `      <title>${escapeHtml(p.data.title || p.slug)}</title>\n` +
+      `      <link>${u}</link>\n` +
+      `      <guid isPermaLink="true">${u}</guid>\n` +
+      (pub ? `      <pubDate>${pub}</pubDate>\n` : '') +
+      (p.data.tag ? `      <category>${escapeHtml(p.data.tag)}</category>\n` : '') +
+      `      <description>${escapeHtml(p.data.description || '')}</description>\n` +
+      `    </item>`
+    );
+  })
+  .join('\n');
+const rss =
+  `<?xml version="1.0" encoding="UTF-8"?>\n` +
+  `<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">\n` +
+  `  <channel>\n` +
+  `    <title>${FEED_TITLE}</title>\n` +
+  `    <link>${SITE}/writing</link>\n` +
+  `    <atom:link href="${SITE}/rss.xml" rel="self" type="application/rss+xml"/>\n` +
+  `    <description>${FEED_DESC}</description>\n` +
+  `    <language>en</language>\n` +
+  rssItems +
+  `\n  </channel>\n</rss>\n`;
+writeFileSync(join(root, '../public/rss.xml'), rss);
+
 console.log(
-  `build-writing: ${posts.length} posts, ${homePosts.length} featured on home, ${totalPages} index page(s), ${sitemapUrls.length} sitemap urls`
+  `build-writing: ${posts.length} posts, ${homePosts.length} featured on home, ${totalPages} index page(s), ${sitemapUrls.length} sitemap urls, rss feed`
 );
