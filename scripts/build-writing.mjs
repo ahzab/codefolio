@@ -451,6 +451,41 @@ ${relatedSection(related)}
     });
   }
 
+  // Floating share rail: stays vertically centered while reading, but stops just
+  // above the "Read next" section (or the footer) so it never overlaps it. Scroll
+  // back up and it resumes floating in the centre of the viewport.
+  var rail = document.querySelector('.article__rail');
+  var railStop = document.querySelector('.article__next') || document.querySelector('.article__footer');
+  if (rail && railStop && window.getComputedStyle(rail).display !== 'none') {
+    var GAP = 24;
+    var railTick = false;
+    var positionRail = function () {
+      railTick = false;
+      if (window.getComputedStyle(rail).display === 'none') {
+        rail.style.top = '';
+        rail.style.transform = '';
+        return;
+      }
+      var railH = rail.offsetHeight;
+      var center = window.innerHeight / 2;
+      var stopTop = railStop.getBoundingClientRect().top; // viewport coords (rail is fixed)
+      var maxTop = stopTop - GAP - railH;
+      if (center - railH / 2 > maxTop) {
+        rail.style.top = Math.max(0, maxTop) + 'px';
+        rail.style.transform = 'none';
+      } else {
+        rail.style.top = '50%';
+        rail.style.transform = 'translateY(-50%)';
+      }
+    };
+    var onRailScroll = function () {
+      if (!railTick) { railTick = true; window.requestAnimationFrame(positionRail); }
+    };
+    window.addEventListener('scroll', onRailScroll, { passive: true });
+    window.addEventListener('resize', onRailScroll, { passive: true });
+    positionRail();
+  }
+
   // Listen (text-to-speech) with the most natural voice available
   var synth = window.speechSynthesis;
   var btn = document.querySelector('.article__listen');
