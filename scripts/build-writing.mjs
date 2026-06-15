@@ -82,9 +82,10 @@ function genHero(slug, tag) {
 `;
 }
 
-function card({ slug, title = slug, tag = '', description = '' }) {
+function card({ slug, title = slug, tag = '', description = '', image = '' }) {
+  const hero = image || `/writing/hero/${slug}.svg`;
   return `                <a class="writing-card" href="writing/${slug}.html">
-                    <img class="writing-card__hero" src="/writing/hero/${slug}.svg" alt="" loading="lazy">
+                    <img class="writing-card__hero" src="${hero}" alt="" loading="lazy">
                     <span class="writing-card__tag">${escapeHtml(tag)}</span>
                     <h3 class="writing-card__title">${escapeHtml(title)}</h3>
                     <p class="writing-card__excerpt">${escapeHtml(description)}</p>
@@ -92,9 +93,15 @@ function card({ slug, title = slug, tag = '', description = '' }) {
                 </a>`;
 }
 
-function page({ slug, title = slug, description = '', tag = '', date = '', bodyHtml }) {
+function page({ slug, title = slug, description = '', tag = '', date = '', image = '', bodyHtml }) {
   const t = escapeHtml(title);
   const url = `${SITE}/writing/${slug}.html`;
+  const hero = image || `/writing/hero/${slug}.svg`;
+  const ogImage = !image
+    ? `${SITE}/og-preview.png`
+    : image.startsWith('http')
+      ? image
+      : `${SITE}${image.startsWith('/') ? '' : '/'}${image}`;
   return `<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -108,12 +115,12 @@ function page({ slug, title = slug, description = '', tag = '', date = '', bodyH
     <meta property="og:url" content="${url}">
     <meta property="og:title" content="${t}">
     <meta property="og:description" content="${escapeHtml(description)}">
-    <meta property="og:image" content="${SITE}/og-preview.png">
+    <meta property="og:image" content="${ogImage}">
     <meta property="twitter:card" content="summary_large_image">
     <meta property="twitter:url" content="${url}">
     <meta property="twitter:title" content="${t}">
     <meta property="twitter:description" content="${escapeHtml(description)}">
-    <meta property="twitter:image" content="${SITE}/og-preview.png">
+    <meta property="twitter:image" content="${ogImage}">
 
     <link rel="stylesheet" href="${FONTS}">
     <link rel="icon" type="image/svg+xml" href="/favicon.svg"/>
@@ -148,7 +155,7 @@ function page({ slug, title = slug, description = '', tag = '', date = '', bodyH
 
 <main>
     <article class="article">
-        <img class="article__hero" src="/writing/hero/${slug}.svg" alt="">
+        <img class="article__hero" src="${hero}" alt="">
         <p class="article__meta">${escapeHtml(tag)} · ${escapeHtml(date)}</p>
         <h1>${t}</h1>
 ${bodyHtml}
@@ -179,7 +186,7 @@ const cards = [];
 for (const { slug, data, content } of posts) {
   const bodyHtml = marked.parse(content);
   writeFileSync(join(outDir, `${slug}.html`), page({ slug, ...data, bodyHtml }));
-  writeFileSync(join(heroDir, `${slug}.svg`), genHero(slug, data.tag));
+  if (!data.image) writeFileSync(join(heroDir, `${slug}.svg`), genHero(slug, data.tag));
   cards.push(card({ slug, ...data }));
   console.log(`  writing/${slug}.html`);
 }
