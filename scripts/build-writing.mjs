@@ -88,23 +88,6 @@ function escapeHtml(s = '') {
     .replace(/"/g, '&quot;');
 }
 
-// Normalize a frontmatter date to a machine-readable string. YAML may hand us a
-// Date object (unquoted full date) or a string/number — coerce all to "YYYY-MM-DD"
-// or pass a year-only value through.
-function isoDate(d = '') {
-  if (d instanceof Date) return d.toISOString().slice(0, 10);
-  return String(d);
-}
-
-// "2025-05-27" -> "May 27, 2025"; passes other values (e.g. "2026") through unchanged.
-const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-function fmtDate(d = '') {
-  const iso = isoDate(d);
-  const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(iso);
-  if (!m) return iso;
-  return `${MONTHS[+m[2] - 1]} ${+m[3]}, ${m[1]}`;
-}
-
 // Deterministic, on-brand hero banner per post (no external images / licensing).
 function hashStr(s) {
   let h = 0;
@@ -268,7 +251,7 @@ function articleLd({ url, title, description, ogImage, date, tag }) {
         author,
         publisher: author,
         url,
-        ...(date ? { datePublished: isoDate(date) } : {}),
+        ...(date ? { datePublished: date } : {}),
         ...(tag ? { keywords: tag } : {}),
       },
       {
@@ -329,7 +312,7 @@ function page({ slug, title = slug, description = '', tag = '', date = '', image
     <meta property="og:description" content="${escapeHtml(description)}">
     <meta property="og:image" content="${ogImage}">${ogDims}
     <meta property="og:image:alt" content="${t}">
-    ${date ? `<meta property="article:published_time" content="${escapeHtml(isoDate(date))}">` : ''}
+    ${date ? `<meta property="article:published_time" content="${escapeHtml(date)}">` : ''}
     <meta property="article:author" content="Abdel Ahzab">
     ${tag ? `<meta property="article:tag" content="${escapeHtml(tag)}">` : ''}
     <meta name="twitter:card" content="summary_large_image">
@@ -380,7 +363,7 @@ function page({ slug, title = slug, description = '', tag = '', date = '', image
     </div>
     <article class="article">
         <img class="article__hero" src="${hero}" alt="${t}" width="1200" height="627">
-        <p class="article__meta">${escapeHtml(tag)} · <time datetime="${escapeHtml(isoDate(date))}">${escapeHtml(fmtDate(date))}</time></p>
+        <p class="article__meta">${escapeHtml(tag)} · <time datetime="${escapeHtml(date)}">${escapeHtml(date)}</time></p>
         <h1>${t}</h1>
         <div class="article__actions">
           <button class="article__listen" type="button" aria-label="Listen to this article">
