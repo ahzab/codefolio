@@ -39,7 +39,7 @@ function localImage(slug) {
 
 const FONTS =
   'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;700&display=swap';
-const SITE = 'https://codefolio.dev';
+const SITE = 'https://www.codefolio.dev';
 // Set your GA4 Measurement ID here. Analytics stays OFF while this is the placeholder.
 const GA_ID = 'G-XXXXXXXXXX';
 
