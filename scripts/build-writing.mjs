@@ -88,6 +88,14 @@ function escapeHtml(s = '') {
     .replace(/"/g, '&quot;');
 }
 
+// Visible date format only: "2026-06-14" -> "14/06/26". The ISO value from the md
+// is kept untouched for <time datetime>, article:published_time, and schema.
+function displayDate(d = '') {
+  const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(String(d));
+  if (!m) return String(d);
+  return `${m[3]}/${m[2]}/${m[1].slice(2)}`;
+}
+
 // Deterministic, on-brand hero banner per post (no external images / licensing).
 function hashStr(s) {
   let h = 0;
@@ -363,7 +371,7 @@ function page({ slug, title = slug, description = '', tag = '', date = '', image
     </div>
     <article class="article">
         <img class="article__hero" src="${hero}" alt="${t}" width="1200" height="627">
-        <p class="article__meta">${escapeHtml(tag)} · <time datetime="${escapeHtml(date)}">${escapeHtml(date)}</time></p>
+        <p class="article__meta">${escapeHtml(tag)} · <time datetime="${escapeHtml(date)}">${escapeHtml(displayDate(date))}</time></p>
         <h1>${t}</h1>
         <div class="article__actions">
           <button class="article__listen" type="button" aria-label="Listen to this article">
