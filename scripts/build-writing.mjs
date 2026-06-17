@@ -71,12 +71,22 @@ function gaTag() {
   if (!GA_ID || GA_ID.includes('XXXX')) {
     return '<!-- Google Analytics disabled: set GA_ID in scripts/build-writing.mjs -->';
   }
-  return `<script async src="https://www.googletagmanager.com/gtag/js?id=${GA_ID}"></script>
-    <script>
+  return `<script>
         window.dataLayer = window.dataLayer || [];
         function gtag(){ dataLayer.push(arguments); }
         gtag('js', new Date());
         gtag('config', '${GA_ID}');
+        // Defer the GA library (~66 KiB) off the critical path — load when the browser is idle.
+        (function () {
+            function loadGA() {
+                var s = document.createElement('script');
+                s.async = true;
+                s.src = 'https://www.googletagmanager.com/gtag/js?id=${GA_ID}';
+                document.head.appendChild(s);
+            }
+            if ('requestIdleCallback' in window) { requestIdleCallback(loadGA, { timeout: 4000 }); }
+            else { window.addEventListener('load', function () { setTimeout(loadGA, 1200); }); }
+        })();
     </script>`;
 }
 
@@ -350,7 +360,7 @@ function page({ slug, title = slug, description = '', tag = '', date = '', image
 
 <header class="site-header">
     <div class="site-header__inner">
-        <a href="/" class="mark" aria-label="Home">
+        <a href="/" class="mark">
             <span class="mark-glyph" aria-hidden="true">
                 <span class="mark-glyph__slash"></span>
                 <span class="mark-glyph__dot"></span>
@@ -625,7 +635,7 @@ function writingIndex(gridHtml, pageNum, totalPages) {
 
 <header class="site-header">
     <div class="site-header__inner">
-        <a href="/" class="mark" aria-label="Home">
+        <a href="/" class="mark">
             <span class="mark-glyph" aria-hidden="true">
                 <span class="mark-glyph__slash"></span>
                 <span class="mark-glyph__dot"></span>

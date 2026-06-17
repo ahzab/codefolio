@@ -47,3 +47,6 @@ public/writing/hero/*.svg
 public/sitemap.xml
 public/rss.xml
 .env.local
+
+# Lighthouse reports (generated)
+.lighthouse/
