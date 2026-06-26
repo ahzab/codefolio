@@ -45,40 +45,34 @@
   overflow: hidden;
 }
 
+/* The giant backdrop letters are inline SVG <path> glyphs (vectors, not DOM
+   text). As real text the 48rem, ~5%-opacity "A" was itself the Largest
+   Contentful Paint element, and painting that glyph swung LCP between 2.6s and
+   4.5s. SVG <path> graphics are not LCP candidates, so LCP becomes the hero
+   heading — in the critical CSS, fast and stable. Outlines are the Instrument
+   Serif italic A and slash, so they look identical to the original. */
 .hero-bg__letter {
   position: absolute;
-  /* System serif only — these are decorative (opacity ~5%) and rendering them
-     in the Instrument Serif web font caused a large layout shift when the font
-     swapped in over the fallback on these 20–48rem glyphs (Lighthouse CLS). */
-  font-family: Georgia, 'Times New Roman', serif;
-  font-style: italic;
-  font-weight: 400;
+  display: block;
+  fill: currentColor;
   color: var(--ink);
   opacity: 0.045;
-  line-height: 0.8;
   user-select: none;
 }
-
-/* The glyphs are rendered as ::before generated content (not DOM text) so the
-   browser excludes these huge, faint, purely-decorative letters from Largest
-   Contentful Paint. As real <span> text the 48rem, ~5%-opacity "A" was itself
-   the LCP element, and its paint timing swung LCP between 2.6s and 4.5s. With it
-   out of the running, LCP is the hero heading — in the critical CSS, fast and
-   stable. */
-.hero-bg__letter--a::before { content: 'A'; }
-.hero-bg__letter--b::before { content: '/'; }
 
 html.dark .hero-bg__letter { opacity: 0.07; }
 
 .hero-bg__letter--a {
-  font-size: clamp(20rem, 60vw, 48rem);
+  height: clamp(14.6rem, 43.8vw, 35rem);
+  width: auto;
   top: -8%;
   right: -8%;
   transform: translate3d(0, calc(var(--scroll-y, 0) * -0.32px), 0);
 }
 
 .hero-bg__letter--b {
-  font-size: clamp(10rem, 25vw, 20rem);
+  height: clamp(9.2rem, 23vw, 18.4rem);
+  width: auto;
   bottom: -4%;
   left: -2%;
   transform: rotate(-12deg) translate3d(0, calc(var(--scroll-y, 0) * 0.18px), 0);
