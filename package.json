@@ -8,12 +8,13 @@
     "images": "node scripts/fetch-images.mjs",
     "optimize:images": "node scripts/optimize-images.mjs",
     "dev": "node scripts/build-writing.mjs && vite",
-    "build": "node scripts/build-writing.mjs && tsc && vite build",
+    "build": "node scripts/build-writing.mjs && tsc && vite build && node scripts/inline-critical.mjs",
     "preview": "vite preview",
     "lint": "tsc --noEmit"
   },
   "devDependencies": {
     "autoprefixer": "^10.4.17",
+    "beasties": "^0.4.2",
     "postcss": "^8.4.35",
     "sass": "^1.71.1",
     "sharp": "^0.35.1",

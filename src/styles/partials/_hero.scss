@@ -35,7 +35,10 @@
 
 .hero-bg__letter {
   position: absolute;
-  font-family: 'Instrument Serif', Georgia, serif;
+  /* System serif only — these are decorative (opacity ~5%) and rendering them
+     in the Instrument Serif web font caused a large layout shift when the font
+     swapped in over the fallback on these 20–48rem glyphs (Lighthouse CLS). */
+  font-family: Georgia, 'Times New Roman', serif;
   font-style: italic;
   font-weight: 400;
   color: var(--ink);
