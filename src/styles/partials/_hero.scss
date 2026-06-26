@@ -7,20 +7,16 @@
   position: relative;
 }
 
-/* The hero is always above the fold and holds the LCP element. Reveal it on
-   page load with a CSS animation instead of the JS IntersectionObserver: on a
-   throttled mobile connection the observer fired ~3s late, leaving the hero
-   (the LCP) invisible and pushing LCP to ~4.7s. Transform-only entrance keeps
-   the text painted from the first frame (opacity stays 1) so LCP is immediate.
-   This overrides the shared `.reveal { opacity: 0 }`; below-fold sections still
-   use the JS scroll-reveal. JS adding `.in-view` later is a harmless no-op. */
+/* The hero is always above the fold and holds the LCP element, so make it
+   visible from the first frame instead of waiting for the JS IntersectionObserver
+   (which on a throttled mobile connection fired ~3s late and pushed LCP to ~4.7s).
+   No entrance transform/opacity here: animating the hero subtree deferred the
+   paint of the large hero text and made LCP swing on slow loads. This overrides
+   the shared `.reveal { opacity: 0 }`; below-fold sections keep their scroll
+   reveal, and JS adding `.in-view` later is a harmless no-op. */
 .hero.reveal {
   opacity: 1;
-  animation: hero-rise 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
-}
-@keyframes hero-rise {
-  from { transform: translateY(16px); }
-  to   { transform: translateY(0); }
+  transform: none;
 }
 
 .hero[data-spotlight]::before {
@@ -79,7 +75,6 @@ html.dark .hero-bg__letter { opacity: 0.07; }
   top: -8%;
   right: -8%;
   transform: translate3d(0, calc(var(--scroll-y, 0) * -0.32px), 0);
-  will-change: transform;
 }
 
 .hero-bg__letter--b {
@@ -89,7 +84,6 @@ html.dark .hero-bg__letter { opacity: 0.07; }
   transform: rotate(-12deg) translate3d(0, calc(var(--scroll-y, 0) * 0.18px), 0);
   color: var(--accent);
   opacity: 0.07;
-  will-change: transform;
 }
 html.dark .hero-bg__letter--b { opacity: 0.1; }
 
