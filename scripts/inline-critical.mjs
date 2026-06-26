@@ -41,7 +41,14 @@ const beasties = new Beasties({
 const files = await htmlFiles();
 for (const file of files) {
     const html = await readFile(file, 'utf8');
-    const processed = await beasties.process(html);
+    // beasties prunes the inline @font-face <style> (it treats the rules as
+    // "unused" since no element selector matches them). Capture it first and
+    // re-insert it afterwards so the self-hosted fonts keep working.
+    const fontFace = html.match(/<style>\s*@font-face[\s\S]*?<\/style>/);
+    let processed = await beasties.process(html);
+    if (fontFace && !processed.includes('@font-face')) {
+        processed = processed.replace('</head>', `${fontFace[0]}\n</head>`);
+    }
     await writeFile(file, processed, 'utf8');
     console.log(`inline-critical: ${file.replace(distDir, 'dist')}`);
 }

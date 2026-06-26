@@ -18,7 +18,11 @@ const articleInputs = existsSync(writingDir)
 export default defineConfig({
     root: 'src',
     publicDir: '../public',
-    base: './',
+    // Root-relative asset URLs. The site is always served from the root of
+    // www.codefolio.dev, and absolute paths are required so same-origin assets
+    // (e.g. /fonts/*.woff2) resolve identically from / and from /writing/* pages
+    // — relative './' paths resolve against the page's own directory and 404.
+    base: '/',
     css: {
         preprocessorOptions: {
             scss: { api: 'modern-compiler' }

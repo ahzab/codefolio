@@ -61,8 +61,21 @@ function imageSize(absPath) {
   return null;
 }
 
-const FONTS =
-  'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;700&display=optional';
+// Self-hosted fonts (same-origin, no third-party round-trips). Preload the body
+// face; inline @font-face with font-display: optional (no swap → no CLS).
+const FONTS = `<link rel="preload" as="font" type="font/woff2" href="/fonts/inter-400.woff2" crossorigin>
+    <style>
+    @font-face{font-family:'Instrument Serif';font-style:normal;font-weight:400;font-display:optional;src:url(/fonts/instrument-serif-400.woff2) format('woff2')}
+    @font-face{font-family:'Instrument Serif';font-style:italic;font-weight:400;font-display:optional;src:url(/fonts/instrument-serif-400-italic.woff2) format('woff2')}
+    @font-face{font-family:'Inter';font-style:normal;font-weight:400;font-display:optional;src:url(/fonts/inter-400.woff2) format('woff2')}
+    @font-face{font-family:'Inter';font-style:normal;font-weight:500;font-display:optional;src:url(/fonts/inter-500.woff2) format('woff2')}
+    @font-face{font-family:'Inter';font-style:normal;font-weight:600;font-display:optional;src:url(/fonts/inter-600.woff2) format('woff2')}
+    @font-face{font-family:'JetBrains Mono';font-style:normal;font-weight:400;font-display:optional;src:url(/fonts/jetbrains-mono-400.woff2) format('woff2')}
+    @font-face{font-family:'JetBrains Mono';font-style:normal;font-weight:500;font-display:optional;src:url(/fonts/jetbrains-mono-500.woff2) format('woff2')}
+    @font-face{font-family:'Space Grotesk';font-style:normal;font-weight:400;font-display:optional;src:url(/fonts/space-grotesk-400.woff2) format('woff2')}
+    @font-face{font-family:'Space Grotesk';font-style:normal;font-weight:500;font-display:optional;src:url(/fonts/space-grotesk-500.woff2) format('woff2')}
+    @font-face{font-family:'Space Grotesk';font-style:normal;font-weight:700;font-display:optional;src:url(/fonts/space-grotesk-700.woff2) format('woff2')}
+    </style>`;
 const SITE = 'https://www.codefolio.dev';
 // Set your GA4 Measurement ID here. Analytics stays OFF while this is the placeholder.
 const GA_ID = 'G-9B47PMLJZH';
@@ -342,7 +355,7 @@ function page({ slug, title = slug, description = '', tag = '', date = '', image
     <meta name="twitter:creator" content="@T3chW1zard">
     ${articleLd({ url, title, description, ogImage, date, tag })}
 
-    <link rel="stylesheet" href="${FONTS}">
+    ${FONTS}
     <link rel="icon" type="image/svg+xml" href="/favicon.svg"/>
     <meta name="theme-color" content="#0a0a0c">
 
@@ -617,7 +630,7 @@ function writingIndex(gridHtml, pageNum, totalPages) {
     <meta property="og:image" content="${SITE}/og-preview.png">
     <meta property="twitter:card" content="summary_large_image">
 
-    <link rel="stylesheet" href="${FONTS}">
+    ${FONTS}
     <link rel="icon" type="image/svg+xml" href="/favicon.svg"/>
     <meta name="theme-color" content="#0a0a0c">
 
