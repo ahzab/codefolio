@@ -8,7 +8,7 @@
     "images": "node scripts/fetch-images.mjs",
     "optimize:images": "node scripts/optimize-images.mjs",
     "dev": "node scripts/build-writing.mjs && vite",
-    "build": "node scripts/build-writing.mjs && tsc && vite build",
+    "build": "node scripts/build-writing.mjs && tsc && vite build && node scripts/inline-critical-home.mjs",
     "preview": "vite preview",
     "lint": "tsc --noEmit"
   },
