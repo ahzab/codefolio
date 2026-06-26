@@ -16,7 +16,9 @@
          round-trips on the critical path. Preload the two above-the-fold faces
          (hero heading + body) so the LCP text paints immediately; the rest load
          on demand. font-display: optional → fallback if not ready, never swaps,
-         so no layout shift. -->
+         so no layout shift. Only above-the-fold faces are declared here; the
+         below-the-fold marquee font (Space Grotesk) is defined in the async
+         stylesheet so it stays off the critical request chain. -->
     <link rel="preload" as="font" type="font/woff2" href="/fonts/instrument-serif-400.woff2" crossorigin>
     <link rel="preload" as="font" type="font/woff2" href="/fonts/inter-400.woff2" crossorigin>
     <style>
@@ -27,9 +29,6 @@
     @font-face{font-family:'Inter';font-style:normal;font-weight:600;font-display:optional;src:url(/fonts/inter-600.woff2) format('woff2')}
     @font-face{font-family:'JetBrains Mono';font-style:normal;font-weight:400;font-display:optional;src:url(/fonts/jetbrains-mono-400.woff2) format('woff2')}
     @font-face{font-family:'JetBrains Mono';font-style:normal;font-weight:500;font-display:optional;src:url(/fonts/jetbrains-mono-500.woff2) format('woff2')}
-    @font-face{font-family:'Space Grotesk';font-style:normal;font-weight:400;font-display:optional;src:url(/fonts/space-grotesk-400.woff2) format('woff2')}
-    @font-face{font-family:'Space Grotesk';font-style:normal;font-weight:500;font-display:optional;src:url(/fonts/space-grotesk-500.woff2) format('woff2')}
-    @font-face{font-family:'Space Grotesk';font-style:normal;font-weight:700;font-display:optional;src:url(/fonts/space-grotesk-700.woff2) format('woff2')}
     </style>
 
     <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96"/>

@@ -1,6 +1,16 @@
 /* ──────────────────────────────────────────────────────
    MARQUEE — auto-scrolling tools strip under the hero
    ────────────────────────────────────────────────────── */
+
+/* Space Grotesk is below-the-fold (this marquee is its only consumer), so its
+   @font-face lives here in the async stylesheet rather than the synchronous
+   head — that keeps it off the critical request chain. font-display: optional
+   means the marquee paints in the Inter fallback if the font isn't ready, with
+   no swap/CLS. */
+@font-face { font-family: 'Space Grotesk'; font-style: normal; font-weight: 400; font-display: optional; src: url(/fonts/space-grotesk-400.woff2) format('woff2'); }
+@font-face { font-family: 'Space Grotesk'; font-style: normal; font-weight: 500; font-display: optional; src: url(/fonts/space-grotesk-500.woff2) format('woff2'); }
+@font-face { font-family: 'Space Grotesk'; font-style: normal; font-weight: 700; font-display: optional; src: url(/fonts/space-grotesk-700.woff2) format('woff2'); }
+
 .marquee {
   margin: 0 -2rem;
   overflow: hidden;
