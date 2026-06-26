@@ -14,7 +14,6 @@
   },
   "devDependencies": {
     "autoprefixer": "^10.4.17",
-    "beasties": "^0.4.2",
     "postcss": "^8.4.35",
     "sass": "^1.71.1",
     "sharp": "^0.35.1",
