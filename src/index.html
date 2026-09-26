@@ -165,7 +165,7 @@
         </a>
 
         <nav class="primary-nav" aria-label="Primary">
-            <a href="#work"><span class="primary-nav__no" aria-hidden="true">01</span><span class="primary-nav__label">Work</span></a>
+            <a href="#projects"><span class="primary-nav__no" aria-hidden="true">01</span><span class="primary-nav__label">Work</span></a>
             <a href="#process"><span class="primary-nav__no" aria-hidden="true">02</span><span class="primary-nav__label">Process</span></a>
             <a href="#stack"><span class="primary-nav__no" aria-hidden="true">03</span><span class="primary-nav__label">Stack</span></a>
             <a href="#writing"><span class="primary-nav__no" aria-hidden="true">04</span><span class="primary-nav__label">Writing</span></a>
@@ -213,7 +213,7 @@
     </div>
     <div id="mobile-nav" class="mobile-nav" hidden>
         <nav class="mobile-nav__links" aria-label="Mobile">
-            <a href="#work"><span class="mobile-nav__no" aria-hidden="true">01</span>Work</a>
+            <a href="#projects"><span class="mobile-nav__no" aria-hidden="true">01</span>Work</a>
             <a href="#process"><span class="mobile-nav__no" aria-hidden="true">02</span>Process</a>
             <a href="#stack"><span class="mobile-nav__no" aria-hidden="true">03</span>Stack</a>
             <a href="#writing"><span class="mobile-nav__no" aria-hidden="true">04</span>Writing</a>
@@ -234,7 +234,7 @@
 
             <p class="eyebrow eyebrow--live">
                 <span class="eyebrow-pulse" aria-hidden="true"></span>
-                Available for a new build · Summer 2026
+                Open for one new build
             </p>
 
             <h1 class="display" data-split>
@@ -256,7 +256,7 @@
                         </svg>
                     </span>
                 </a>
-                <a href="#work" class="cta cta--ghost">
+                <a href="#projects" class="cta cta--ghost">
                     <span>See what I ship</span>
                 </a>
             </div>
@@ -272,7 +272,7 @@
                 </div>
                 <div class="hero-meta__item">
                     <dt>Based</dt>
-                    <dd>Remote · EU</dd>
+                    <dd>Rabat · CET</dd>
                 </div>
                 <div class="hero-meta__item">
                     <dt>Reply</dt>
@@ -314,9 +314,68 @@
             </div>
         </section>
 
-        <section id="work" class="work reveal" aria-labelledby="work-title">
+        <section id="projects" class="work reveal" aria-labelledby="projects-title">
             <header class="section-head">
                 <span class="section-no">01</span>
+                <h2 id="projects-title" class="section-title">Selected work</h2>
+                <span class="section-rule" aria-hidden="true"></span>
+            </header>
+
+            <div class="work-grid">
+                <article class="work-card work-card--accent" tabindex="0" data-tilt>
+                    <span class="work-card__tag">Day job · 9 years</span>
+                    <h3 class="work-card__title">Checkout and services for a production e-commerce platform.</h3>
+                    <p class="work-card__body">At HSE (Home Shopping Europe) I build the React/TypeScript/Redux checkout and the Kotlin/Vert.x services behind it, where a failed order is lost revenue.</p>
+                    <ul class="work-card__chips">
+                        <li>React</li><li>TypeScript</li><li>Redux</li><li>Kotlin / Vert.x</li>
+                    </ul>
+                </article>
+
+                <a class="work-card" href="https://github.com/ahzab/ship-loop" target="_blank" rel="noopener" data-tilt>
+                    <span class="work-card__tag">Open source · Dev tooling</span>
+                    <h3 class="work-card__title">ship-loop</h3>
+                    <p class="work-card__body">Takes a GitHub issue to a verified preview and a gated merge: isolated worktree, a coding agent, test and risk gates with a bounded fix loop, merge only on green.</p>
+                    <ul class="work-card__chips">
+                        <li>TypeScript</li><li>Claude Code</li><li>GitHub Actions</li>
+                    </ul>
+                    <span class="work-card__arrow" aria-hidden="true">↗</span>
+                </a>
+
+                <a class="work-card" href="https://github.com/ahzab/supabase-prod-check" target="_blank" rel="noopener" data-tilt>
+                    <span class="work-card__tag">Open source · CLI</span>
+                    <h3 class="work-card__title">supabase-prod-check</h3>
+                    <p class="work-card__body">Static checks that catch Supabase + Next.js mistakes before production: tables without RLS, service keys in the browser, open cron routes, unsigned Stripe webhooks.</p>
+                    <ul class="work-card__chips">
+                        <li>TypeScript</li><li>Supabase</li><li>Postgres</li><li>Stripe</li>
+                    </ul>
+                    <span class="work-card__arrow" aria-hidden="true">↗</span>
+                </a>
+
+                <a class="work-card" href="https://lume-zeta-blue.vercel.app" target="_blank" rel="noopener" data-tilt>
+                    <span class="work-card__tag">SaaS · Building</span>
+                    <h3 class="work-card__title">Barez (بارز)</h3>
+                    <p class="work-card__body">An Arabic-first AI CV builder and Gulf job board: build and tailor CVs in Arabic and English, ATS scoring, aggregated GCC job feeds. Right-to-left throughout.</p>
+                    <ul class="work-card__chips">
+                        <li>Next.js</li><li>Supabase</li><li>Stripe</li><li>LLM APIs</li>
+                    </ul>
+                    <span class="work-card__arrow" aria-hidden="true">↗</span>
+                </a>
+
+                <a class="work-card" href="https://github.com/Degen-Markets/degen-markets-fe" target="_blank" rel="noopener" data-tilt>
+                    <span class="work-card__tag">Contract</span>
+                    <h3 class="work-card__title">Degen Markets</h3>
+                    <p class="work-card__body">Second-largest contributor to the Next.js front end of a Solana betting app, plus the Lambda and Postgres APIs behind it.</p>
+                    <ul class="work-card__chips">
+                        <li>Next.js</li><li>Solana</li><li>AWS Lambda</li><li>Postgres</li>
+                    </ul>
+                    <span class="work-card__arrow" aria-hidden="true">↗</span>
+                </a>
+            </div>
+        </section>
+
+        <section id="work" class="work reveal" aria-labelledby="work-title">
+            <header class="section-head">
+                <span class="section-no">02</span>
                 <h2 id="work-title" class="section-title">What I ship</h2>
                 <span class="section-rule" aria-hidden="true"></span>
             </header>
@@ -376,7 +435,7 @@
 
         <section id="process" class="process reveal" aria-labelledby="process-title">
             <header class="section-head">
-                <span class="section-no">02</span>
+                <span class="section-no">03</span>
                 <h2 id="process-title" class="section-title">How a build goes</h2>
                 <span class="section-rule" aria-hidden="true"></span>
             </header>
@@ -419,7 +478,7 @@
 
         <section id="stack" class="stack reveal" aria-labelledby="stack-title">
             <header class="section-head">
-                <span class="section-no">03</span>
+                <span class="section-no">04</span>
                 <h2 id="stack-title" class="section-title">The stack I reach for</h2>
                 <span class="section-rule" aria-hidden="true"></span>
             </header>
@@ -465,13 +524,13 @@
 
         <section class="about reveal" aria-labelledby="about-title">
             <header class="section-head">
-                <span class="section-no">04</span>
+                <span class="section-no">05</span>
                 <h2 id="about-title" class="section-title">About</h2>
                 <span class="section-rule" aria-hidden="true"></span>
             </header>
             <div class="about-grid">
                 <div class="prose">
-                    <p>I'm Abdel, a full-stack engineer working across product, AI, and infrastructure. I spent nine years on a production e-commerce platform serving real traffic, which is where I learned to ship things that hold up. These days I build and ship SaaS products of my own, folding LLMs and RAG in where they change how people use the product. I build React Native apps too.</p>
+                    <p>I'm Abdel, a full-stack engineer working across product, AI, and infrastructure. I spent nine years at HSE on a production e-commerce platform serving real traffic, which is where I learned to ship things that hold up. These days I build and ship SaaS products of my own, folding LLMs and RAG in where they change how people use the product. I build React Native apps too.</p>
                     <p>I work best with teams who care about craft and want one engineer who can take a thing from a Figma frame to a Docker container in the same week, no hand-offs, no theatre.</p>
                 </div>
                 <aside class="about-card" aria-label="Quick facts">
@@ -497,7 +556,7 @@
 
         <section id="writing" class="writing reveal" aria-labelledby="writing-title">
             <header class="section-head">
-                <span class="section-no">05</span>
+                <span class="section-no">06</span>
                 <h2 id="writing-title" class="section-title">Writing</h2>
                 <span class="section-rule" aria-hidden="true"></span>
             </header>
@@ -531,7 +590,7 @@
 
         <section id="contact" class="contact reveal" aria-labelledby="contact-title">
             <header class="section-head">
-                <span class="section-no">06</span>
+                <span class="section-no">07</span>
                 <h2 id="contact-title" class="section-title">Get in touch</h2>
                 <span class="section-rule" aria-hidden="true"></span>
             </header>
