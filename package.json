@@ -1,16 +1,17 @@
 {
   "name": "codefolio",
   "private": true,
-  "version": "2.0.26",
+  "version": "3.0.0",
   "type": "module",
   "scripts": {
     "writing": "node scripts/build-writing.mjs",
     "images": "node scripts/fetch-images.mjs",
     "optimize:images": "node scripts/optimize-images.mjs",
     "dev": "node scripts/build-writing.mjs && vite",
-    "build": "node scripts/build-writing.mjs && tsc && vite build && node scripts/inline-critical-home.mjs",
+    "build": "node scripts/build-writing.mjs && tsc && yarn -s critical && vite build && node scripts/inline-critical-home.mjs",
     "preview": "vite preview",
-    "lint": "tsc --noEmit"
+    "lint": "tsc --noEmit",
+    "critical": "sass --no-source-map --style=compressed src/styles/critical.scss src/critical-home.css"
   },
   "devDependencies": {
     "autoprefixer": "^10.4.17",

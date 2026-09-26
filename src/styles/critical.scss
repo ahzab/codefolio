@@ -1,0 +1,8 @@
+// Above-the-fold CSS for the homepage, inlined by scripts/inline-critical-home.mjs.
+// Compiled (not extracted) with `yarn critical`, so it can never drift from the
+// partials it is made of. Keep this list to what paints in the first viewport.
+@use 'partials/tokens';
+@use 'partials/base';
+@use 'partials/chrome';
+@use 'partials/hero';
+@use 'partials/motion';

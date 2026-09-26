@@ -14,11 +14,9 @@
   flex-direction: column;
   gap: 0.75rem;
   padding: 1.5rem;
-  border-radius: 20px;
+  border-radius: 0;
   border: 1px solid var(--hairline);
   background: var(--bg-card);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
   text-decoration: none;
   color: inherit;
   transition: border-color 0.3s ease, transform 0.3s ease;
@@ -30,7 +28,7 @@
 }
 
 .writing-card__tag {
-  font-family: 'JetBrains Mono', monospace;
+  font-family: var(--font-mono);
   font-size: 10px;
   letter-spacing: 0.2em;
   text-transform: uppercase;
@@ -42,7 +40,7 @@
 
 .writing-card__more {
   margin-top: auto;
-  font-family: 'JetBrains Mono', monospace;
+  font-family: var(--font-mono);
   font-size: 11px;
   letter-spacing: 0.1em;
   text-transform: uppercase;
@@ -52,7 +50,7 @@
   width: 100%;
   aspect-ratio: 16 / 9;
   object-fit: cover;
-  border-radius: 12px;
+  border-radius: 0;
   border: 1px solid var(--hairline);
   display: block;
 }
@@ -61,7 +59,7 @@
   width: 100%;
   aspect-ratio: 12 / 5;
   object-fit: cover;
-  border-radius: 18px;
+  border-radius: 0;
   border: 1px solid var(--hairline);
   display: block;
   margin-bottom: 2rem;
@@ -70,7 +68,7 @@
 .writing-all {
   display: inline-block;
   margin-top: 1.75rem;
-  font-family: 'JetBrains Mono', monospace;
+  font-family: var(--font-mono);
   font-size: 12px;
   letter-spacing: 0.12em;
   text-transform: uppercase;
@@ -104,13 +102,13 @@
 
 .pagination__num,
 .pagination__step {
-  font-family: 'JetBrains Mono', monospace;
+  font-family: var(--font-mono);
   font-size: 12px;
   letter-spacing: 0.06em;
   text-decoration: none;
   color: var(--muted);
   padding: 0.35rem 0.6rem;
-  border-radius: 8px;
+  border-radius: 0;
   border: 1px solid transparent;
   transition: color 0.3s ease, border-color 0.3s ease;
 }
@@ -149,14 +147,14 @@
   gap: 0.5rem;
   margin: 0;
   padding: 0.5rem 1rem;
-  font-family: 'JetBrains Mono', monospace;
+  font-family: var(--font-mono);
   font-size: 11px;
   letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--text);
   background: var(--bg-card);
   border: 1px solid var(--hairline);
-  border-radius: 999px;
+  border-radius: 0;
   cursor: pointer;
   transition: border-color 0.3s ease, background 0.3s ease;
 }
@@ -165,7 +163,7 @@
 .article__listen-icon { font-size: 9px; line-height: 1; }
 
 .article__share-label {
-  font-family: 'JetBrains Mono', monospace;
+  font-family: var(--font-mono);
   font-size: 10px;
   letter-spacing: 0.2em;
   text-transform: uppercase;
@@ -174,14 +172,14 @@
 }
 
 .article__share-btn {
-  font-family: 'JetBrains Mono', monospace;
+  font-family: var(--font-mono);
   font-size: 11px;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--text);
   background: var(--bg-card);
   border: 1px solid var(--hairline);
-  border-radius: 999px;
+  border-radius: 0;
   padding: 0.4rem 0.85rem;
   text-decoration: none;
   cursor: pointer;
@@ -222,7 +220,7 @@
   color: var(--text);
   background: var(--bg-card);
   border: 1px solid var(--hairline);
-  border-radius: 50%;
+  border-radius: 0;
   cursor: pointer;
   text-decoration: none;
   transition: border-color 0.3s ease, transform 0.2s ease;
@@ -239,7 +237,7 @@
 }
 
 .article__next-title {
-  font-family: 'JetBrains Mono', monospace;
+  font-family: var(--font-mono);
   font-size: 12px;
   letter-spacing: 0.2em;
   text-transform: uppercase;
@@ -266,7 +264,7 @@
 }
 
 .article__meta {
-  font-family: 'JetBrains Mono', monospace;
+  font-family: var(--font-mono);
   font-size: 11px;
   letter-spacing: 0.2em;
   text-transform: uppercase;
@@ -294,19 +292,19 @@
 .article a { color: var(--accent, var(--text)); text-underline-offset: 3px; }
 
 .article code {
-  font-family: 'JetBrains Mono', monospace;
+  font-family: var(--font-mono);
   font-size: 0.88em;
   background: var(--bg-card);
   border: 1px solid var(--hairline);
-  border-radius: 6px;
+  border-radius: 0;
   padding: 0.1em 0.35em;
 }
 
 .article pre {
-  background: #282c34; /* Atom One Dark */
+  background: #111111;
   color: #abb2bf;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 14px;
+  border: 1px solid var(--hairline);
+  border-radius: 0;
   padding: 1.1rem 1.25rem;
   overflow-x: auto;
   margin: 0 0 1.5rem;
@@ -331,7 +329,7 @@
 }
 
 .article__back {
-  font-family: 'JetBrains Mono', monospace;
+  font-family: var(--font-mono);
   font-size: 11px;
   letter-spacing: 0.1em;
   text-transform: uppercase;

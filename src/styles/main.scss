@@ -1,17 +1,10 @@
 @use 'partials/tokens';
 @use 'partials/base';
-@use 'partials/ambient';
-@use 'partials/header';
+@use 'partials/chrome';
 @use 'partials/hero';
-@use 'partials/marquee';
-@use 'partials/work';
-@use 'partials/process';
-@use 'partials/stack';
-@use 'partials/about';
+@use 'partials/sections';
 @use 'partials/writing';
 @use 'partials/code';
-@use 'partials/contact';
-@use 'partials/footer';
 @use 'partials/motion';
 
 @tailwind base;

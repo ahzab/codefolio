@@ -3,32 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>Abdel Ahzab, Full-Stack Engineer shipping Applied AI</title>
+    <title>Abdel Ahzab, Full-Stack Engineer</title>
     <meta name="description"
-          content="Independent engineer building React Native and web apps with applied AI on AWS. From Figma frame to Docker container in the same week.">
+          content="Full-stack engineer in Rabat. Nine years across four teams on a production e-commerce platform, now building Arabic-first products on Next.js, Supabase and Stripe.">
     <meta name="author" content="Abdel Ahzab">
     <meta name="robots" content="index, follow, max-image-preview:large">
     <link rel="canonical" href="https://www.codefolio.dev/">
     <link rel="sitemap" type="application/xml" href="/sitemap.xml">
     <link rel="alternate" type="application/rss+xml" title="Abdel Ahzab — Writing" href="/rss.xml">
 
-    <!-- Self-hosted fonts: same-origin, no third-party (googleapis/gstatic)
-         round-trips on the critical path. Preload the two above-the-fold faces
-         (hero heading + body) so the LCP text paints immediately; the rest load
-         on demand. font-display: optional → fallback if not ready, never swaps,
-         so no layout shift. Only above-the-fold faces are declared here; the
-         below-the-fold marquee font (Space Grotesk) is defined in the async
-         stylesheet so it stays off the critical request chain. -->
-    <link rel="preload" as="font" type="font/woff2" href="/fonts/instrument-serif-400.woff2" crossorigin>
-    <link rel="preload" as="font" type="font/woff2" href="/fonts/inter-400.woff2" crossorigin>
+    <!-- Self-hosted fonts: same-origin, no third-party round-trips on the
+         critical path. Preload the two above-the-fold faces (Doto for the name
+         and the readout, Geist for body) so LCP text paints immediately.
+         font-display: optional → fallback if not ready, never swaps, so no
+         layout shift. Geist and Geist Mono are variable (one file, 400-600).
+         The Arabic face only downloads on a page that shows Arabic
+         (unicode-range). -->
+    <link rel="preload" as="font" type="font/woff2" href="/fonts/doto-900.woff2" crossorigin>
+    <link rel="preload" as="font" type="font/woff2" href="/fonts/geist.woff2" crossorigin>
     <style>
-    @font-face{font-family:'Instrument Serif';font-style:normal;font-weight:400;font-display:optional;src:url(/fonts/instrument-serif-400.woff2) format('woff2')}
-    @font-face{font-family:'Instrument Serif';font-style:italic;font-weight:400;font-display:optional;src:url(/fonts/instrument-serif-400-italic.woff2) format('woff2')}
-    @font-face{font-family:'Inter';font-style:normal;font-weight:400;font-display:optional;src:url(/fonts/inter-400.woff2) format('woff2')}
-    @font-face{font-family:'Inter';font-style:normal;font-weight:500;font-display:optional;src:url(/fonts/inter-500.woff2) format('woff2')}
-    @font-face{font-family:'Inter';font-style:normal;font-weight:600;font-display:optional;src:url(/fonts/inter-600.woff2) format('woff2')}
-    @font-face{font-family:'JetBrains Mono';font-style:normal;font-weight:400;font-display:optional;src:url(/fonts/jetbrains-mono-400.woff2) format('woff2')}
-    @font-face{font-family:'JetBrains Mono';font-style:normal;font-weight:500;font-display:optional;src:url(/fonts/jetbrains-mono-500.woff2) format('woff2')}
+    @font-face{font-family:'Doto';font-style:normal;font-weight:900;font-display:optional;src:url(/fonts/doto-900.woff2) format('woff2')}
+    @font-face{font-family:'Geist';font-style:normal;font-weight:400 600;font-display:optional;src:url(/fonts/geist.woff2) format('woff2')}
+    @font-face{font-family:'Geist Mono';font-style:normal;font-weight:400 500;font-display:optional;src:url(/fonts/geist-mono.woff2) format('woff2')}
+    @font-face{font-family:'IBM Plex Sans Arabic';font-style:normal;font-weight:700;font-display:swap;src:url(/fonts/plex-arabic-700.woff2) format('woff2');unicode-range:U+0600-06FF,U+200C-200E,U+FB50-FDFF,U+FE70-FEFF}
     </style>
 
     <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96"/>
@@ -37,7 +34,7 @@
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"/>
 
     <link rel="manifest" href="/site.webmanifest">
-    <meta name="theme-color" content="#0a0a0c">
+    <meta name="theme-color" content="#0b0b0b">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -46,15 +43,15 @@
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="codefolio.dev">
     <meta property="og:url" content="https://www.codefolio.dev/">
-    <meta property="og:title" content="Abdel Ahzab, Full-Stack Engineer shipping Applied AI">
+    <meta property="og:title" content="Abdel Ahzab, Full-Stack Engineer">
     <meta property="og:description"
-          content="Independent engineer building React Native and web apps with applied AI on AWS.">
+          content="Full-stack engineer in Rabat. Nine years across four teams on a production e-commerce platform, now building Arabic-first products on Next.js, Supabase and Stripe.">
     <meta property="og:image" content="https://www.codefolio.dev/og-preview.png">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:url" content="https://www.codefolio.dev/">
-    <meta name="twitter:title" content="Abdel Ahzab, Full-Stack Engineer shipping Applied AI">
+    <meta name="twitter:title" content="Abdel Ahzab, Full-Stack Engineer">
     <meta name="twitter:description"
-          content="React Native and web apps with applied AI on AWS.">
+          content="Nine years in production e-commerce, now building Arabic-first products.">
     <meta name="twitter:image" content="https://www.codefolio.dev/og-preview.png">
     <meta name="twitter:creator" content="@T3chW1zard">
 
@@ -79,21 +76,13 @@
           "@id": "https://www.codefolio.dev/#website",
           "url": "https://www.codefolio.dev/",
           "name": "codefolio.dev",
-          "description": "Abdel Ahzab — Full-Stack Engineer shipping Applied AI.",
+          "description": "Abdel Ahzab, full-stack engineer in Rabat.",
           "publisher": { "@id": "https://www.codefolio.dev/#person" }
         }
       ]
     }
     </script>
 
-    <script>
-        const theme = localStorage.getItem('theme') || 'system';
-        if (theme === 'dark' || (theme === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-            document.documentElement.classList.add('dark');
-        } else {
-            document.documentElement.classList.remove('dark');
-        }
-    </script>
     <!-- ga:start -->
     <script>
         window.dataLayer = window.dataLayer || [];
@@ -116,559 +105,240 @@
 </head>
 <body>
 
-<div class="scroll-progress" aria-hidden="true"></div>
-<div class="ambient" aria-hidden="true">
-    <div class="ambient-orb ambient-orb--a"></div>
-    <div class="ambient-orb ambient-orb--b"></div>
-    <div class="ambient-orb ambient-orb--c"></div>
+<a class="skip-link" href="#main">Skip to content</a>
 
-    <span class="ambient-rule ambient-rule--left"></span>
-    <span class="ambient-rule ambient-rule--right"></span>
-
-    <svg class="ambient-mark ambient-mark--tl" viewBox="0 0 32 32">
-        <path d="M0 16 H18 M16 0 V18" stroke="currentColor" stroke-width="1" fill="none"/>
-    </svg>
-    <svg class="ambient-mark ambient-mark--tr" viewBox="0 0 32 32">
-        <path d="M32 16 H14 M16 0 V18" stroke="currentColor" stroke-width="1" fill="none"/>
-    </svg>
-    <svg class="ambient-mark ambient-mark--bl" viewBox="0 0 32 32">
-        <path d="M0 16 H18 M16 32 V14" stroke="currentColor" stroke-width="1" fill="none"/>
-    </svg>
-    <svg class="ambient-mark ambient-mark--br" viewBox="0 0 32 32">
-        <path d="M32 16 H14 M16 32 V14" stroke="currentColor" stroke-width="1" fill="none"/>
-    </svg>
-
-    <span class="ambient-tag ambient-tag--coord">N 34.02° / W 6.83°</span>
-    <span class="ambient-tag ambient-tag--proof">PROOF · 003 / OK TO PRINT</span>
-    <span class="ambient-tag ambient-tag--reg">⊕ REG</span>
-
-    <div class="ambient-grain"></div>
-</div>
-
-<a id="top" tabindex="-1" aria-hidden="true"></a>
-
-<header class="site-header">
-    <div class="site-header__inner">
-        <a href="/" class="mark">
-            <span class="mark-glyph" aria-hidden="true">
-                <span class="mark-glyph__slash"></span>
-                <span class="mark-glyph__dot"></span>
-            </span>
-            <span class="mark-text">
-                <span class="mark-text__name">Abdel Ahzab</span>
-                <span class="mark-text__role">
-                    <span class="mark-text__issue">No. 2026 / V2</span>
-                    <span class="mark-text__sep" aria-hidden="true">·</span>
-                    <span>Engineer / Applied AI</span>
-                </span>
-            </span>
-        </a>
-
-        <nav class="primary-nav" aria-label="Primary">
-            <a href="#projects"><span class="primary-nav__no" aria-hidden="true">01</span><span class="primary-nav__label">Work</span></a>
-            <a href="#process"><span class="primary-nav__no" aria-hidden="true">02</span><span class="primary-nav__label">Process</span></a>
-            <a href="#stack"><span class="primary-nav__no" aria-hidden="true">03</span><span class="primary-nav__label">Stack</span></a>
-            <a href="#writing"><span class="primary-nav__no" aria-hidden="true">04</span><span class="primary-nav__label">Writing</span></a>
-            <a href="#contact"><span class="primary-nav__no" aria-hidden="true">05</span><span class="primary-nav__label">Contact</span></a>
-        </nav>
-
-        <div class="header-meta">
-            <a href="#contact" class="header-status" aria-label="Open for projects">
-                <span class="header-status__pulse" aria-hidden="true"></span>
-                <span class="header-status__label">
-                    <span class="header-status__line header-status__line--top" aria-hidden="true"><span id="header-clock">--:--</span></span>
-                    <span class="header-status__line header-status__line--bot">Open for projects</span>
-                </span>
-            </a>
-            <span class="header-divider" aria-hidden="true"></span>
-            <nav class="theme-toggle" role="group" aria-label="Theme">
-                <span class="theme-toggle__indicator" aria-hidden="true"></span>
-                <button id="btn-light" aria-label="Light theme" type="button">
-                    <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
-                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <circle cx="12" cy="12" r="4"/>
-                        <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M22 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/>
-                    </svg>
-                </button>
-                <button id="btn-dark" aria-label="Dark theme" type="button">
-                    <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
-                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/>
-                    </svg>
-                </button>
-                <button id="btn-system" aria-label="System theme" type="button">
-                    <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
-                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <rect width="20" height="14" x="2" y="3" rx="2"/>
-                        <line x1="8" y1="21" x2="16" y2="21"/>
-                        <line x1="12" y1="17" x2="12" y2="21"/>
-                    </svg>
-                </button>
-            </nav>
-            <button id="nav-toggle" class="nav-toggle" type="button" aria-label="Menu"
-                    aria-expanded="false" aria-controls="mobile-nav">
-                <span class="nav-toggle__bars" aria-hidden="true"></span>
-            </button>
+<div class="site-top">
+    <div class="statusbar">
+        <div class="shell statusbar__inner">
+            <span class="statusbar__id">AA / Codefolio · Rev 04</span>
+            <span class="statusbar__loc">Rabat <span class="statusbar__coords">34.02°N 6.84°W </span>· <span id="header-clock">--:--</span> <span id="header-offset">UTC+1</span></span>
+            <a class="statusbar__status" href="#contact"><span class="led led--live led--pulse" aria-hidden="true"></span>Open for 1 build</a>
         </div>
     </div>
-    <div id="mobile-nav" class="mobile-nav" hidden>
-        <nav class="mobile-nav__links" aria-label="Mobile">
-            <a href="#projects"><span class="mobile-nav__no" aria-hidden="true">01</span>Work</a>
-            <a href="#process"><span class="mobile-nav__no" aria-hidden="true">02</span>Process</a>
-            <a href="#stack"><span class="mobile-nav__no" aria-hidden="true">03</span>Stack</a>
-            <a href="#writing"><span class="mobile-nav__no" aria-hidden="true">04</span>Writing</a>
-            <a href="#contact"><span class="mobile-nav__no" aria-hidden="true">05</span>Contact</a>
+    <header class="site-header">
+        <div class="shell site-header__inner">
+            <a href="/" class="brand" aria-label="Abdel Ahzab, home">A.AHZAB</a>
+            <nav class="nav" aria-label="Primary">
+                <a href="#modules"><span>01</span>Modules</a>
+                <a href="#hse"><span>02</span>HSE</a>
+                <a href="#capabilities"><span>03</span>Capabilities</a>
+                <a href="#writing"><span>04</span>Writing</a>
+            </nav>
+            <a class="btn btn--signal header-cta" href="#contact">Start a build <span aria-hidden="true">→</span></a>
+            <button id="nav-toggle" class="nav-toggle" type="button" aria-expanded="false" aria-controls="mobile-nav">Menu</button>
+        </div>
+        <nav id="mobile-nav" class="mobile-nav" aria-label="Mobile" hidden>
+            <a href="#modules"><span>01</span>Modules</a>
+            <a href="#hse"><span>02</span>HSE</a>
+            <a href="#capabilities"><span>03</span>Capabilities</a>
+            <a href="#writing"><span>04</span>Writing</a>
+            <a class="mobile-nav__cta" href="#contact">Start a build <span aria-hidden="true">→</span></a>
         </nav>
-    </div>
-</header>
+    </header>
+</div>
 
-<div class="container">
+<main id="main">
 
-    <main>
-
-        <section class="hero reveal" data-spotlight>
-            <div class="hero-bg" aria-hidden="true">
-                <svg class="hero-bg__letter hero-bg__letter--a" viewBox="-74 -730 492 730" preserveAspectRatio="xMidYMid meet" aria-hidden="true"><path transform="scale(1,-1)" d="M-62 0Q-74 0 -74 10Q-74 19 -58 23L-42 26Q-22 30 -7.5 45.5Q7 61 20 89L319 714Q324 724 329.0 727.0Q334 730 338 730Q343 730 346.5 727.0Q350 724 350 714L361 80Q362 52 368.0 41.5Q374 31 393 26L406 23Q418 20 418 11Q418 0 401 0H236Q223 0 223 10Q223 21 243 23L263 25Q280 27 286.5 36.0Q293 45 293 67L291 222Q291 248 264 248H157Q131 248 118 222L53 88Q26 31 71 25L85 23Q100 21 100 11Q100 0 83 0ZM161 278H273Q290 278 290 295L288 568H283L152 295Q148 288 151.0 283.0Q154 278 161 278Z"/></svg>
-                <svg class="hero-bg__letter hero-bg__letter--b" viewBox="-78 -790 448 920" preserveAspectRatio="xMidYMid meet" aria-hidden="true"><path transform="scale(1,-1)" d="M-71 -130Q-81 -130 -76 -119L338 781Q342 790 351 790H363Q373 790 369 779L-46 -121Q-50 -130 -59 -130Z"/></svg>
+    <section class="hero" aria-labelledby="hero-name">
+        <div class="shell hero__grid">
+            <div class="hero__meta">
+                <span class="lbl">[ 00 ] Operator</span>
+                <span class="lbl">Full-stack engineer · EN / FR / AR</span>
             </div>
-
-            <p class="eyebrow eyebrow--live">
-                <span class="eyebrow-pulse" aria-hidden="true"></span>
-                Open for one new build
-            </p>
-
-            <h1 class="display" data-split>
-                I build AI products
-                <span class="display-block">that ship to <em class="rotator" aria-live="polite" data-rotate='["real users","production","the App Store","the cloud"]'><span class="rotator__word">real users</span></em>.</span>
-            </h1>
-
-            <p class="lede">Full-stack engineer. I ship SaaS products with applied AI on Next.js, Supabase and AWS, from the first Figma frame to production in the same week.</p>
-
-            <div class="hero-cta">
-                <a href="#contact" class="cta cta--primary" data-magnetic>
-                    <span class="cta__label">
-                        <span class="cta__text">Start a build</span>
-                        <span class="cta__text cta__text--hover">Let's talk</span>
-                    </span>
-                    <span class="cta__arrow" aria-hidden="true">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M5 12h14M13 5l7 7-7 7"/>
-                        </svg>
-                    </span>
-                </a>
-                <a href="#projects" class="cta cta--ghost">
-                    <span>See what I ship</span>
-                </a>
+            <h1 id="hero-name" class="hero__name"><span>ABDEL</span><span>AHZAB</span></h1>
+            <div class="hero__intro">
+                <p class="hero__lede">Nine years inside a production <span class="nowrap">e-commerce</span> platform. Now building my own Arabic-first products.</p>
+                <p class="hero__sub">Next.js, Supabase and Stripe for the product. OpenAI, Claude and Gemini where a model earns its place.</p>
             </div>
-
-            <dl class="hero-meta" aria-label="At a glance">
-                <div class="hero-meta__item">
-                    <dt>Since</dt>
-                    <dd>2015</dd>
-                </div>
-                <div class="hero-meta__item">
-                    <dt>Stack</dt>
-                    <dd>Next.js · TS · AWS</dd>
-                </div>
-                <div class="hero-meta__item">
-                    <dt>Based</dt>
-                    <dd>Rabat · CET</dd>
-                </div>
-                <div class="hero-meta__item">
-                    <dt>Reply</dt>
-                    <dd>&lt; 48h</dd>
-                </div>
+            <dl class="readout hero__readout">
+                <div class="readout__cell"><dt class="lbl">Years in production</dt><dd class="readout__num" data-count="9">09</dd></div>
+                <div class="readout__cell"><dt class="lbl">Teams at HSE</dt><dd class="readout__num" data-count="4">04</dd></div>
+                <div class="readout__cell"><dt class="lbl">Open-source tools</dt><dd class="readout__num" data-count="2">02</dd></div>
+                <div class="readout__cell"><dt class="lbl">SaaS in build</dt><dd class="readout__num readout__num--signal" data-count="1">01</dd></div>
             </dl>
-        </section>
+            <div class="hero__cta"><a class="btn btn--signal btn--lg" href="#contact">Start a build <span aria-hidden="true">→</span></a></div>
+        </div>
+    </section>
 
-        <section class="marquee reveal" aria-label="Tools I work with">
-            <div class="marquee__track">
-                <ul class="marquee__list" aria-hidden="false">
-                    <li>Next.js</li><li aria-hidden="true">✺</li>
-                    <li>TypeScript</li><li aria-hidden="true">✺</li>
-                    <li>Supabase</li><li aria-hidden="true">✺</li>
-                    <li>Stripe</li><li aria-hidden="true">✺</li>
-                    <li>OpenAI &amp; Anthropic</li><li aria-hidden="true">✺</li>
-                    <li>RAG &amp; Embeddings</li><li aria-hidden="true">✺</li>
-                    <li>AWS Lambda</li><li aria-hidden="true">✺</li>
-                    <li>Postgres</li><li aria-hidden="true">✺</li>
-                    <li>Terraform</li><li aria-hidden="true">✺</li>
-                    <li>Docker</li><li aria-hidden="true">✺</li>
-                    <li>React Native</li><li aria-hidden="true">✺</li>
-                    <li>GitHub Actions</li><li aria-hidden="true">✺</li>
-                </ul>
-                <ul class="marquee__list" aria-hidden="true">
-                    <li>Next.js</li><li>✺</li>
-                    <li>TypeScript</li><li>✺</li>
-                    <li>Supabase</li><li>✺</li>
-                    <li>Stripe</li><li>✺</li>
-                    <li>OpenAI &amp; Anthropic</li><li>✺</li>
-                    <li>RAG &amp; Embeddings</li><li>✺</li>
-                    <li>AWS Lambda</li><li>✺</li>
-                    <li>Postgres</li><li>✺</li>
-                    <li>Terraform</li><li>✺</li>
-                    <li>Docker</li><li>✺</li>
-                    <li>React Native</li><li>✺</li>
-                    <li>GitHub Actions</li><li>✺</li>
-                </ul>
+    <section id="modules" class="sec reveal" aria-labelledby="modules-title">
+        <div class="shell">
+            <div class="sec__head">
+                <div><span class="lbl">[ 01 ] Modules</span><h2 id="modules-title" class="sec__title">What's running</h2></div>
+                <span class="lbl sec__aside">Status is real · every module links out</span>
             </div>
-        </section>
-
-        <section id="projects" class="work reveal" aria-labelledby="projects-title">
-            <header class="section-head">
-                <span class="section-no">01</span>
-                <h2 id="projects-title" class="section-title">Selected work</h2>
-                <span class="section-rule" aria-hidden="true"></span>
-            </header>
-
-            <div class="work-grid">
-                <!-- presence:projects:start --><!-- generated from presence/facts.md (solo repo, bin/presence-sync.sh): edit the facts, not these cards -->
-                <article class="work-card work-card--accent" tabindex="0" data-tilt>
-                    <span class="work-card__tag">Day job · 9 years</span>
-                    <h3 class="work-card__title">Checkout and services for a production e-commerce platform.</h3>
-                    <p class="work-card__body">At HSE (Home Shopping Europe) I build the React/TypeScript/Redux checkout and the Kotlin/Vert.x services behind it, where a failed order is lost revenue.</p>
-                    <ul class="work-card__chips">
-                        <li>React</li><li>TypeScript</li><li>Redux</li><li>Kotlin / Vert.x</li>
-                    </ul>
+            <div class="modules">
+                <!-- presence:projects:start --><!-- generated from presence/facts.md (solo repo, bin/presence-sync.sh): edit the facts, not these modules -->
+                <article class="module">
+                    <div class="module__bar"><span class="lbl lbl--ink">MOD SL-01</span><span class="lbl module__state"><span class="led led--live led--pulse" aria-hidden="true"></span>Live · OSS</span></div>
+                    <div class="module__body">
+                        <div class="module__title-row"><h3 class="module__title module__title--code">ship-loop</h3></div>
+                        <ol class="pipeline" aria-label="Pipeline"><li>Issue</li><li>Worktree</li><li>Gates</li><li>Preview</li><li>Merge</li></ol>
+                        <p class="module__text">Takes a GitHub issue to a verified preview and a gated merge. Isolated worktree, a coding agent, test and risk gates with a bounded fix loop, merge only on green.</p>
+                        <span class="lbl">TypeScript · Claude Code · GitHub Actions</span>
+                    </div>
+                    <div class="module__links"><a class="module__link" href="https://github.com/ahzab/ship-loop-demo/pull/2" target="_blank" rel="noopener">See a real run <span aria-hidden="true">↗</span></a><a class="module__link" href="https://github.com/ahzab/ship-loop" target="_blank" rel="noopener">Repo <span aria-hidden="true">↗</span></a></div>
                 </article>
 
-                <a class="work-card" href="https://github.com/ahzab/ship-loop" target="_blank" rel="noopener" data-tilt>
-                    <span class="work-card__tag">Open source · Dev tooling</span>
-                    <h3 class="work-card__title">ship-loop</h3>
-                    <p class="work-card__body">Takes a GitHub issue to a verified preview and a gated merge. Isolated worktree, a coding agent, test and risk gates with a bounded fix loop, merge only on green.</p>
-                    <ul class="work-card__chips">
-                        <li>TypeScript</li><li>Claude Code</li><li>GitHub Actions</li>
-                    </ul>
-                    <span class="work-card__arrow" aria-hidden="true">↗</span>
-                </a>
+                <article class="module">
+                    <div class="module__bar"><span class="lbl lbl--ink">MOD SP-02</span><span class="lbl module__state"><span class="led led--live led--pulse" aria-hidden="true"></span>Live · CLI</span></div>
+                    <div class="module__body">
+                        <div class="module__title-row"><h3 class="module__title module__title--code">supabase-prod-check</h3></div>
+                        <ul class="checks" aria-label="What it checks"><li><span>tables without RLS</span><span>Check</span></li><li><span>service keys in the browser</span><span>Check</span></li><li><span>open cron routes</span><span>Check</span></li><li><span>unsigned Stripe webhooks</span><span>Check</span></li></ul>
+                        <p class="module__text">Static checks for the Supabase + Next.js mistakes that reach production quietly. Run it in CI or before a launch.</p>
+                        <span class="lbl">TypeScript · Supabase · Postgres · Stripe</span>
+                    </div>
+                    <div class="module__links"><a class="module__link" href="https://github.com/ahzab/supabase-prod-check" target="_blank" rel="noopener">Repo <span aria-hidden="true">↗</span></a></div>
+                </article>
 
-                <a class="work-card" href="https://github.com/ahzab/supabase-prod-check" target="_blank" rel="noopener" data-tilt>
-                    <span class="work-card__tag">Open source · CLI</span>
-                    <h3 class="work-card__title">supabase-prod-check</h3>
-                    <p class="work-card__body">Static checks that catch Supabase + Next.js mistakes before production, like tables without RLS, service keys in the browser, open cron routes and unsigned Stripe webhooks.</p>
-                    <ul class="work-card__chips">
-                        <li>TypeScript</li><li>Supabase</li><li>Postgres</li><li>Stripe</li>
-                    </ul>
-                    <span class="work-card__arrow" aria-hidden="true">↗</span>
-                </a>
+                <article class="module">
+                    <div class="module__bar"><span class="lbl lbl--ink">MOD BZ-03</span><span class="lbl module__state"><span class="led led--building" aria-hidden="true"></span>Building</span></div>
+                    <div class="module__body">
+                        <div class="module__title-row"><h3 class="module__title">Barez</h3><span class="module__glyph" dir="rtl" lang="ar" aria-hidden="true">بارز</span></div>
+                        <p class="module__text">An Arabic-first AI CV builder and Gulf job board. Build and tailor CVs in Arabic and English, ATS scoring, aggregated GCC job feeds, right-to-left throughout.</p>
+                        <span class="lbl">Next.js · Supabase · Stripe · LLM APIs</span>
+                    </div>
+                    <div class="module__links"><a class="module__link" href="https://lume-zeta-blue.vercel.app" target="_blank" rel="noopener">Try the preview <span aria-hidden="true">↗</span></a></div>
+                </article>
 
-                <a class="work-card" href="https://lume-zeta-blue.vercel.app" target="_blank" rel="noopener" data-tilt>
-                    <span class="work-card__tag">SaaS · Building</span>
-                    <h3 class="work-card__title">Barez (بارز)</h3>
-                    <p class="work-card__body">An Arabic-first AI CV builder and Gulf job board. Build and tailor CVs in Arabic and English, ATS scoring, aggregated GCC job feeds, right-to-left throughout.</p>
-                    <ul class="work-card__chips">
-                        <li>Next.js</li><li>Supabase</li><li>Stripe</li><li>LLM APIs</li>
-                    </ul>
-                    <span class="work-card__arrow" aria-hidden="true">↗</span>
-                </a>
-
-                <a class="work-card" href="https://github.com/Degen-Markets/degen-markets-fe" target="_blank" rel="noopener" data-tilt>
-                    <span class="work-card__tag">Contract</span>
-                    <h3 class="work-card__title">Degen Markets</h3>
-                    <p class="work-card__body">Second-largest contributor to the Next.js front end of a Solana betting app, plus the Lambda and Postgres APIs behind it.</p>
-                    <ul class="work-card__chips">
-                        <li>Next.js</li><li>Solana</li><li>AWS Lambda</li><li>Postgres</li>
-                    </ul>
-                    <span class="work-card__arrow" aria-hidden="true">↗</span>
-                </a>
+                <article class="module">
+                    <div class="module__bar"><span class="lbl lbl--ink">MOD DM-04</span><span class="lbl module__state"><span class="led led--contract" aria-hidden="true"></span>Contract</span></div>
+                    <div class="module__body">
+                        <div class="module__title-row"><h3 class="module__title">Degen Markets</h3></div>
+                        <p class="module__text">Second-largest contributor to the Next.js front end of a Solana betting app, plus the Lambda and Postgres APIs behind it.</p>
+                        <span class="lbl">Next.js · Solana · AWS Lambda · Postgres</span>
+                    </div>
+                    <div class="module__links"><a class="module__link" href="https://github.com/Degen-Markets/degen-markets-fe" target="_blank" rel="noopener">Contributions <span aria-hidden="true">↗</span></a></div>
+                </article>
                 <!-- presence:projects:end -->
             </div>
-        </section>
+        </div>
+    </section>
 
-        <section id="work" class="work reveal" aria-labelledby="work-title">
-            <header class="section-head">
-                <span class="section-no">02</span>
-                <h2 id="work-title" class="section-title">What I ship</h2>
-                <span class="section-rule" aria-hidden="true"></span>
-            </header>
-
-            <div class="work-grid">
-                <article class="work-card work-card--accent" tabindex="0" data-tilt>
-                    <span class="work-card__tag">Web · SaaS</span>
-                    <h3 class="work-card__title">Full SaaS products, idea to revenue.</h3>
-                    <p class="work-card__body">Next.js, Supabase and Stripe: auth, payments, database and the whole product loop, shipped solo from first commit to live and charging.</p>
-                    <ul class="work-card__chips">
-                        <li>Next.js</li><li>Supabase</li><li>Stripe</li><li>Postgres</li>
-                    </ul>
-                    <span class="work-card__arrow" aria-hidden="true">↗</span>
-                </article>
-
-                <article class="work-card" tabindex="0" data-tilt>
-                    <span class="work-card__tag">Applied AI</span>
-                    <h3 class="work-card__title">LLM features wired into real workflows.</h3>
-                    <p class="work-card__body">RAG pipelines, structured outputs, evals, built into the product, not bolted on the side.</p>
-                    <ul class="work-card__chips">
-                        <li>Anthropic</li><li>OpenAI</li><li>Embeddings</li>
-                    </ul>
-                    <span class="work-card__arrow" aria-hidden="true">↗</span>
-                </article>
-
-                <article class="work-card" tabindex="0" data-tilt>
-                    <span class="work-card__tag">Cloud · DX</span>
-                    <h3 class="work-card__title">AWS that doesn't fight you.</h3>
-                    <p class="work-card__body">Lambda, DynamoDB, S3, IaC, and CI/CD that takes a commit to production without ceremony.</p>
-                    <ul class="work-card__chips">
-                        <li>Terraform</li><li>Actions</li><li>Observability</li>
-                    </ul>
-                    <span class="work-card__arrow" aria-hidden="true">↗</span>
-                </article>
-
-                <article class="work-card" tabindex="0" data-tilt>
-                    <span class="work-card__tag">Design → Code</span>
-                    <h3 class="work-card__title">Figma frames into shipped UI in days, not sprints.</h3>
-                    <p class="work-card__body">One engineer who can read a design file, push back where it matters, and turn it into the real, accessible, fast thing.</p>
-                    <ul class="work-card__chips">
-                        <li>Design systems</li><li>Motion</li><li>a11y</li>
-                    </ul>
-                    <span class="work-card__arrow" aria-hidden="true">↗</span>
-                </article>
-
-                <article class="work-card" tabindex="0" data-tilt>
-                    <span class="work-card__tag">Mobile · 0→1</span>
-                    <h3 class="work-card__title">React Native apps that feel native on the device.</h3>
-                    <p class="work-card__body">From the first onboarding screen to App Store and Play Store release, TypeScript, Expo, native modules where it counts, OTA updates so you can ship on a Tuesday.</p>
-                    <ul class="work-card__chips">
-                        <li>iOS</li><li>Android</li><li>Expo EAS</li><li>Push &amp; Deep links</li>
-                    </ul>
-                    <span class="work-card__arrow" aria-hidden="true">↗</span>
-                </article>
+    <section id="hse" class="sec reveal" aria-labelledby="hse-title">
+        <div class="shell">
+            <div class="sec__head">
+                <div><span class="lbl">[ 02 ] HSE · Home Shopping Europe</span><h2 id="hse-title" class="sec__title">Nine years, four teams</h2></div>
+                <span class="lbl sec__aside">Day job · in order</span>
             </div>
-        </section>
-
-        <section id="process" class="process reveal" aria-labelledby="process-title">
-            <header class="section-head">
-                <span class="section-no">03</span>
-                <h2 id="process-title" class="section-title">How a build goes</h2>
-                <span class="section-rule" aria-hidden="true"></span>
-            </header>
-
-            <ol class="process-list">
-                <li class="process-step">
-                    <span class="process-step__index">01</span>
-                    <div class="process-step__body">
-                        <h3>Frame the problem</h3>
-                        <p>One call, then a written brief. We agree on the smallest thing worth shipping and what success looks like before any code.</p>
+            <ol class="track">
+                <li class="track__stage">
+                    <div class="track__rail" aria-hidden="true"><span class="track__node"></span><span class="track__line"></span></div>
+                    <div class="track__content">
+                        <span class="lbl track__stage-no">Stage 1</span>
+                        <h3 class="track__name">Content</h3>
+                        <p class="track__text">Landing pages and campaign content on a headless CMS.</p>
+                        <span class="lbl">Contentful</span>
                     </div>
-                    <span class="process-step__meta">Week 0</span>
                 </li>
-                <li class="process-step">
-                    <span class="process-step__index">02</span>
-                    <div class="process-step__body">
-                        <h3>Design the surface</h3>
-                        <p>Figma frames, copy passes, and the unglamorous edge cases. Done so the build is mostly typing, not deciding.</p>
+                <li class="track__stage">
+                    <div class="track__rail" aria-hidden="true"><span class="track__node"></span><span class="track__line"></span></div>
+                    <div class="track__content">
+                        <span class="lbl track__stage-no">Stage 2</span>
+                        <h3 class="track__name">Call center</h3>
+                        <p class="track__text">The back office agents use to take orders over the phone.</p>
+                        <span class="lbl">Back office</span>
                     </div>
-                    <span class="process-step__meta">Week 1</span>
                 </li>
-                <li class="process-step">
-                    <span class="process-step__index">03</span>
-                    <div class="process-step__body">
-                        <h3>Build in the open</h3>
-                        <p>Daily commits, weekly demos, a staging URL you can poke at. No mystery, no big reveal.</p>
+                <li class="track__stage">
+                    <div class="track__rail" aria-hidden="true"><span class="track__node"></span><span class="track__line"></span></div>
+                    <div class="track__content">
+                        <span class="lbl track__stage-no">Stage 3</span>
+                        <h3 class="track__name">Hello app</h3>
+                        <p class="track__text">HSE's social live-commerce mobile app.</p>
+                        <span class="lbl">React Native · Kotlin · AWS</span>
                     </div>
-                    <span class="process-step__meta">Weeks 2–N</span>
                 </li>
-                <li class="process-step">
-                    <span class="process-step__index">04</span>
-                    <div class="process-step__body">
-                        <h3>Ship &amp; hand off</h3>
-                        <p>Production deploy, monitoring, a runbook, and a build your team can keep extending after I'm gone.</p>
+                <li class="track__stage is-now" aria-current="step">
+                    <div class="track__rail" aria-hidden="true"><span class="track__node"></span><span class="track__line"></span><span class="lbl track__rail-now">Now</span></div>
+                    <div class="track__content">
+                        <span class="lbl track__stage-no">Stage 4</span>
+                        <h3 class="track__name">Checkout <span class="lbl track__now">· Now</span></h3>
+                        <p class="track__text">The checkout and the services behind it, where a failed order is lost revenue.</p>
+                        <span class="lbl">React · TypeScript · Redux · Kotlin / Vert.x</span>
                     </div>
-                    <span class="process-step__meta">Launch</span>
                 </li>
             </ol>
-        </section>
+        </div>
+    </section>
 
-        <section id="stack" class="stack reveal" aria-labelledby="stack-title">
-            <header class="section-head">
-                <span class="section-no">04</span>
-                <h2 id="stack-title" class="section-title">The stack I reach for</h2>
-                <span class="section-rule" aria-hidden="true"></span>
-            </header>
-            <div class="stack-grid">
-                <div class="stack-col">
-                    <h3>Mobile</h3>
-                    <ul>
-                        <li>React Native</li>
-                        <li>Expo / EAS</li>
-                        <li>Swift / Kotlin (when needed)</li>
-                        <li>Reanimated · Skia</li>
-                    </ul>
-                </div>
-                <div class="stack-col">
-                    <h3>Web</h3>
-                    <ul>
-                        <li>TypeScript</li>
-                        <li>Next.js / Vite</li>
-                        <li>Tailwind · SCSS</li>
-                        <li>Node / tRPC</li>
-                    </ul>
-                </div>
-                <div class="stack-col">
-                    <h3>AI</h3>
-                    <ul>
-                        <li>Anthropic Claude</li>
-                        <li>OpenAI</li>
-                        <li>RAG · pgvector</li>
-                        <li>Evals · structured output</li>
-                    </ul>
-                </div>
-                <div class="stack-col">
-                    <h3>Cloud</h3>
-                    <ul>
-                        <li>AWS · Lambda · DynamoDB</li>
-                        <li>Postgres · S3 · CloudFront</li>
-                        <li>Terraform · GitHub Actions</li>
-                        <li>Sentry · OpenTelemetry</li>
-                    </ul>
-                </div>
+    <section id="capabilities" class="sec reveal" aria-labelledby="cap-title">
+        <div class="shell split">
+            <div class="split__head">
+                <span class="lbl">[ 03 ] Capabilities</span>
+                <h2 id="cap-title" class="sec__title">Spec sheet</h2>
+                <p class="split__lede">Only what I have shipped in production or in public.</p>
             </div>
-        </section>
+            <dl class="split__body ruled">
+                <div class="spec__row"><dt class="lbl lbl--ink">SaaS</dt><dd class="spec__val">Idea to paying product: auth, payments, database, the core loop. Next.js · Supabase · Stripe · Postgres</dd></div>
+                <div class="spec__row"><dt class="lbl lbl--ink">Applied AI</dt><dd class="spec__val">Tool calls, structured outputs and prompt caching, inside the product. OpenAI · Claude · Gemini</dd></div>
+                <div class="spec__row"><dt class="lbl lbl--ink">Mobile</dt><dd class="spec__val">A live-commerce app in production at HSE. React Native · Kotlin · AWS</dd></div>
+                <div class="spec__row"><dt class="lbl lbl--ink">Frontend at scale</dt><dd class="spec__val">Checkout-grade state, small bundles, CMS-driven pages. React · TypeScript · Redux · Contentful</dd></div>
+                <div class="spec__row"><dt class="lbl lbl--ink">Backend</dt><dd class="spec__val">Services that stay up under real traffic. Kotlin / Vert.x · Node.js · AWS Lambda</dd></div>
+            </dl>
+        </div>
+    </section>
 
-        <section class="about reveal" aria-labelledby="about-title">
-            <header class="section-head">
-                <span class="section-no">05</span>
-                <h2 id="about-title" class="section-title">About</h2>
-                <span class="section-rule" aria-hidden="true"></span>
-            </header>
-            <div class="about-grid">
-                <div class="prose">
-                    <p>I'm Abdel, a full-stack engineer working across product, AI, and infrastructure. I spent nine years at HSE on a production e-commerce platform serving real traffic, which is where I learned to ship things that hold up. These days I build and ship SaaS products of my own, folding LLMs and RAG in where they change how people use the product. I build React Native apps too.</p>
-                    <p>I work best with teams who care about craft and want one engineer who can take a thing from a Figma frame to a Docker container in the same week, no hand-offs, no theatre.</p>
-                </div>
-                <aside class="about-card" aria-label="Quick facts">
-                    <div class="about-card__row">
-                        <span class="about-card__key">Title</span>
-                        <span class="about-card__val">Full-Stack Engineer · Applied AI</span>
-                    </div>
-                    <div class="about-card__row">
-                        <span class="about-card__key">Working</span>
-                        <span class="about-card__val">Solo · or embedded in your team</span>
-                    </div>
-                    <div class="about-card__row">
-                        <span class="about-card__key">Time zone</span>
-                        <span class="about-card__val">CET · async-friendly</span>
-                    </div>
-                    <div class="about-card__row">
-                        <span class="about-card__key">Languages</span>
-                        <span class="about-card__val">EN · FR · AR</span>
-                    </div>
-                </aside>
+    <section id="writing" class="sec reveal" aria-labelledby="writing-title">
+        <div class="shell split">
+            <div class="split__head">
+                <span class="lbl">[ 04 ] Writing</span>
+                <h2 id="writing-title" class="sec__title">Field notes</h2>
+                <p class="split__lede">Lessons from production, never the incident itself.</p>
+                <a class="link-mono" href="/writing/index.html">All entries →</a>
             </div>
-        </section>
-
-        <section id="writing" class="writing reveal" aria-labelledby="writing-title">
-            <header class="section-head">
-                <span class="section-no">06</span>
-                <h2 id="writing-title" class="section-title">Writing</h2>
-                <span class="section-rule" aria-hidden="true"></span>
-            </header>
-            <div class="writing-grid">
+            <div class="split__body ruled">
                 <!-- writing:cards:start -->
-                <a class="writing-card" href="/writing/structured-outputs.html">
-                    <img class="writing-card__hero" src="/writing/img/structured-outputs.jpg" alt="" loading="lazy">
-                    <span class="writing-card__tag">Applied AI</span>
-                    <h3 class="writing-card__title">Stop parsing LLM text. Use tool calls.</h3>
-                    <p class="writing-card__excerpt">Asking a model for JSON and parsing the text breaks in production. Define a typed tool, force the model to call it, and get validated structured data back.</p>
-                    <span class="writing-card__more">Read →</span>
+                <a class="note-row" href="/writing/structured-outputs.html">
+                    <span class="lbl">16/12/25</span>
+                    <span class="lbl">Applied AI</span>
+                    <span class="note-row__title">Stop parsing LLM text. Use tool calls.</span>
+                    <span class="note-row__arrow" aria-hidden="true">→</span>
                 </a>
-                <a class="writing-card" href="/writing/nextjs-server-actions.html">
-                    <img class="writing-card__hero" src="/writing/img/nextjs-server-actions.jpg" alt="" loading="lazy">
-                    <span class="writing-card__tag">Next.js</span>
-                    <h3 class="writing-card__title">Your Next.js Server Action is a public endpoint</h3>
-                    <p class="writing-card__excerpt">A server action looks like a function call, but it compiles to a public POST endpoint anyone can hit with any arguments. Authenticate and validate inside it.</p>
-                    <span class="writing-card__more">Read →</span>
+                <a class="note-row" href="/writing/nextjs-server-actions.html">
+                    <span class="lbl">28/08/25</span>
+                    <span class="lbl">Next.js</span>
+                    <span class="note-row__title">Your Next.js Server Action is a public endpoint</span>
+                    <span class="note-row__arrow" aria-hidden="true">→</span>
                 </a>
-                <a class="writing-card" href="/writing/checkout-reliability.html">
-                    <img class="writing-card__hero" src="/writing/img/checkout-reliability.jpg" alt="" loading="lazy">
-                    <span class="writing-card__tag">Scale</span>
-                    <h3 class="writing-card__title">What a high-traffic checkout taught me about reliability</h3>
-                    <p class="writing-card__excerpt">Years on a production e-commerce checkout came down to a few hard rules. Make every operation idempotent, never trust the network, and degrade instead of failing.</p>
-                    <span class="writing-card__more">Read →</span>
+                <a class="note-row" href="/writing/checkout-reliability.html">
+                    <span class="lbl">27/05/25</span>
+                    <span class="lbl">Scale</span>
+                    <span class="note-row__title">What a high-traffic checkout taught me about reliability</span>
+                    <span class="note-row__arrow" aria-hidden="true">→</span>
                 </a>
                 <!-- writing:cards:end -->
             </div>
-            <a class="writing-all" href="/writing/index.html">All posts →</a>
-        </section>
+        </div>
+    </section>
 
-        <section id="contact" class="contact reveal" aria-labelledby="contact-title">
-            <header class="section-head">
-                <span class="section-no">07</span>
-                <h2 id="contact-title" class="section-title">Get in touch</h2>
-                <span class="section-rule" aria-hidden="true"></span>
-            </header>
-            <p class="contact-lede">Project work, AI questions, or something you want to build. I read every email and reply within a couple of days.</p>
-            <a id="contact-btn" href="#" data-user="abdel" data-domain="codefolio.dev" class="email" data-magnetic>
-                <span class="email-text">abdel@codefolio.dev</span>
-                <span class="email-arrow" aria-hidden="true">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M7 17L17 7M9 7h8v8"/>
-                    </svg>
-                </span>
-            </a>
-            <div class="contact-actions">
-                <button id="copy-btn" class="copy-btn" type="button" aria-label="Copy email address">
-                    <span class="copy-btn__icon" aria-hidden="true">
-                        <svg class="copy-btn__svg copy-btn__svg--copy" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
-                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
-                        </svg>
-                        <svg class="copy-btn__svg copy-btn__svg--check" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M20 6L9 17l-5-5"/>
-                        </svg>
-                    </span>
-                    <span class="copy-btn__label" data-default="Copy address" data-copied="Copied">Copy address</span>
-                </button>
-                <span class="contact-actions__hint" aria-hidden="true">or</span>
-                <a id="contact-mail" href="#" data-user="abdel" data-domain="codefolio.dev" class="copy-btn copy-btn--ghost">
-                    <span class="copy-btn__icon" aria-hidden="true">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <rect x="3" y="5" width="18" height="14" rx="2"/>
-                            <path d="m3 7 9 6 9-6"/>
-                        </svg>
-                    </span>
-                    <span class="copy-btn__label">Open in mail</span>
-                </a>
+    <section id="contact" class="contact reveal" aria-labelledby="contact-title">
+        <div class="shell">
+            <span class="lbl">[ 05 ] Contact</span>
+            <div class="contact__grid">
+                <h2 id="contact-title" class="contact__title"><span>LET'S</span><span>BUILD<span class="contact__cursor" aria-hidden="true">_</span></span></h2>
+                <div class="contact__side">
+                    <p class="contact__lede">Tell me what it is and what done looks like. I reply within 48 hours, in English, French or Arabic.</p>
+                    <a id="contact-btn" href="#" data-user="abdel" data-domain="codefolio.dev" class="btn btn--signal btn--lg btn--block">Email me <span aria-hidden="true">→</span></a>
+                    <div class="contact__row">
+                        <button id="copy-btn" class="btn btn--line copy-btn" type="button" aria-label="Copy email address"><span class="copy-btn__label" data-default="Copy address" data-copied="Copied">Copy address</span><span aria-hidden="true">⧉</span></button>
+                        <a id="contact-mail" href="#" data-user="abdel" data-domain="codefolio.dev" class="btn btn--line">Open mail <span aria-hidden="true">↗</span></a>
+                    </div>
+                    <nav class="socials" aria-label="Social links">
+                        <a href="https://github.com/ahzab" target="_blank" rel="noopener noreferrer">GitHub</a>
+                        <a href="https://www.linkedin.com/in/abdelhak-ahzab" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+                        <a href="https://x.com/T3chW1zard" target="_blank" rel="noopener noreferrer">X</a>
+                    </nav>
+                </div>
             </div>
-            <nav class="social" aria-label="Social links">
-                <a href="https://github.com/ahzab" target="_blank" rel="noopener noreferrer" class="social-link">
-                    <svg class="social-icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.44 9.8 8.21 11.39.6.11.82-.26.82-.58 0-.29-.01-1.05-.02-2.06-3.34.73-4.04-1.61-4.04-1.61-.55-1.39-1.34-1.76-1.34-1.76-1.09-.74.08-.73.08-.73 1.2.08 1.84 1.23 1.84 1.23 1.07 1.83 2.8 1.3 3.48.99.11-.77.42-1.3.76-1.6-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.23-3.22-.12-.3-.53-1.52.12-3.17 0 0 1-.32 3.3 1.23a11.4 11.4 0 0 1 6 0c2.3-1.55 3.3-1.23 3.3-1.23.65 1.65.24 2.87.12 3.17.77.84 1.23 1.91 1.23 3.22 0 4.61-2.81 5.62-5.48 5.92.43.37.81 1.1.81 2.22 0 1.6-.02 2.88-.02 3.27 0 .32.22.7.83.58A12 12 0 0 0 24 12c0-6.63-5.37-12-12-12z"/>
-                    </svg>
-                    <span>GitHub</span>
-                </a>
-                <a href="https://www.linkedin.com/in/abdelhak-ahzab" target="_blank" rel="noopener noreferrer" class="social-link">
-                    <svg class="social-icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M20.45 20.45h-3.55v-5.57c0-1.33-.03-3.04-1.85-3.04-1.85 0-2.13 1.45-2.13 2.95v5.66H9.36V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.72v20.55C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.72V1.72C24 .77 23.2 0 22.22 0z"/>
-                    </svg>
-                    <span>LinkedIn</span>
-                </a>
-                <a href="https://x.com/T3chW1zard" target="_blank" rel="noopener noreferrer" class="social-link">
-                    <svg class="social-icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231 5.45-6.231zm-1.161 17.52h1.833L7.084 4.126H5.117l11.966 15.644z"/>
-                    </svg>
-                    <span>X</span>
-                </a>
-            </nav>
-        </section>
-
-    </main>
-
-    <footer class="site-footer">
-        <div class="site-footer__top">
-            <span class="footer-wordmark" aria-hidden="true">AHZAB</span>
+            <footer class="site-footer">
+                <span>© <span id="footer-year">2026</span> Abdel Ahzab</span>
+                <span>34.02°N 6.84°W</span>
+                <a href="/rss.xml">Codefolio.dev · RSS</a>
+            </footer>
         </div>
-        <div class="site-footer__bottom">
-            <span class="footer-copy">© <span id="footer-year">2026</span> · Codefolio.dev · Built by Abdel, deployed on Vercel.</span>
-            <a href="#top" class="footer-top" aria-label="Back to top">
-                <span>Back to top</span>
-                <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M12 19V5M5 12l7-7 7 7"/>
-                </svg>
-            </a>
-        </div>
-    </footer>
+    </section>
 
-</div>
+</main>
 
 <script type="module" src="styles/main.scss"></script>
 <script async type="module" src="scripts/index.ts"></script>

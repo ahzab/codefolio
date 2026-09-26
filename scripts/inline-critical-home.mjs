@@ -5,10 +5,9 @@
 // taking it off the critical path is what moves mobile FCP/LCP.
 //
 // Pure string manipulation — no headless browser at build time, so it runs
-// fine on Vercel. The critical CSS itself (src/critical-home.css) is generated
-// locally with `npx critical@7 dist/index.html --base dist --dimensions
-// 390x844 --dimensions 1366x900 > src/critical-home.css` and committed.
-// Regenerate it when above-the-fold styles change.
+// fine on Vercel. The critical CSS itself (src/critical-home.css) is compiled
+// from src/styles/critical.scss (tokens, base, chrome, hero) by `yarn critical`,
+// which `yarn build` runs first, so it always matches the current partials.
 
 import { readFile, writeFile } from 'node:fs/promises';
 import { resolve, dirname } from 'node:path';

@@ -1,7 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 export default {
-    darkMode: 'class',
-    content: [
+        content: [
         "./src/**/*.{html,ts}",
     ],
     corePlugins: {
@@ -14,9 +13,9 @@ export default {
     theme: {
         extend: {
             fontFamily: {
-                sans: ['Inter', 'sans-serif'],
-                serif: ['"Instrument Serif"', 'Georgia', 'serif'],
-                mono: ['"JetBrains Mono"', 'monospace'],
+                sans: ['Geist', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+                mono: ['"Geist Mono"', 'ui-monospace', 'monospace'],
+                dot: ['Doto', '"Geist Mono"', 'monospace'],
             },
         },
     },

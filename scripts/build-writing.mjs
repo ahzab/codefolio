@@ -63,18 +63,12 @@ function imageSize(absPath) {
 
 // Self-hosted fonts (same-origin, no third-party round-trips). Preload the body
 // face; inline @font-face with font-display: optional (no swap → no CLS).
-const FONTS = `<link rel="preload" as="font" type="font/woff2" href="/fonts/inter-400.woff2" crossorigin>
+const FONTS = `<link rel="preload" as="font" type="font/woff2" href="/fonts/doto-900.woff2" crossorigin>
+    <link rel="preload" as="font" type="font/woff2" href="/fonts/geist.woff2" crossorigin>
     <style>
-    @font-face{font-family:'Instrument Serif';font-style:normal;font-weight:400;font-display:optional;src:url(/fonts/instrument-serif-400.woff2) format('woff2')}
-    @font-face{font-family:'Instrument Serif';font-style:italic;font-weight:400;font-display:optional;src:url(/fonts/instrument-serif-400-italic.woff2) format('woff2')}
-    @font-face{font-family:'Inter';font-style:normal;font-weight:400;font-display:optional;src:url(/fonts/inter-400.woff2) format('woff2')}
-    @font-face{font-family:'Inter';font-style:normal;font-weight:500;font-display:optional;src:url(/fonts/inter-500.woff2) format('woff2')}
-    @font-face{font-family:'Inter';font-style:normal;font-weight:600;font-display:optional;src:url(/fonts/inter-600.woff2) format('woff2')}
-    @font-face{font-family:'JetBrains Mono';font-style:normal;font-weight:400;font-display:optional;src:url(/fonts/jetbrains-mono-400.woff2) format('woff2')}
-    @font-face{font-family:'JetBrains Mono';font-style:normal;font-weight:500;font-display:optional;src:url(/fonts/jetbrains-mono-500.woff2) format('woff2')}
-    @font-face{font-family:'Space Grotesk';font-style:normal;font-weight:400;font-display:optional;src:url(/fonts/space-grotesk-400.woff2) format('woff2')}
-    @font-face{font-family:'Space Grotesk';font-style:normal;font-weight:500;font-display:optional;src:url(/fonts/space-grotesk-500.woff2) format('woff2')}
-    @font-face{font-family:'Space Grotesk';font-style:normal;font-weight:700;font-display:optional;src:url(/fonts/space-grotesk-700.woff2) format('woff2')}
+    @font-face{font-family:'Doto';font-style:normal;font-weight:900;font-display:optional;src:url(/fonts/doto-900.woff2) format('woff2')}
+    @font-face{font-family:'Geist';font-style:normal;font-weight:400 600;font-display:optional;src:url(/fonts/geist.woff2) format('woff2')}
+    @font-face{font-family:'Geist Mono';font-style:normal;font-weight:400 500;font-display:optional;src:url(/fonts/geist-mono.woff2) format('woff2')}
     </style>`;
 const SITE = 'https://www.codefolio.dev';
 // Set your GA4 Measurement ID here. Analytics stays OFF while this is the placeholder.
@@ -208,7 +202,7 @@ function genHero(slug, tag) {
   <rect width="1200" height="500" fill="url(#b2)"/>
   <rect width="1200" height="500" fill="url(#dots)"/>
   ${motifFor(th.motif, th.accent)}
-  <text x="58" y="452" font-family="'JetBrains Mono', ui-monospace, monospace" font-size="26" letter-spacing="8" fill="#ffffff" fill-opacity="0.72">${label}</text>
+  <text x="58" y="452" font-family="'Geist Mono', ui-monospace, monospace" font-size="26" letter-spacing="8" fill="#ffffff" fill-opacity="0.72">${label}</text>
 </svg>
 `;
 }
@@ -225,6 +219,16 @@ function card({ slug, title = slug, tag = '', description = '', image = '' }) {
 }
 
 // "Read next": up to n posts, same-tag first (most relevant), then fill by order.
+// Homepage "field notes" row (the Instrument home lists posts, it does not card them).
+function homeRow({ slug, title = slug, tag = '', date = '' }) {
+  return `                <a class="note-row" href="/writing/${slug}.html">
+                    <span class="lbl">${escapeHtml(displayDate(date))}</span>
+                    <span class="lbl">${escapeHtml(tag)}</span>
+                    <span class="note-row__title">${escapeHtml(title)}</span>
+                    <span class="note-row__arrow" aria-hidden="true">→</span>
+                </a>`;
+}
+
 function pickRelated(current, all, n = 3) {
   const others = all.filter((p) => p.slug !== current.slug);
   const tag = (current.data.tag || '').toLowerCase();
@@ -357,36 +361,15 @@ function page({ slug, title = slug, description = '', tag = '', date = '', image
 
     ${FONTS}
     <link rel="icon" type="image/svg+xml" href="/favicon.svg"/>
-    <meta name="theme-color" content="#0a0a0c">
+    <meta name="theme-color" content="#0b0b0b">
 
-    <script>
-        const theme = localStorage.getItem('theme') || 'system';
-        if (theme === 'dark' || (theme === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-            document.documentElement.classList.add('dark');
-        } else {
-            document.documentElement.classList.remove('dark');
-        }
-    </script>
     ${gaTag()}
 </head>
 <body>
 
 <header class="site-header">
-    <div class="site-header__inner">
-        <a href="/" class="mark">
-            <span class="mark-glyph" aria-hidden="true">
-                <span class="mark-glyph__slash"></span>
-                <span class="mark-glyph__dot"></span>
-            </span>
-            <span class="mark-text">
-                <span class="mark-text__name">Abdel Ahzab</span>
-                <span class="mark-text__role">
-                    <span class="mark-text__issue">No. 2026 / V2</span>
-                    <span class="mark-text__sep" aria-hidden="true">·</span>
-                    <span>Engineer / Applied AI</span>
-                </span>
-            </span>
-        </a>
+    <div class="shell site-header__inner">
+        <a href="/" class="brand" aria-label="Abdel Ahzab, home">A.AHZAB</a>
         <a href="/writing" class="article__back">← Writing</a>
     </div>
 </header>
@@ -632,36 +615,15 @@ function writingIndex(gridHtml, pageNum, totalPages) {
 
     ${FONTS}
     <link rel="icon" type="image/svg+xml" href="/favicon.svg"/>
-    <meta name="theme-color" content="#0a0a0c">
+    <meta name="theme-color" content="#0b0b0b">
 
-    <script>
-        const theme = localStorage.getItem('theme') || 'system';
-        if (theme === 'dark' || (theme === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-            document.documentElement.classList.add('dark');
-        } else {
-            document.documentElement.classList.remove('dark');
-        }
-    </script>
     ${gaTag()}
 </head>
 <body>
 
 <header class="site-header">
-    <div class="site-header__inner">
-        <a href="/" class="mark">
-            <span class="mark-glyph" aria-hidden="true">
-                <span class="mark-glyph__slash"></span>
-                <span class="mark-glyph__dot"></span>
-            </span>
-            <span class="mark-text">
-                <span class="mark-text__name">Abdel Ahzab</span>
-                <span class="mark-text__role">
-                    <span class="mark-text__issue">No. 2026 / V2</span>
-                    <span class="mark-text__sep" aria-hidden="true">·</span>
-                    <span>Engineer / Applied AI</span>
-                </span>
-            </span>
-        </a>
+    <div class="shell site-header__inner">
+        <a href="/" class="brand" aria-label="Abdel Ahzab, home">A.AHZAB</a>
         <a href="/" class="article__back">← Home</a>
     </div>
 </header>
@@ -710,7 +672,7 @@ for (const post of posts) {
 // Homepage: featured posts only (fall back to the first few by order)
 const featured = posts.filter((p) => p.data.featured);
 const homePosts = (featured.length ? featured : posts).slice(0, FEATURED_ON_HOME);
-const homeCards = homePosts.map((p) => card({ slug: p.slug, ...p.data }, 'writing/')).join('\n');
+const homeCards = homePosts.map((p) => homeRow({ slug: p.slug, ...p.data })).join('\n');
 const indexHtml = readFileSync(indexPath, 'utf8')
   .replace(
     /<!-- writing:cards:start -->[\s\S]*?<!-- writing:cards:end -->/,
