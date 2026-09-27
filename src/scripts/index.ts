@@ -1,18 +1,14 @@
-import { initTheme } from './modules/theme';
 import { initContact, initFooterYear } from './modules/contact';
 import { initHeaderClock } from './modules/clock';
-import { initTextEffects } from './modules/text-effects';
 import { initReveals } from './modules/reveals';
 import { initScroll } from './modules/scroll';
-import { initPointerEffects } from './modules/pointer-effects';
 import { initMobileNav } from './modules/nav';
+import { initReadout } from './modules/readout';
 
-initTheme();
 initMobileNav();
 initContact();
 initFooterYear();
 initHeaderClock();
-initTextEffects();
 initReveals();
 initScroll();
-initPointerEffects();
+initReadout();

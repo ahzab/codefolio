@@ -6,6 +6,7 @@ export function initMobileNav(): void {
 
   const setOpen = (open: boolean): void => {
     toggle.setAttribute('aria-expanded', String(open));
+    toggle.textContent = open ? 'Close' : 'Menu';
     if (open) menu.removeAttribute('hidden');
     else menu.setAttribute('hidden', '');
   };
