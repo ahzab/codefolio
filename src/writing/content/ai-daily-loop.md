@@ -3,7 +3,8 @@ title: I gave my AI a workflow instead of a chat window
 description: An AI in a chat window is a brilliant contractor with amnesia. I stopped being its memory and moved it into my repo, where state lives in files and it runs one phase of my day at a time.
 tag: Applied AI
 date: "2026-06-15"
-order: 0
+order: 1
+featured: true
 query: developer workflow terminal desk morning
 ---
 
