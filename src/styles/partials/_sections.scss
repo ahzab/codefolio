@@ -280,3 +280,6 @@
 }
 
 @keyframes blink { 50% { opacity: 0; } }
+
+/* Offers: the spec-sheet row with a duration + price line */
+.offer__meta { display: block; margin-top: 10px; color: var(--signal); }
