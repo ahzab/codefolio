@@ -1,6 +1,6 @@
 ---
-title: Finding what users ask for in app reviews, in English and Arabic
-description: Counting words in reviews tells you what the category is about, not what users want. Match the asks, score phrases by lift, and normalize Arabic before you search it.
+title: Finding what users ask for in app reviews
+description: Counting words in reviews tells you what the category is about, not what users want. Match the asks, then score phrases by lift.
 tag: Research
 date: "2026-09-29"
 order: -3
@@ -26,20 +26,6 @@ First, keep only the sentences that are requests. In English that is a set of pa
 Then, for each phrase, compare how often it appears in the asking reviews with how often it appears in all reviews. That ratio is lift. A phrase that every review uses scores around 1. A phrase that appears mostly when people are asking scores well above.
 
 On the grocery apps, "list", "item", "store" and "recipe" came out between 0.4 and 0.7. "Undo" scored 6.3, "Siri" 3.4, and "price history" 11. Those are features people wanted and did not have. I now drop anything under 1.5 and count a phrase only when it repeats across several reviews, and across more than one app when possible, which says it is a gap in the market and not one app's missing button.
-
-## Arabic needs normalizing first
-
-I also look at Gulf app stores, where most reviews are in Arabic. Pattern matching raw Arabic text misses a lot, because the same word can be written several ways. Before matching, I normalize:
-
-- remove diacritics and the tatweel stretching character
-- write every alef form (أ إ آ) as ا
-- write ى as ي and ة as ه
-
-Then the ask patterns are written against the normalized text: wishes like أتمنى and ياريت, requests like أرجو and الرجاء, missing things like ينقصه, يحتاج and لا يوجد, and willingness to pay like ولو برسوم ("even for a fee"). I built these from a sample of 512 reviews on the Saudi App Store, 459 of them in Arabic.
-
-One phrase needed special care. "مافيه" (roughly "there isn't") looks like a complaint, but in Gulf dialect "احلى من كذا مافيه" means "nothing beats this". It is praise. So it only counts as an ask after words like ليش or للاسف ("why" or "sadly"), or right before a feature word.
-
-A technical detail that cost me time: `\b` word boundaries in JavaScript regex do not work with Arabic letters. A lookbehind on `\p{L}` with the `u` flag does the same job.
 
 ## What it is and is not
 
