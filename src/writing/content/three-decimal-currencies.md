@@ -77,4 +77,4 @@ The safest shape is to stop passing decimal prices around at all:
 
 A test suite that only checks USD will never find this. Add one case per decimal count you sell in: a two-decimal currency, a three-decimal one, and a zero-decimal one like the yen if you have it. Assert the exact integer that reaches the provider, not just that the payment succeeded.
 
-If you sell or build for the Gulf, check that line before Kuwait checks it for you.
+If you sell or build for the Gulf, check that line before a customer in Kuwait, Bahrain or Oman checks it for you.
