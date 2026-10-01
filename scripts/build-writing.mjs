@@ -369,7 +369,7 @@ function page({ slug, title = slug, description = '', tag = '', date = '', image
 
 <header class="site-header">
     <div class="shell site-header__inner">
-        <a href="/" class="brand" aria-label="Abdel Ahzab, home">A.AHZAB</a>
+        <a href="/" class="brand" aria-label="Abdel Ahzab, home"><svg class="brand__mark" viewBox="12 12 40 40" aria-hidden="true" focusable="false"><circle cx="20" cy="44" r="6"/><path d="M27 50h8l12-36h-8z"/></svg><span>A.AHZAB</span></a>
         <a href="/writing" class="article__back">← Writing</a>
     </div>
 </header>
@@ -623,7 +623,7 @@ function writingIndex(gridHtml, pageNum, totalPages) {
 
 <header class="site-header">
     <div class="shell site-header__inner">
-        <a href="/" class="brand" aria-label="Abdel Ahzab, home">A.AHZAB</a>
+        <a href="/" class="brand" aria-label="Abdel Ahzab, home"><svg class="brand__mark" viewBox="12 12 40 40" aria-hidden="true" focusable="false"><circle cx="20" cy="44" r="6"/><path d="M27 50h8l12-36h-8z"/></svg><span>A.AHZAB</span></a>
         <a href="/" class="article__back">← Home</a>
     </div>
 </header>
