@@ -33,34 +33,36 @@ The bug only shows up when you add a second Gulf country, which is exactly when 
 
 ## Ask for the number of decimals, don't assume it
 
-The number of decimals per currency is defined in ISO 4217, and JavaScript already knows it:
+The number of decimals per currency is set by ISO 4217, the standard currency list. The fix is to keep that number per currency instead of hard-coding 100:
 
 ```ts
-function minorDigits(currency: string): number {
-  return new Intl.NumberFormat("en", { style: "currency", currency })
-    .resolvedOptions().maximumFractionDigits ?? 2;
-}
+// From ISO 4217. Add the currencies you sell in, and check them
+// against your payment provider's docs.
+const MINOR_DIGITS: Record<string, number> = {
+  USD: 2, EUR: 2, SAR: 2, AED: 2, QAR: 2,
+  KWD: 3, BHD: 3, OMR: 3, JOD: 3,
+  JPY: 0,
+};
 
-minorDigits("USD"); // 2
-minorDigits("SAR"); // 2
-minorDigits("KWD"); // 3
-minorDigits("OMR"); // 3
-```
-
-Then convert with that, and round:
-
-```ts
 function toMinorUnits(amount: number, currency: string): number {
-  return Math.round(amount * 10 ** minorDigits(currency));
+  const digits = MINOR_DIGITS[currency];
+  if (digits === undefined) throw new Error(`No minor units for ${currency}`);
+  return Math.round(amount * 10 ** digits);
 }
 
 toMinorUnits(4.75, "USD"); // 475
 toMinorUnits(4.75, "KWD"); // 4750
 ```
 
+Two details in there matter.
+
 The `Math.round` is not decoration. Floating point gets these wrong in both currencies: `19.99 * 100` is `1998.9999999999998`, and `1.005 * 1000` is `1004.9999999999999`. Truncate either one and you are a unit short.
 
-The same lookup fixes the display side. `Intl.NumberFormat` with a currency already prints `KWD 4.750` and `SAR 4.75`, so drop any `toFixed(2)` that formats prices by hand.
+The `throw` is on purpose too. A currency you never configured should fail loudly in testing, not fall back to 2 and undercharge quietly in production.
+
+Why not let the browser tell you? `Intl.NumberFormat` knows that KWD shows three decimals, but it reads display rules, not the payment standard, and the two disagree for some currencies. It formats the Iraqi dinar with 0 decimals while ISO 4217 says 3. Payment providers have exceptions of their own as well: Stripe, for example, wants the Icelandic króna sent as if it had two decimals, though nobody can pay a fraction of one. So use `Intl` to show prices, and a table you control to charge them.
+
+For display, `Intl.NumberFormat` with a currency already prints `KWD 4.750` and `SAR 4.75`, so drop any `toFixed(2)` that formats prices by hand.
 
 ## Keep integers from end to end
 
