@@ -82,8 +82,18 @@ function gaTag() {
         window.dataLayer = window.dataLayer || [];
         function gtag(){ dataLayer.push(arguments); }
         gtag('js', new Date());
-        gtag('config', '${GA_ID}');
-        // Defer the GA library (~66 KiB) off the critical path — load when the browser is idle.
+        // ?internal=1 marks this browser as Abdel's own (GA internal-traffic filter); ?internal=0 clears it.
+        (function () {
+            var internal = false;
+            try {
+                var flag = new URLSearchParams(location.search).get('internal');
+                if (flag === '1') localStorage.setItem('ga_internal', '1');
+                if (flag === '0') localStorage.removeItem('ga_internal');
+                internal = localStorage.getItem('ga_internal') === '1';
+            } catch (e) { /* storage blocked */ }
+            gtag('config', '${GA_ID}', internal ? { traffic_type: 'internal' } : {});
+        })();
+        // Defer the GA library (~66 KiB) off the critical path. Events queue in dataLayer until it loads.
         (function () {
             function loadGA() {
                 var s = document.createElement('script');
@@ -91,8 +101,60 @@ function gaTag() {
                 s.src = 'https://www.googletagmanager.com/gtag/js?id=${GA_ID}';
                 document.head.appendChild(s);
             }
-            if ('requestIdleCallback' in window) { requestIdleCallback(loadGA, { timeout: 4000 }); }
-            else { window.addEventListener('load', function () { setTimeout(loadGA, 1200); }); }
+            if ('requestIdleCallback' in window) { requestIdleCallback(loadGA, { timeout: 1500 }); }
+            else { window.addEventListener('load', function () { setTimeout(loadGA, 300); }); }
+        })();
+        // Custom events: contact, email copy, social, project and share clicks, article reads.
+        (function () {
+            function track(name, params) { gtag('event', name, params || {}); }
+            function text(el) { return (el && el.textContent || '').replace('↗', '').replace('→', '').trim(); }
+            function slug() { return location.pathname.split('/').pop().replace('.html', '') || 'home'; }
+            var SOCIAL = { 'github.com': 'github', 'www.linkedin.com': 'linkedin', 'linkedin.com': 'linkedin', 'x.com': 'x', 'twitter.com': 'x', 'www.instagram.com': 'instagram' };
+
+            document.addEventListener('click', function (e) {
+                var el = e.target.closest && e.target.closest('a, button');
+                if (!el) return;
+                if (el.id === 'copy-btn') return track('email_copy', { location: 'contact' });
+                if (el.id === 'contact-btn' || el.id === 'contact-mail') return track('contact_click', { method: 'email', location: el.id });
+                if (el.matches('.article__share-btn, .article__rail-btn')) {
+                    var network = el.hasAttribute('data-copy') ? 'copy_link'
+                        : el.classList.contains('article__share-native') ? 'native'
+                        : (el.getAttribute('aria-label') || '').replace('Share on ', '').toLowerCase();
+                    return track('share_click', { network: network, article: slug() });
+                }
+                if (el.classList.contains('module__link')) {
+                    var mod = el.closest('.module');
+                    return track('project_click', { project: text(mod && mod.querySelector('.module__title')), link_text: text(el), link_url: el.href });
+                }
+                if (el.tagName === 'A' && el.hostname && SOCIAL[el.hostname]) {
+                    var path = el.pathname.replace(/\\/$/, '');
+                    var profile = el.hostname.indexOf('linkedin') > -1 ? path.indexOf('/in/') === 0 : path.split('/').length === 2;
+                    if (profile) track('social_click', { network: SOCIAL[el.hostname], location: el.closest('footer, .article__footer') ? 'footer' : 'page' });
+                }
+            }, true);
+
+            // article_read: 75% of the article scrolled past, with at least 15 s on the page. Once per view.
+            // This tag sits in <head>, so wait for the article element to exist.
+            var start = Date.now();
+            function watchRead() {
+                var body = document.querySelector('article.article');
+                if (!body) return;
+                var done = false;
+                function check() {
+                    if (done) return;
+                    var rect = body.getBoundingClientRect();
+                    var seen = (window.innerHeight - rect.top) / rect.height;
+                    if (seen >= 0.75 && Date.now() - start >= 15000) {
+                        done = true;
+                        track('article_read', { article: slug(), seconds: Math.round((Date.now() - start) / 1000) });
+                        window.removeEventListener('scroll', check);
+                    }
+                }
+                window.addEventListener('scroll', check, { passive: true });
+                setTimeout(check, Math.max(0, 15000 - (Date.now() - start)));
+            }
+            if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', watchRead);
+            else watchRead();
         })();
     </script>`;
 }
