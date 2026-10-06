@@ -6,7 +6,7 @@ import { gsap } from 'gsap';
  * open to frame it and read out its id and size, like an instrument locking
  * on. The native cursor stays: this is an overlay, not a replacement.
  */
-const TARGETS = '.module, .btn, .note-row, .nav a, .socials a, .spec__row, .module__link, .brand, .readout__cell, .link-mono, .track__stage, .track__earlier-body';
+const TARGETS = '.module, .btn, .note-row, .nav a, .socials a, .spec__row, .module__link, .brand, .readout__cell, .link-mono, .track__stage, .track__earlier-body, .viewswitch__opt, .machine__copy';
 const IDLE = 26;
 
 function labelFor(el: HTMLElement, w: number, h: number): string {
@@ -14,8 +14,8 @@ function labelFor(el: HTMLElement, w: number, h: number): string {
     const id =
         el.querySelector('.module__bar .lbl')?.textContent ||
         el.querySelector('dt, .track__stage-no')?.textContent ||
-        (el.matches('.btn, a') ? (el.textContent || '').replace(/[↗→⧉]/g, '') : '') ||
-        el.className.split(' ')[0];
+        (el.matches('button, a') ? (el.textContent || '').replace(/[↗→⧉]/g, '') : '') ||
+        el.className.split(' ')[0].split('__')[0];
     return `${id.trim().toUpperCase().slice(0, 28)} · ${size}`;
 }
 
@@ -44,10 +44,15 @@ export function initReticle(): void {
             qx(r.left - pad); qy(r.top - pad);
             qw(r.width + pad * 2); qh(r.height + pad * 2);
             lbl.textContent = labelFor(target, r.width, r.height);
+            // Keep the readout on screen: flip left near the right edge, above near the bottom.
+            el.classList.toggle('is-flip-x', r.left + 220 > window.innerWidth);
+            el.classList.toggle('is-flip-y', r.bottom + 34 > window.innerHeight);
         } else {
             qx(px - IDLE / 2); qy(py - IDLE / 2);
             qw(IDLE); qh(IDLE);
             lbl.textContent = `${Math.round(px)}, ${Math.round(py)}`;
+            el.classList.toggle('is-flip-x', px + 120 > window.innerWidth);
+            el.classList.toggle('is-flip-y', py + 50 > window.innerHeight);
         }
     };
 

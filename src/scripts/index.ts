@@ -4,6 +4,7 @@ import { initReveals } from './modules/reveals';
 import { initScroll } from './modules/scroll';
 import { initMobileNav } from './modules/nav';
 import { initReadout } from './modules/readout';
+import { initMachineView } from './modules/machine';
 import { prefersReducedMotion } from './modules/env';
 
 initMobileNav();
@@ -13,6 +14,7 @@ initHeaderClock();
 initReveals();
 initScroll();
 initReadout();
+initMachineView();
 
 // Motion layer (GSAP): fetched after first paint so it never competes with
 // LCP, and not at all under reduced motion.

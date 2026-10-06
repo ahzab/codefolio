@@ -29,8 +29,12 @@ const PAD = 160; // canvas bleed around the name, room for dots to fly
 
 function findDots(name: HTMLElement): Dot[] {
     const box = name.getBoundingClientRect();
-    const w = Math.ceil(box.width);
-    const h = Math.ceil(box.height);
+    // Rasterise at a large size: on a phone the gaps between Doto's dots are
+    // under a pixel and would merge the dots into blocks.
+    const fontSize = parseFloat(getComputedStyle(name).fontSize) || 100;
+    const k = Math.max(1, 280 / fontSize);
+    const w = Math.ceil(box.width * k);
+    const h = Math.ceil(box.height * k);
     if (!w || !h) return [];
 
     const off = document.createElement('canvas');
@@ -38,6 +42,7 @@ function findDots(name: HTMLElement): Dot[] {
     off.height = h;
     const ctx = off.getContext('2d', { willReadFrequently: true });
     if (!ctx) return [];
+    ctx.scale(k, k);
 
     // Draw each line exactly where CSS put it: same face, size, tracking, and
     // the baseline from the half-leading model CSS uses for a line box.
@@ -81,12 +86,12 @@ function findDots(name: HTMLElement): Dot[] {
                 stack.push(q);
             }
         }
-        if (area < 6) continue;
+        if (area < 6 * k * k) continue;
         const angle = -Math.PI / 2 + (Math.random() - 0.5) * 1.6;
         const dist = 120 + Math.random() * 420;
-        const hx = minX + PAD, hy = minY + PAD;
+        const hx = minX / k + PAD, hy = minY / k + PAD;
         dots.push({
-            hx, hy, w: maxX - minX + 1, h: maxY - minY + 1,
+            hx, hy, w: (maxX - minX + 1) / k, h: (maxY - minY + 1) / k,
             x: hx, y: hy, vx: 0, vy: 0, heat: 0,
             sx: Math.cos(angle) * dist, sy: Math.sin(angle) * dist, spin: (Math.random() - 0.5) * 2,
         });
@@ -171,7 +176,7 @@ export function initHeroMatrix(): void {
         }
     };
 
-    const R = 140;
+    const R = Math.min(140, window.innerWidth * 0.22);
     const step = (): void => {
         const ease = dissolve * dissolve * (3 - 2 * dissolve);
         let energy = 0;
@@ -234,13 +239,17 @@ export function initHeroMatrix(): void {
     hero.addEventListener('pointerdown', (e) => {
         if ((e.target as HTMLElement).closest('a, button')) return;
         const p = local(e);
+        // The shockwave scales with the name, so a phone gets a ripple, not an explosion.
+        const nameW = name.getBoundingClientRect().width;
+        const reach = Math.min(520, nameW * 0.6);
+        const kick = Math.min(38, nameW / 24);
         for (const d of dots) {
             const dx = d.hx + d.w / 2 - p.x;
             const dy = d.hy + d.h / 2 - p.y;
             const dist = Math.hypot(dx, dy) || 1;
-            const f = Math.max(0, 1 - dist / 520);
-            d.vx += (dx / dist) * f * 38;
-            d.vy += (dy / dist) * f * 38;
+            const f = Math.max(0, 1 - dist / reach);
+            d.vx += (dx / dist) * f * kick;
+            d.vy += (dy / dist) * f * kick;
             d.heat = Math.max(d.heat, f * 1.2);
         }
         wake();
