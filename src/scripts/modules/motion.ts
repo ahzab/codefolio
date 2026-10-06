@@ -2,6 +2,8 @@ import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { ScrambleTextPlugin } from 'gsap/ScrambleTextPlugin';
 import { isHoverDevice } from './env';
+import { initHeroMatrix } from './hero-matrix';
+import { initReticle } from './reticle';
 
 /**
  * Motion layer for the homepage, built on GSAP + ScrollTrigger. Loaded lazily
@@ -191,8 +193,24 @@ function magnetic(): void {
     });
 }
 
+/** A red scan line runs along each section's top edge as it arrives. */
+function scans(): void {
+    unseen<HTMLElement>('.sec, .contact').forEach((sec) => {
+        const line = document.createElement('span');
+        line.className = 'sec__scan';
+        line.setAttribute('aria-hidden', 'true');
+        sec.prepend(line);
+        gsap.timeline({ scrollTrigger: { trigger: sec, start: 'top 82%', once: true } })
+            .fromTo(line, { scaleX: 0, opacity: 1 }, { scaleX: 1, duration: 0.9, ease: 'power3.inOut' })
+            .to(line, { opacity: 0, duration: 0.8, ease: 'power1.out' }, '+=0.15');
+    });
+}
+
 export function initMotion(): void {
     if (!document.querySelector('.hero')) return;
+    initHeroMatrix();
+    initReticle();
+    scans();
     labels();
     modules();
     track();
