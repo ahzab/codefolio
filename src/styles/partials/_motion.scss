@@ -62,6 +62,11 @@
 
 /* Live dot-matrix hero name (scripts/modules/hero-matrix.ts). The text stays
    in the DOM for SEO, selection and screen readers; the canvas draws it. */
+/* The canvas bleeds past the name so dots have room to fly. Clip it sideways:
+   a page wider than the screen makes phones zoom out, which pushed the fixed
+   view switch off the bottom of the screen. Vertical stays visible for the
+   upward scroll dissolve. */
+.hero { overflow-x: clip; }
 .hero__name.is-matrix { color: transparent; }
 .hero__matrix {
   position: absolute;
