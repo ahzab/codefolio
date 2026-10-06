@@ -4,6 +4,7 @@ import { initReveals } from './modules/reveals';
 import { initScroll } from './modules/scroll';
 import { initMobileNav } from './modules/nav';
 import { initReadout } from './modules/readout';
+import { initMachineView } from './modules/machine';
 
 initMobileNav();
 initContact();
@@ -12,3 +13,4 @@ initHeaderClock();
 initReveals();
 initScroll();
 initReadout();
+initMachineView();
