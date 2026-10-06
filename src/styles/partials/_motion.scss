@@ -15,3 +15,47 @@
   .reveal { opacity: 1; transform: none; }
   .contact__cursor, .led--pulse { animation: none !important; }
 }
+
+/* ──────────────────────────────────────────────────────
+   GSAP LAYER (scripts/modules/motion.ts): the pieces it
+   needs from CSS. Only present once motion has loaded.
+   ────────────────────────────────────────────────────── */
+
+/* The hero dot grid, repainted in signal red and masked to a soft circle
+   that follows the pointer (--lx / --ly are tweened by gsap.quickTo). */
+.hero__lights {
+  --lx: -999px;
+  --ly: -999px;
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  opacity: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 1.5px 1.5px, var(--signal) 1.5px, transparent 2px) 0 0 / 24px 24px,
+    radial-gradient(180px circle at var(--lx) var(--ly), var(--accent-soft), transparent 70%);
+  -webkit-mask-image: radial-gradient(260px circle at var(--lx) var(--ly), #000 20%, transparent 75%);
+  mask-image: radial-gradient(260px circle at var(--lx) var(--ly), #000 20%, transparent 75%);
+}
+
+/* Scramble wrapper for each contact word: stays inline so the cursor keeps its place. */
+.contact__title .contact__word { display: inline; }
+
+/* "You are here" on the career track: a slow ping off the current node. */
+.track__node--ping { position: relative; }
+.track__node--ping::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border: 1px solid var(--signal);
+  animation: node-ping 2.4s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+@keyframes node-ping {
+  0% { transform: scale(1); opacity: 0.9; }
+  80%, 100% { transform: scale(2.8); opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero__lights { display: none; }
+  .track__node--ping::after { animation: none; }
+}
