@@ -46,6 +46,7 @@ public/writing/hero/*.svg
 # Generated sitemap + RSS feed (build-writing.mjs regenerates them from the posts)
 public/sitemap.xml
 public/rss.xml
+public/llms.txt
 .env.local
 
 # Lighthouse reports (generated)

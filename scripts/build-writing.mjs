@@ -771,6 +771,20 @@ const sitemap =
   `\n</urlset>\n`;
 writeFileSync(join(root, '../public/sitemap.xml'), sitemap);
 
+// llms.txt: a plain map of the site for AI assistants, from the home page's
+// own description and the posts, so it never says more than the site does.
+const homeDesc = (/<meta name="description"\s+content="([^"]*)"/.exec(readFileSync(indexPath, 'utf8')) || [])[1] || '';
+const llms =
+  `# Abdel Ahzab\n\n` +
+  (homeDesc ? `> ${homeDesc.replace(/\s+/g, ' ').trim()}\n\n` : '') +
+  `## Pages\n\n` +
+  `- [Home](${SITE}/): who I am, what I build, selected work\n` +
+  `- [Writing](${SITE}/writing/): every post\n\n` +
+  `## Writing\n\n` +
+  posts.map((p) => `- [${p.data.title || p.slug}](${SITE}/writing/${p.slug}): ${(p.data.description || '').replace(/\s+/g, ' ').trim()}`).join('\n') +
+  `\n\n## Feeds\n\n- [RSS](${SITE}/rss.xml)\n- [Sitemap](${SITE}/sitemap.xml)\n`;
+writeFileSync(join(root, '../public/llms.txt'), llms);
+
 // RSS 2.0 feed (written to public/ so Vite copies it to the site root).
 function rfc822(d = '') {
   const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(String(d));
