@@ -21,7 +21,7 @@
   backdrop-filter: blur(12px) saturate(140%);
   -webkit-backdrop-filter: blur(12px) saturate(140%);
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.04);
-  animation: viewswitch-in 0.5s 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+  animation: viewswitch-in 0.5s 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) backwards;
 }
 
 .viewswitch__lbl {
@@ -83,6 +83,17 @@
     background: var(--signal);
     box-shadow: 0 0 8px var(--accent-glow);
   }
+}
+
+/* While the hero is on screen the switch would sit on the readout; it returns
+   once the hero has scrolled out (machine.ts toggles the class). */
+.viewswitch {
+  transition: opacity 0.25s ease, visibility 0.25s;
+}
+.viewswitch.is-away {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
 }
 
 @media (min-width: 768px) {
@@ -201,5 +212,5 @@
 
 @media (prefers-reduced-motion: reduce) {
   .machine, .viewswitch, .machine__title, .machine__rows dt, .machine__rows dd { animation: none; }
-  .viewswitch__opt, .viewswitch__dot, .viewswitch__thumb { transition: none; }
+  .viewswitch, .viewswitch__opt, .viewswitch__dot, .viewswitch__thumb { transition: none; }
 }
