@@ -121,13 +121,13 @@ a { color: inherit; }
 .split__lede { margin: 12px 0 0; font-size: 15px; line-height: 1.6; color: var(--body); }
 
 /* Scroll-triggered reveal wrapper */
+/* Visible by default; only hidden once an inline <head> script sets .js-reveal. */
 .reveal {
-  opacity: 0;
-  transform: translateY(10px);
   transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
               transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
 }
-.reveal.in-view { opacity: 1; transform: none; }
+.js-reveal .reveal:not(.in-view) { opacity: 0; transform: translateY(10px); }
+@media print { .js-reveal .reveal:not(.in-view) { opacity: 1; transform: none; } }
 
 .skip-link {
   position: absolute;

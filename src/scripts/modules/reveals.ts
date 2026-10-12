@@ -6,6 +6,7 @@ import { prefersReducedMotion } from './env';
  * intersection so animations only play once.
  */
 export function initReveals(): void {
+    (window as unknown as { __revealReady?: boolean }).__revealReady = true;
     const reveals = document.querySelectorAll<HTMLElement>('.reveal');
 
     if (!('IntersectionObserver' in window) || prefersReducedMotion) {
@@ -24,5 +25,12 @@ export function initReveals(): void {
         },
         { threshold: 0.12, rootMargin: '0px 0px -8% 0px' }
     );
-    reveals.forEach((el) => io.observe(el));
+    reveals.forEach((el) => {
+        // Already on screen (or above it, after a restored scroll): no fade.
+        if (el.getBoundingClientRect().top < window.innerHeight) el.classList.add('in-view');
+        else io.observe(el);
+    });
+
+    // Print shows everything, whatever has scrolled into view.
+    window.addEventListener('beforeprint', () => reveals.forEach((el) => el.classList.add('in-view')));
 }

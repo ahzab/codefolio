@@ -207,6 +207,15 @@ function scans(): void {
 }
 
 export function initMotion(): void {
+    // Automated captures and the failsafe drop .js-reveal: leave every section as the CSS shows it.
+    if (!document.documentElement.classList.contains('js-reveal')) return;
+    // Print: undo whatever GSAP is still holding hidden.
+    window.addEventListener('beforeprint', () => {
+        ScrollTrigger.getAll().forEach((t) => t.kill());
+        document.querySelectorAll<HTMLElement>('[style]').forEach((el) => {
+            if (el.style.visibility === 'hidden' || el.style.opacity === '0') gsap.set(el, { autoAlpha: 1, x: 0, y: 0, clearProps: 'all' });
+        });
+    });
     if (!document.querySelector('.hero')) return;
     initHeroMatrix();
     initReticle();
