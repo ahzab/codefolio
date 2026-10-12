@@ -192,6 +192,22 @@ export function initMachineView(): void {
 
     let plain = '';
 
+    // Keep the switch off the hero readout while the readout is on screen, but
+    // never in machine view or while it holds keyboard focus.
+    let overReadout = false;
+    const syncAway = (): void => {
+        pill.classList.toggle('is-away', overReadout && panel.hidden && !pill.contains(document.activeElement));
+    };
+    const readout = document.querySelector('.hero__readout');
+    if (readout && 'IntersectionObserver' in window) {
+        new IntersectionObserver(([entry]) => {
+            overReadout = entry.isIntersecting;
+            syncAway();
+        }).observe(readout);
+    }
+    pill.addEventListener('focusin', syncAway);
+    pill.addEventListener('focusout', () => window.setTimeout(syncAway, 0));
+
     // The thumb slides under whichever option is pressed; the two labels differ in width.
     const thumb = pill.querySelector<HTMLElement>('.viewswitch__thumb')!;
     const moveThumb = (): void => {
@@ -219,6 +235,7 @@ export function initMachineView(): void {
             b.setAttribute('aria-pressed', String(b.dataset.view === view))
         );
         moveThumb();
+        syncAway();
         if (!persist) return;
         try {
             if (machine) localStorage.setItem(STORAGE_KEY, 'machine');
