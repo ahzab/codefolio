@@ -165,6 +165,16 @@
         })();
     </script>
     <!-- ga:end -->
+    <script>
+        // Reveal is an enhancement: sections stay visible unless JS runs, motion is allowed and
+        // this is not an automated capture. If the bundle never starts, show everything anyway.
+        (function () {
+            var root = document.documentElement;
+            if (navigator.webdriver || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+            root.classList.add('js-reveal');
+            setTimeout(function () { if (!window.__revealReady) root.classList.remove('js-reveal'); }, 6000);
+        })();
+    </script>
 </head>
 <body>
 
