@@ -28,7 +28,7 @@
   display: none;
   padding-left: 12px;
   font-family: var(--font-mono);
-  font-size: 10px;
+  font-size: var(--fs-label);
   letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--muted);
@@ -69,7 +69,7 @@
   transition: color 0.2s ease;
 
   &:hover, &[aria-pressed='true'] { color: var(--text); }
-  &:focus-visible { outline: 1px solid var(--signal); outline-offset: 2px; }
+  &:focus-visible { outline: 2px solid var(--signal); outline-offset: 2px; }
 }
 
 .viewswitch__dot {
@@ -158,7 +158,7 @@
   cursor: pointer;
 
   &:hover { color: var(--text); border-color: var(--muted); }
-  &:focus-visible { outline: 1px solid var(--signal); outline-offset: 2px; }
+  &:focus-visible { outline: 2px solid var(--signal); outline-offset: 2px; }
 }
 
 .machine__section + .machine__section { margin-top: 32px; }

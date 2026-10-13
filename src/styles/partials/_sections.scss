@@ -46,8 +46,11 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 8px;
+  white-space: nowrap;
   border-bottom: 1px solid var(--hairline);
 }
+@media (max-width: 339px) { .module__bar .lbl { letter-spacing: 0.08em; } }
 .module__state { display: inline-flex; align-items: center; gap: 8px; color: var(--text); }
 .module__body {
   flex: 1;
@@ -110,14 +113,14 @@
   padding: 0;
   list-style: none;
   font-family: var(--font-mono);
-  font-size: 10px;
+  font-size: var(--fs-label);
   letter-spacing: 0.08em;
   text-transform: uppercase;
 }
 .pipeline li { padding: 7px 9px; border: 1px solid var(--hairline-strong); }
 .pipeline li:last-child { background: var(--live); border-color: var(--live); color: var(--accent-ink); }
 @media (min-width: 1200px) {
-  .pipeline { flex-wrap: nowrap; gap: 0; font-size: 11px; }
+  .pipeline { flex-wrap: nowrap; gap: 0; }
   .pipeline li { padding: 8px 10px; }
   .pipeline li + li { margin-left: 24px; position: relative; }
   .pipeline li + li::before {
@@ -265,7 +268,7 @@
   justify-content: center;
   background: var(--bg);
   font-family: var(--font-mono);
-  font-size: 11px;
+  font-size: var(--fs-label);
   letter-spacing: 0.1em;
   text-transform: uppercase;
   text-decoration: none;
