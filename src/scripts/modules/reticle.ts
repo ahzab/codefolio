@@ -45,7 +45,7 @@ export function initReticle(): void {
             qw(r.width + pad * 2); qh(r.height + pad * 2);
             lbl.textContent = labelFor(target, r.width, r.height);
             // Keep the readout on screen: flip left near the right edge, above near the bottom.
-            el.classList.toggle('is-flip-x', r.left + 220 > window.innerWidth);
+            el.classList.toggle('is-flip-x', r.left + lbl.offsetWidth + 12 > window.innerWidth);
             el.classList.toggle('is-flip-y', r.bottom + 34 > window.innerHeight);
         } else {
             qx(px - IDLE / 2); qy(py - IDLE / 2);
