@@ -7,6 +7,8 @@ import matter from 'gray-matter';
 import { marked } from 'marked';
 import { markedHighlight } from 'marked-highlight';
 import hljs from 'highlight.js';
+import * as fontkit from 'fontkit';
+import sharp from 'sharp';
 
 // Syntax-highlight code blocks at build time (Atom One Dark via _code.scss).
 marked.use(
@@ -23,19 +25,10 @@ const root = dirname(fileURLToPath(import.meta.url));
 const contentDir = join(root, '../src/writing/content');
 const outDir = join(root, '../src/writing');
 const heroDir = join(root, '../public/writing/hero');
+const ogDir = join(root, '../public/writing/og');
 const indexPath = join(root, '../src/index.html');
 const FEATURED_ON_HOME = 3;
 const PAGE_SIZE = 6;
-const IMG_EXTS = ['jpg', 'jpeg', 'png', 'webp', 'avif'];
-
-// A locally downloaded photo (from scripts/fetch-images.mjs), if one exists for this slug.
-function localImage(slug) {
-  for (const ext of IMG_EXTS) {
-    const rel = `/writing/img/${slug}.${ext}`;
-    if (existsSync(join(root, '../public' + rel))) return rel;
-  }
-  return '';
-}
 
 // Read raster pixel dimensions synchronously (JPEG/PNG) so we can emit
 // og:image:width/height — LinkedIn needs them to render the large image card
@@ -175,102 +168,143 @@ function displayDate(d = '') {
   return `${m[3]}/${m[2]}/${m[1].slice(2)}`;
 }
 
-// Deterministic, on-brand hero banner per post (no external images / licensing).
+// Post image card ("Trace", canvas page G): one 1200x627 card per post in the
+// site's own tokens, used as the index-card and post hero (SVG) and, rastered,
+// as og:image. Text is drawn as glyph paths from the static TTFs in
+// scripts/fonts/, so the card renders the same in an <img> (which can't load
+// web fonts), in sharp, and on build machines without Geist installed.
+// Everything sits inside x 64..1136, y 80..547, so neither the 16:9 index crop
+// nor the 12:5 post crop (object-fit: cover) cuts the tag or the title.
+const CARD_W = 1200;
+const CARD_H = 627;
+const SAFE_X = 64;
+const SAFE_W = CARD_W - SAFE_X * 2;
+const C = { bg: '#0b0b0b', ink: '#ededed', muted: '#8a8a8a', hairline: '#262626', dot: '#2e2e2e', signal: '#ff3b30' };
+
+const CARD_FONTS = {
+  sans: fontkit.openSync(join(root, 'fonts/geist-600.ttf')),
+  mono: fontkit.openSync(join(root, 'fonts/geist-mono-400.ttf')),
+  dot: fontkit.openSync(join(root, 'fonts/doto-900.ttf')),
+};
+
 function hashStr(s) {
   let h = 0;
   for (let i = 0; i < s.length; i++) h = (h * 31 + s.charCodeAt(i)) >>> 0;
   return h;
 }
 
-const THEMES = {
-  ai: { hue: 265, accent: 290, motif: 'ai' },
-  nextjs: { hue: 205, accent: 190, motif: 'web' },
-  security: { hue: 6, accent: 30, motif: 'shield' },
-  stack: { hue: 150, accent: 168, motif: 'layers' },
-  building: { hue: 28, accent: 44, motif: 'blocks' },
-  default: { hue: 222, accent: 260, motif: 'ai' },
-};
-
-function themeFor(tag) {
-  const t = String(tag).toLowerCase();
-  if (t.includes('next') || t.includes('front')) return THEMES.nextjs;
-  if (t.includes('secur') || t.includes('incid')) return THEMES.security;
-  if (t.includes('stack') || t.includes('data') || t.includes('back')) return THEMES.stack;
-  if (t.includes('build') || t.includes('scale')) return THEMES.building;
-  if (t.includes('ai')) return THEMES.ai;
-  return THEMES.default;
+// The tag as a module code: "Applied AI" -> "AI".
+const TAG_CODES = { 'applied ai': 'AI', 'next.js': 'NX', security: 'SEC', payments: 'PAY', building: 'BLD', incidents: 'INC', stack: 'STK', scale: 'SCL', frontend: 'FE', backend: 'BE' };
+function tagCode(tag) {
+  const t = String(tag).trim().toLowerCase();
+  return TAG_CODES[t] || t.replace(/[^a-z]/g, '').slice(0, 3).toUpperCase() || 'NOTE';
 }
 
-function motifFor(name, acc) {
-  const s = `hsl(${acc}, 80%, 72%)`;
-  const motifs = {
-    ai: `<g transform="translate(840,140)">
-    <path d="M40 40 L160 20 M40 40 L120 130 M160 20 L240 90 M120 130 L240 90 M120 130 L80 220 M240 90 L200 200 M80 220 L200 200" stroke="${s}" stroke-opacity="0.3" stroke-width="2" fill="none"/>
-    <g fill="${s}" fill-opacity="0.5"><circle cx="40" cy="40" r="9"/><circle cx="160" cy="20" r="7"/><circle cx="240" cy="90" r="10"/><circle cx="120" cy="130" r="8"/><circle cx="80" cy="220" r="7"/><circle cx="200" cy="200" r="9"/></g>
-  </g>`,
-    web: `<g transform="translate(860,110)" fill="none" stroke="${s}" stroke-width="2.5">
-    <path d="M150 30 L260 255 L40 255 Z" stroke-opacity="0.4"/>
-    <circle cx="150" cy="175" r="125" stroke-opacity="0.16"/>
-    <path d="M150 30 L150 255" stroke-opacity="0.22"/>
-  </g>`,
-    shield: `<g transform="translate(905,105)" fill="none" stroke="${s}" stroke-width="2.5">
-    <path d="M120 20 L220 60 L220 150 C220 232 168 272 120 292 C72 272 20 232 20 150 L20 60 Z" stroke-opacity="0.4"/>
-    <path d="M92 150 l22 24 l44 -60" stroke-width="3" stroke-opacity="0.55"/>
-  </g>`,
-    layers: `<g transform="translate(880,120)" fill="none" stroke="${s}" stroke-width="2.5" stroke-opacity="0.4">
-    <ellipse cx="130" cy="50" rx="112" ry="34"/>
-    <path d="M18 50 V132 C18 151 68 167 130 167 C192 167 242 151 242 132 V50"/>
-    <path d="M18 110 C18 129 68 145 130 145 C192 145 242 129 242 110" stroke-opacity="0.24"/>
-  </g>`,
-    blocks: `<g transform="translate(885,115)" fill="none" stroke="${s}" stroke-width="2.5" stroke-opacity="0.42">
-    <rect x="20" y="200" width="78" height="70" rx="6"/>
-    <rect x="108" y="148" width="78" height="122" rx="6"/>
-    <rect x="196" y="86" width="78" height="184" rx="6"/>
-  </g>`,
-  };
-  return motifs[name] || motifs.ai;
+// Glyph paths, each glyph defined once per SVG and placed with <use>.
+function textRun(defs, font, text, { size, x, y, fill, tracking = 0, anchor = 'start' }) {
+  const run = font.layout(String(text));
+  const s = size / font.unitsPerEm;
+  const track = tracking * size;
+  const width = run.positions.reduce((w, p) => w + p.xAdvance * s + track, 0) - (run.glyphs.length ? track : 0);
+  let pen = anchor === 'end' ? x - width : x;
+  const uses = [];
+  run.glyphs.forEach((g, i) => {
+    const id = `${font === CARD_FONTS.sans ? 's' : font === CARD_FONTS.mono ? 'm' : 'd'}${g.id}`;
+    if (!defs.has(id)) defs.set(id, g.path.toSVG());
+    const p = run.positions[i];
+    const gx = pen + p.xOffset * s;
+    const gy = y - p.yOffset * s;
+    if (defs.get(id)) uses.push(`<use href="#${id}" transform="translate(${gx.toFixed(1)} ${gy.toFixed(1)}) scale(${s.toFixed(5)} ${(-s).toFixed(5)})"/>`);
+    pen += p.xAdvance * s + track;
+  });
+  return { svg: `<g fill="${fill}">${uses.join('')}</g>`, width };
 }
 
-function genHero(slug, tag) {
+function measure(font, text, size) {
+  return (font.layout(String(text)).advanceWidth * size) / font.unitsPerEm;
+}
+
+function wrap(font, text, size, maxW) {
+  const lines = [];
+  let line = '';
+  // A word wider than the line (a URL, a package name) is broken by characters.
+  const words = [];
+  for (const w of String(text).split(/\s+/).filter(Boolean)) {
+    let rest = w;
+    while (measure(font, rest, size) > maxW) {
+      let n = rest.length - 1;
+      while (n > 1 && measure(font, rest.slice(0, n), size) > maxW) n--;
+      words.push(rest.slice(0, n));
+      rest = rest.slice(n);
+    }
+    words.push(rest);
+  }
+  for (const word of words) {
+    const next = line ? `${line} ${word}` : word;
+    if (line && measure(font, next, size) > maxW) {
+      lines.push(line);
+      line = word;
+    } else line = next;
+  }
+  if (line) lines.push(line);
+  return lines;
+}
+
+function genHero({ slug, title = slug, tag = '', date = '', num = 0 }) {
+  const defs = new Map();
+  const parts = [];
+  const code = `${tagCode(tag)}-${String(num).padStart(2, '0')}`;
+
+  // Header: module code + tag, note number as a Doto readout.
+  const head = textRun(defs, CARD_FONTS.mono, code, { size: 24, x: SAFE_X, y: 106, fill: C.ink, tracking: 0.14 });
+  parts.push(head.svg);
+  parts.push(textRun(defs, CARD_FONTS.mono, String(tag).toUpperCase(), { size: 24, x: SAFE_X + head.width + 20, y: 106, fill: C.muted, tracking: 0.14 }).svg);
+  parts.push(textRun(defs, CARD_FONTS.dot, String(num), { size: 48, x: SAFE_X + SAFE_W, y: 112, fill: C.ink, anchor: 'end' }).svg);
+
+  // Title from the bottom up: shrink until it fits in three lines.
+  let size = 50;
+  let lines = wrap(CARD_FONTS.sans, title, size, 980);
+  while (lines.length > 3 && size > 34) lines = wrap(CARD_FONTS.sans, title, (size -= 2), 980);
+  if (lines.length > 3) {
+    lines = lines.slice(0, 3);
+    let last = lines[2];
+    while (last && measure(CARD_FONTS.sans, `${last}…`, size) > 980) last = last.slice(0, -1);
+    lines[2] = `${last.trimEnd()}…`;
+  }
+  const lead = Math.round(size * 1.08);
+  const dateY = 540;
+  const lastY = dateY - 44;
+  const firstY = lastY - lead * (lines.length - 1);
+  lines.forEach((l, i) => parts.push(textRun(defs, CARD_FONTS.sans, l, { size, x: SAFE_X, y: firstY + i * lead, fill: C.ink, tracking: -0.02 }).svg));
+  parts.push(textRun(defs, CARD_FONTS.mono, `${displayDate(date)} · CODEFOLIO.DEV`, { size: 20, x: SAFE_X, y: dateY, fill: C.muted, tracking: 0.14 }).svg);
+
+  // Scope: dot grid between two hairlines, one trace with a signal blip seeded by the slug.
+  const gridTop = 128;
+  const gridBot = firstY - Math.round(size * 0.78) - 18;
+  const mid = Math.round((gridTop + gridBot) / 2);
+  const amp = Math.min(44, Math.floor((gridBot - gridTop) / 2) - 8);
   const h = hashStr(slug);
-  const th = themeFor(tag);
-  const h1 = th.hue;
-  const h2 = (th.hue + 16) % 360;
-  const bx = 14 + (h % 24);
-  const by = 18 + ((h >> 3) % 24);
-  const cx = 58 + ((h >> 6) % 20);
-  const cy = 52 + ((h >> 9) % 22);
-  const label = escapeHtml(String(tag).toUpperCase());
-  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 500" width="1200" height="500" preserveAspectRatio="xMidYMid slice" role="img" aria-hidden="true">
+  const bx = SAFE_X + 300 + (h % 600);
+  const blip = `M${bx} ${mid} l16 0 l12 ${-amp} l16 ${amp * 2} l14 ${-Math.round(amp * 1.4)} l14 ${Math.round(amp * 0.4)} l24 0`;
+  const lines2 = `M${SAFE_X} ${mid} H${bx} M${bx + 96} ${mid} H${SAFE_X + SAFE_W}`;
+
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${CARD_W} ${CARD_H}" width="${CARD_W}" height="${CARD_H}" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
   <defs>
-    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="hsl(${h1}, 48%, 12%)"/>
-      <stop offset="1" stop-color="hsl(${h2}, 44%, 7%)"/>
-    </linearGradient>
-    <radialGradient id="b1" cx="${bx}%" cy="${by}%" r="48%">
-      <stop offset="0" stop-color="hsl(${th.accent}, 82%, 62%)" stop-opacity="0.45"/>
-      <stop offset="1" stop-color="hsl(${th.accent}, 82%, 62%)" stop-opacity="0"/>
-    </radialGradient>
-    <radialGradient id="b2" cx="${cx}%" cy="${cy}%" r="44%">
-      <stop offset="0" stop-color="hsl(${h1}, 80%, 58%)" stop-opacity="0.38"/>
-      <stop offset="1" stop-color="hsl(${h1}, 80%, 58%)" stop-opacity="0"/>
-    </radialGradient>
-    <pattern id="dots" width="26" height="26" patternUnits="userSpaceOnUse">
-      <circle cx="2" cy="2" r="1.1" fill="#ffffff" opacity="0.05"/>
-    </pattern>
+    <pattern id="dots" x="${SAFE_X}" y="${gridTop}" width="24" height="24" patternUnits="userSpaceOnUse"><circle cx="12" cy="12" r="1.5" fill="${C.dot}"/></pattern>
+    ${[...defs].filter(([, d]) => d).map(([id, d]) => `<path id="${id}" d="${d}"/>`).join('\n    ')}
   </defs>
-  <rect width="1200" height="500" fill="url(#bg)"/>
-  <rect width="1200" height="500" fill="url(#b1)"/>
-  <rect width="1200" height="500" fill="url(#b2)"/>
-  <rect width="1200" height="500" fill="url(#dots)"/>
-  ${motifFor(th.motif, th.accent)}
-  <text x="58" y="452" font-family="'Geist Mono', ui-monospace, monospace" font-size="26" letter-spacing="8" fill="#ffffff" fill-opacity="0.72">${label}</text>
+  <rect width="${CARD_W}" height="${CARD_H}" fill="${C.bg}"/>
+  <rect x="${SAFE_X}" y="${gridTop}" width="${SAFE_W}" height="${gridBot - gridTop}" fill="url(#dots)"/>
+  <path d="M${SAFE_X} ${gridTop}.5 H${SAFE_X + SAFE_W} M${SAFE_X} ${gridBot}.5 H${SAFE_X + SAFE_W}" stroke="${C.hairline}" stroke-width="1"/>
+  <path d="${lines2}" fill="none" stroke="${C.ink}" stroke-width="2"/>
+  <path d="${blip}" fill="none" stroke="${C.signal}" stroke-width="3" stroke-linejoin="round"/>
+  ${parts.join('\n  ')}
 </svg>
 `;
 }
 
 function card({ slug, title = slug, tag = '', description = '', image = '' }) {
-  const hero = image || localImage(slug) || `/writing/hero/${slug}.svg`;
+  const hero = image || `/writing/hero/${slug}.svg`;
   return `                <a class="writing-card" href="/writing/${slug}.html">
                     <img class="writing-card__hero" src="${hero}" alt="" loading="lazy">
                     <span class="writing-card__tag">${escapeHtml(tag)}</span>
@@ -368,16 +402,11 @@ function articleLd({ url, title, description, ogImage, date, tag }) {
 function page({ slug, title = slug, description = '', tag = '', date = '', image = '', bodyHtml, related = [] }) {
   const t = escapeHtml(title);
   const url = `${SITE}/writing/${slug}`;
-  const hero = image || localImage(slug) || `/writing/hero/${slug}.svg`;
+  const hero = image || `/writing/hero/${slug}.svg`;
   // og:image must be an absolute raster URL — social crawlers (X, Facebook) don't
-  // render the generated SVG fallback, so use the real photo when one exists and
-  // only fall back to the site-wide raster preview when there's no hero photo.
-  const ogSrc = image || localImage(slug);
-  const ogImage = ogSrc
-    ? ogSrc.startsWith('http')
-      ? ogSrc
-      : `${SITE}${ogSrc.startsWith('/') ? '' : '/'}${ogSrc}`
-    : `${SITE}/og-preview.png`;
+  // render SVG, so a post without its own image gets the PNG of its card.
+  const ogSrc = image || `/writing/og/${slug}.png`;
+  const ogImage = ogSrc.startsWith('http') ? ogSrc : `${SITE}${ogSrc.startsWith('/') ? '' : '/'}${ogSrc}`;
   let ogDims = '';
   if (ogSrc && !ogSrc.startsWith('http')) {
     const d = imageSize(join(root, '../public' + (ogSrc.startsWith('/') ? '' : '/') + ogSrc));
@@ -720,14 +749,25 @@ const posts = readdirSync(contentDir)
   .sort((a, b) => (a.data.order ?? 999) - (b.data.order ?? 999));
 
 mkdirSync(heroDir, { recursive: true });
+mkdirSync(ogDir, { recursive: true });
+
+// Note number for the card: position by date, oldest = 1. A new post takes the next
+// number; a backdated one renumbers the posts after it (and their cards).
+const isoDate = (d) => (d instanceof Date ? d.toISOString().slice(0, 10) : String(d ?? ''));
+const byDate = [...posts].sort((a, b) => isoDate(a.data.date).localeCompare(isoDate(b.data.date)) || a.slug.localeCompare(b.slug));
+const noteNum = new Map(byDate.map((p, i) => [p.slug, i + 1]));
 
 // Article pages + hero images
 for (const post of posts) {
   const { slug, data, content } = post;
   const bodyHtml = marked.parse(content);
   const related = pickRelated(post, posts, 3);
+  if (!data.image) {
+    const svg = genHero({ slug, ...data, date: isoDate(data.date), num: noteNum.get(slug) });
+    writeFileSync(join(heroDir, `${slug}.svg`), svg);
+    await sharp(Buffer.from(svg)).png().toFile(join(ogDir, `${slug}.png`));
+  }
   writeFileSync(join(outDir, `${slug}.html`), page({ slug, ...data, bodyHtml, related }));
-  if (!data.image && !localImage(slug)) writeFileSync(join(heroDir, `${slug}.svg`), genHero(slug, data.tag));
   console.log(`  writing/${slug}.html`);
 }
 
