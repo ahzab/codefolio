@@ -42,6 +42,7 @@ src/writing/*.html
 
 # Generated hero images (markdown is the source)
 public/writing/hero/*.svg
+public/writing/og/*.png
 
 # Generated sitemap + RSS feed (build-writing.mjs regenerates them from the posts)
 public/sitemap.xml
