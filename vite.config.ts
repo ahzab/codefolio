@@ -34,6 +34,8 @@ export default defineConfig({
         rollupOptions: {
             input: {
                 main: resolve(srcDir, 'index.html'),
+                privacy: resolve(srcDir, 'privacy.html'),
+                terms: resolve(srcDir, 'terms.html'),
                 ...articleInputs,
             },
             output: {
