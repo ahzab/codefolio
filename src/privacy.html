@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Privacy policy · Abdel Ahzab</title>
+    <meta name="description" content="Privacy policy for the publishing tool run from codefolio.dev: what it stores when you connect a social account, and what it never touches.">
+    <meta name="author" content="Abdel Ahzab">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://www.codefolio.dev/privacy">
+    <link rel="preload" as="font" type="font/woff2" href="/fonts/doto-900.woff2" crossorigin>
+    <link rel="preload" as="font" type="font/woff2" href="/fonts/geist.woff2" crossorigin>
+    <style>
+    @font-face{font-family:'Doto';font-style:normal;font-weight:900;font-display:optional;src:url(/fonts/doto-900.woff2) format('woff2')}
+    @font-face{font-family:'Geist';font-style:normal;font-weight:400 600;font-display:optional;src:url(/fonts/geist.woff2) format('woff2')}
+    @font-face{font-family:'Geist Mono';font-style:normal;font-weight:400 500;font-display:optional;src:url(/fonts/geist-mono.woff2) format('woff2')}
+    </style>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg"/>
+    <meta name="theme-color" content="#0b0b0b">
+</head>
+<body>
+
+<header class="site-header">
+    <div class="shell site-header__inner">
+        <a href="/" class="brand" aria-label="Abdel Ahzab, home"><svg class="brand__mark" viewBox="12 12 40 40" aria-hidden="true" focusable="false"><circle cx="20" cy="44" r="6"/><path d="M27 50h8l12-36h-8z"/></svg><span>A.AHZAB</span></a>
+        <a href="/" class="article__back">← Home</a>
+    </div>
+</header>
+
+<main>
+    <article class="article">
+        <p class="article__meta">Legal · Last updated <time datetime="2026-10-19">19 October 2026</time></p>
+        <h1>Privacy policy</h1>
+
+        <p>I run a small publishing tool for my own social accounts and a few accounts I manage. It sends posts I have already written to TikTok and Instagram through their official APIs. It is not a public service: there is no sign-up, and only accounts whose owners connect them on purpose ever reach it. This page says what it keeps when an account is connected, and what it leaves alone.</p>
+
+        <h2>What it stores</h2>
+        <ul>
+            <li><strong>Access tokens.</strong> When you connect an account, the platform gives the tool an access token and a refresh token. They let it post on that account's behalf. They are the only credentials it holds. It never asks for or sees your password.</li>
+            <li><strong>Basic profile details.</strong> Your account ID, display name and profile picture, as the platform returns them. They are used to show which account a post goes to.</li>
+            <li><strong>The posts it sends.</strong> The caption, the video or image, and the ID the platform returns once the post is delivered.</li>
+        </ul>
+
+        <h2>What it never does</h2>
+        <ul>
+            <li>It never reads your direct or private messages.</li>
+            <li>On TikTok it asks only for your basic profile and permission to upload and post videos. It does not read your watch history or other people's content.</li>
+            <li>It does not sell, rent or share your data with anyone. Nothing goes to advertisers or data brokers.</li>
+            <li>It does not post anything you did not approve first.</li>
+        </ul>
+
+        <h2>Where the data lives</h2>
+        <p>The tokens and post records sit on a machine I control. The tool only runs while a post is being sent or an account is being connected. To deliver a video, the platform fetches it from a temporary public link on a subdomain of codefolio.dev. That link stops working once the post run ends. The only outside party that receives anything is the platform you connected, and it receives only the post you sent to it.</p>
+
+        <h2>How long it is kept</h2>
+        <p>Tokens are kept while the account stays connected. Post records are kept so I can see what went out and when. Removing the app in your platform settings stops the tokens from working straight away. If you also want the stored tokens and profile details deleted, email me and I will delete them.</p>
+
+        <h2>Disconnecting</h2>
+        <p>You can cut off the tool's access at any time from the platform itself. On TikTok, open Settings and privacy, then Security, then Manage app permissions, and remove the app. On Instagram, remove it under Apps and websites in your account settings. You can also email me and I will delete everything stored for your account.</p>
+
+        <h2>This website</h2>
+        <p>This policy covers the publishing tool. The codefolio.dev pages themselves use Google Analytics to count page views. That data is not linked to any connected social account.</p>
+
+        <h2>Changes and contact</h2>
+        <p>If this policy changes, the date at the top changes with it. Questions or deletion requests: <a href="mailto:abdel@codefolio.dev">abdel@codefolio.dev</a>.</p>
+
+        <div class="article__footer">
+            Abdel Ahzab · <a href="/terms">Terms of service</a> · <a href="/">codefolio.dev</a>
+        </div>
+    </article>
+</main>
+
+<script type="module" src="styles/main.scss"></script>
+</body>
+</html>
