@@ -799,8 +799,6 @@ pages.forEach((pagePosts, idx) => {
 // Sitemap (written to public/ so Vite copies it to the site root).
 const sitemapUrls = [
   `${SITE}/`,
-  `${SITE}/privacy`,
-  `${SITE}/terms`,
   ...Array.from({ length: totalPages }, (_, i) =>
     `${SITE}/writing/${i === 0 ? '' : `page-${i + 1}.html`}`
   ),
